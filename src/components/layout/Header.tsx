@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import { Button } from '@/components/ui/Button'
 import { SmartLink } from '@/components/ui/SmartLink'
 import { headerCta, primaryNav } from '@/data/site'
@@ -22,7 +22,7 @@ function MenuIcon({ open }: { open: boolean }) {
 /**
  * Site header — Figma 17:321 (desktop), 17:659 (tablet), 383:853 (mobile).
  * Sticks to the top of the viewport. Below the tablet breakpoint the links collapse into a
- * hamburger menu that expands inside the header card.
+ * hamburger menu that expands inside the header card (up to 600px, where the inline links no longer fit).
  */
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -31,7 +31,7 @@ export function Header() {
   useEffect(() => {
     if (!open) return
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && setOpen(false)
-    const desktop = window.matchMedia('(min-width: 768px)')
+    const desktop = window.matchMedia('(min-width: 601px)')
     const onResize = () => desktop.matches && setOpen(false)
     window.addEventListener('keydown', onKey)
     desktop.addEventListener('change', onResize)
@@ -61,7 +61,7 @@ export function Header() {
           />
         </Link>
 
-        <nav aria-label="Primary" className="flex items-center gap-10 max-md:hidden">
+        <nav aria-label="Primary" className="flex items-center gap-10 max-[600px]:hidden">
           <ul className="text-body-sm flex items-center gap-6 font-sans font-medium whitespace-nowrap text-white">
             {primaryNav.map((link) => (
               <li key={link.label}>
@@ -80,7 +80,7 @@ export function Header() {
           aria-controls={menuId}
           aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((value) => !value)}
-          className="-mr-2 flex size-10 items-center justify-center text-white md:hidden"
+          className="-mr-2 flex size-10 items-center justify-center text-white min-[601px]:hidden"
         >
           <MenuIcon open={open} />
         </button>
@@ -90,7 +90,7 @@ export function Header() {
         id={menuId}
         aria-label="Primary"
         hidden={!open}
-        className="flex flex-col items-start gap-6 pt-6 pb-2 md:hidden"
+        className="flex flex-col items-start gap-6 pt-6 pb-2 min-[601px]:hidden"
       >
         <ul className="text-body-lg flex flex-col gap-4 font-sans font-medium text-white">
           {primaryNav.map((link) => (

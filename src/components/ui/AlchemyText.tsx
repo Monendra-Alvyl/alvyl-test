@@ -17,5 +17,10 @@ type AlchemyTextProps = {
 
 /** Accent words in headings, filled with the Alchemy gradient. */
 export function AlchemyText({ children, weight = 'thin-italic' }: AlchemyTextProps) {
-  return <span className={cn('text-alchemy font-display italic', weights[weight])}>{children}</span>
+  /* data-accent lets src/lib/accentFonts.ts load the italic faces only when accents are near view. */
+  return (
+    <span data-accent className={cn('text-alchemy font-display italic', weights[weight])}>
+      {children}
+    </span>
+  )
 }

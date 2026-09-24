@@ -1,4 +1,6 @@
 import { aboutIntro } from '@/data/about'
+import { Img } from '@/components/ui/Img'
+import { webpSrcSet } from '@/lib/images'
 
 /** About intro — Alchemy statement card and two stat cards beside a team photo. */
 export function AboutIntro() {
@@ -22,11 +24,12 @@ export function AboutIntro() {
       </div>
       {/* The <picture> itself is the grid cell; the image fills it (portrait crop on desktop). */}
       <picture className="relative block overflow-clip rounded-[16px]">
-        <source media="(min-width: 1024px)" srcSet={aboutIntro.image} />
-        <img
+        <source media="(min-width: 1033px)" srcSet={webpSrcSet(aboutIntro.image)} sizes="50vw" />
+        <Img
           src={aboutIntro.imageWide}
           alt={aboutIntro.imageAlt}
           className="aspect-square w-full object-cover md:aspect-[752/383] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+          priority
         />
       </picture>
     </section>

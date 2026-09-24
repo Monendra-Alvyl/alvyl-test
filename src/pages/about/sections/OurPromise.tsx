@@ -3,6 +3,7 @@ import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { promise } from '@/data/about'
 import { cn } from '@/lib/cn'
+import { Img } from '@/components/ui/Img'
 
 /** "Our promise" — heading, body and the two promise cards (Alchemy "to…", dark "NOT to…"). */
 export function OurPromise() {
@@ -30,11 +31,12 @@ export function OurPromise() {
               card.tone === 'alchemy' ? 'bg-alchemy' : 'bg-dark-grey',
             )}
           >
-            <img
+            <Img
               src={card.image}
               alt=""
               aria-hidden
               className="size-[178px] md:mt-4 md:ml-3 md:size-[262px]"
+              sizes="(min-width: 450px) 262px, 178px"
             />
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h2 text-text-white font-light">{card.title}</h3>

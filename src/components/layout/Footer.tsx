@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { footer } from '@/data/site'
@@ -8,7 +8,7 @@ import { asset } from '@/lib/asset'
 export function Footer() {
   return (
     <Panel as="footer" className="p-section-inner flex flex-col gap-12 md:gap-20">
-      <div className="flex flex-col-reverse items-start gap-10 md:flex-row md:justify-between">
+      <div className="flex flex-col-reverse items-start gap-10 min-[600px]:flex-row min-[600px]:justify-between">
         <p className="font-display text-h2 text-text-dark font-light">
           <RichHeading lines={footer.headline} accentWeight="italic" />
         </p>
@@ -39,7 +39,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-stroke-very-light text-body-lg flex flex-col-reverse gap-6 border-t pt-6 font-sans font-medium md:flex-row md:items-center md:justify-between">
+      <div className="border-stroke-very-light text-body-lg flex flex-col-reverse gap-6 border-t pt-6 font-sans font-medium min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between">
         <p className="text-text-ultra-light">{footer.copyright}</p>
         <ul className="text-text-white flex gap-6">
           {footer.legal.map((link) => (

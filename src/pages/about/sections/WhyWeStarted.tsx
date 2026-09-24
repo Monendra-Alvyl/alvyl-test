@@ -1,6 +1,7 @@
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Panel } from '@/components/ui/Panel'
 import { whyWeStarted } from '@/data/about'
+import { Img } from '@/components/ui/Img'
 
 /** "Why we started?" — two-paragraph statement beside a photo (photo first below desktop). */
 export function WhyWeStarted() {
@@ -20,10 +21,11 @@ export function WhyWeStarted() {
             <span key={paragraph}>{paragraph}</span>
           ))}
         </h2>
-        <img
+        <Img
           src={whyWeStarted.image}
           alt={whyWeStarted.imageAlt}
           className="aspect-[614/598] w-full shrink-0 rounded-[16px] object-cover lg:h-[600px] lg:w-[614px]"
+          sizes="(min-width: 1033px) 614px, 100vw"
         />
       </div>
     </Panel>

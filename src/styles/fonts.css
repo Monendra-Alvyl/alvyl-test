@@ -15,38 +15,11 @@
   font-display: swap;
 }
 
-/* IvyMode Italic — accent words (Figma: "Ivy Mode:Italic") */
-@font-face {
-  font-family: 'IvyMode';
-  src:
-    url('/fonts/IvyMode-Italic.woff2') format('woff2'),
-    url('/fonts/IvyMode-Italic.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* IvyMode Thin Italic — accent words (Figma: "Ivy Mode:Thin Italic") */
-@font-face {
-  font-family: 'IvyMode';
-  src:
-    url('/fonts/IvyMode-ThinItalic.woff2') format('woff2'),
-    url('/fonts/IvyMode-ThinItalic.woff') format('woff');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* IvyMode Light Italic — contact-form heading accent (matched by width against pg/Home Desktop.png) */
-@font-face {
-  font-family: 'IvyMode';
-  src:
-    url('/fonts/IvyMode-LightItalic.woff2') format('woff2'),
-    url('/fonts/IvyMode-LightItalic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
+/*
+ * The three IvyMode italic accent cuts (Italic 400, Light Italic 300, Thin Italic 100) are loaded
+ * after the page has loaded by src/lib/accentFonts.ts — they only style headings below the fold, so
+ * they must not compete with the first paint.
+ */
 
 /* Forma DJR Micro Light — form field text (Figma: "Forma DJR Micro:Light") */
 @font-face {

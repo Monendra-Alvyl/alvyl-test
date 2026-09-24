@@ -3,6 +3,7 @@ import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { goals } from '@/data/offerings'
 import { cn } from '@/lib/cn'
+import { Img } from '@/components/ui/Img'
 
 /** "Your goals, our priority" — three service-promise cards with sphere art. */
 export function Goals() {
@@ -30,11 +31,12 @@ export function Goals() {
               card.tone === 'alchemy' ? 'bg-alchemy' : 'bg-dark-grey',
             )}
           >
-            <img
+            <Img
               src={card.image}
               alt=""
               aria-hidden
               className="size-[120px] object-contain lg:mx-auto lg:mt-9 lg:size-[268px]"
+              sizes="(min-width: 1033px) 268px, 120px"
             />
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h3 text-text-white font-light">

@@ -1,3 +1,5 @@
+import { Seo } from '@/components/layout/Seo'
+import { pageMeta } from '@/data/seo'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { Team } from '@/components/sections/Team'
 import { TechIntent } from '@/components/sections/TechIntent'
@@ -13,6 +15,7 @@ import { WhyWeStarted } from './sections/WhyWeStarted'
 export function AboutPage() {
   return (
     <>
+      <Seo {...pageMeta.about} />
       <AboutIntro />
       <WhyWeStarted />
       <OurPromise />

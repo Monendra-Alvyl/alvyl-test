@@ -29,7 +29,7 @@ public/fonts/             Licensed font files (not committed — see below)
 ### Tokens
 
 Figma variables have Desktop / Tablet / Mobile modes. They are CSS custom properties that switch at
-`md` (768px, tablet) and `lg` (1024px, desktop), exposed as Tailwind utilities:
+`md` (450px, tablet) and `lg` (1033px, desktop), exposed as Tailwind utilities:
 `text-h1…text-caption`, `px-side`, `p-section-inner`, `p-card`, `p-card-nested`, `gap-section-lg`,
 colours such as `bg-dark-grey`, `border-stroke-light`, `text-text-ultra-light`, and `bg-alchemy` /
 `text-alchemy` for the Alchemy gradient.
@@ -59,6 +59,25 @@ The site is served from a sub-path (`https://<user>.github.io/alvyl-test/`), so 
   get the base prefix; the router uses the same base, and `404.html` (a copy of `index.html`) makes
   deep links like `/alvyl-test/about` work.
 - Local dev and tests use base `/` — nothing changes there.
+
+## Performance & SEO
+
+Lighthouse (production build): 96–98 Performance on mobile, 100 on desktop; 100 Accessibility, Best
+Practices and SEO on every page. What keeps it there:
+
+- **Prerendering** — `npm run build` renders every page to static HTML (`src/entry-server.tsx` →
+  `scripts/prerender.mjs`), inlines the CSS and loads the app script at low priority; the browser then
+  hydrates. Each page gets its own `<title>` and description from `src/data/seo.ts`.
+- **Images** — `npm run images` (runs before dev/build) makes WebP variants of every image in
+  `public/assets` into `public/_img` (git-ignored). Render content images with `<Img>`
+  (`src/components/ui/Img.tsx`) and a `sizes` that matches the rendered width; mark the page's hero
+  image `priority`. Webflow team photos are downloaded and resized at build time.
+- **Fonts** — only IvyMode Light and Forma Medium load up front (preloaded); the italic accent cuts load
+  when an accent word scrolls into view (`src/lib/accentFonts.ts`).
+- **JavaScript** — a small built-in router (`src/lib/router.tsx`) instead of react-router.
+
+To test: `npm run build && npx vite preview`, then run Lighthouse on the preview URL (or on the
+deployed GitHub Pages site).
 
 ## CMS (Webflow)
 

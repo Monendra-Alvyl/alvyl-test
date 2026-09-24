@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { offerHero } from '@/data/offerings'
+import { Img } from '@/components/ui/Img'
 
 /** Offerings hero — Alchemy title card beside a studio photo tagged with the service areas. */
 export function OfferHero() {
@@ -22,10 +23,12 @@ export function OfferHero() {
       </div>
 
       <div className="relative overflow-clip rounded-[16px]">
-        <img
+        <Img
           src={offerHero.image}
           alt={offerHero.imageAlt}
           className="aspect-square w-full object-cover md:aspect-[752/382] lg:aspect-auto lg:h-[780px]"
+          priority
+          sizes="(min-width: 1033px) 50vw, 100vw"
         />
         <ul className="md:right-card md:bottom-card absolute right-6 bottom-6 flex flex-col items-end gap-1">
           {offerHero.tags.map((tag) => (

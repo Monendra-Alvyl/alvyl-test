@@ -1,0 +1,1056 @@
+{
+ "/assets/about/careers.jpg": {
+  "width": 488,
+  "height": 272,
+  "variants": [
+   [
+    320,
+    "/_img/about/careers-320.webp"
+   ],
+   [
+    480,
+    "/_img/about/careers-480.webp"
+   ],
+   [
+    488,
+    "/_img/about/careers-488.webp"
+   ]
+  ]
+ },
+ "/assets/about/hero-team.jpg": {
+  "width": 680,
+  "height": 780,
+  "variants": [
+   [
+    320,
+    "/_img/about/hero-team-320.webp"
+   ],
+   [
+    480,
+    "/_img/about/hero-team-480.webp"
+   ],
+   [
+    640,
+    "/_img/about/hero-team-640.webp"
+   ],
+   [
+    680,
+    "/_img/about/hero-team-680.webp"
+   ]
+  ]
+ },
+ "/assets/about/promise-palm.png": {
+  "width": 262,
+  "height": 262,
+  "variants": [
+   [
+    262,
+    "/_img/about/promise-palm-262.webp"
+   ]
+  ]
+ },
+ "/assets/about/promise-peace.png": {
+  "width": 262,
+  "height": 262,
+  "variants": [
+   [
+    262,
+    "/_img/about/promise-peace-262.webp"
+   ]
+  ]
+ },
+ "/assets/about/why-we-started.jpg": {
+  "width": 615,
+  "height": 598,
+  "variants": [
+   [
+    320,
+    "/_img/about/why-we-started-320.webp"
+   ],
+   [
+    480,
+    "/_img/about/why-we-started-480.webp"
+   ],
+   [
+    615,
+    "/_img/about/why-we-started-615.webp"
+   ]
+  ]
+ },
+ "/assets/home/case-pepsico.png": {
+  "width": 1024,
+  "height": 1024,
+  "variants": [
+   [
+    320,
+    "/_img/home/case-pepsico-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/case-pepsico-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/case-pepsico-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/case-pepsico-960.webp"
+   ],
+   [
+    1024,
+    "/_img/home/case-pepsico-1024.webp"
+   ]
+  ]
+ },
+ "/assets/home/case-silkworm.png": {
+  "width": 1920,
+  "height": 1280,
+  "variants": [
+   [
+    320,
+    "/_img/home/case-silkworm-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/case-silkworm-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/case-silkworm-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/case-silkworm-960.webp"
+   ],
+   [
+    1280,
+    "/_img/home/case-silkworm-1280.webp"
+   ],
+   [
+    1600,
+    "/_img/home/case-silkworm-1600.webp"
+   ],
+   [
+    1920,
+    "/_img/home/case-silkworm-1920.webp"
+   ]
+  ]
+ },
+ "/assets/home/cubes.png": {
+  "width": 1024,
+  "height": 1024,
+  "variants": [
+   [
+    320,
+    "/_img/home/cubes-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/cubes-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/cubes-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/cubes-960.webp"
+   ],
+   [
+    1024,
+    "/_img/home/cubes-1024.webp"
+   ]
+  ]
+ },
+ "/assets/home/hero-desktop.jpg": {
+  "width": 1376,
+  "height": 772,
+  "variants": [
+   [
+    320,
+    "/_img/home/hero-desktop-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/hero-desktop-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/hero-desktop-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/hero-desktop-960.webp"
+   ],
+   [
+    1280,
+    "/_img/home/hero-desktop-1280.webp"
+   ],
+   [
+    1376,
+    "/_img/home/hero-desktop-1376.webp"
+   ]
+  ]
+ },
+ "/assets/home/hero-mobile.jpg": {
+  "width": 358,
+  "height": 634,
+  "variants": [
+   [
+    320,
+    "/_img/home/hero-mobile-320.webp"
+   ],
+   [
+    358,
+    "/_img/home/hero-mobile-358.webp"
+   ]
+  ]
+ },
+ "/assets/home/hero-tablet.jpg": {
+  "width": 752,
+  "height": 772,
+  "variants": [
+   [
+    320,
+    "/_img/home/hero-tablet-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/hero-tablet-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/hero-tablet-640.webp"
+   ],
+   [
+    752,
+    "/_img/home/hero-tablet-752.webp"
+   ]
+  ]
+ },
+ "/assets/home/offer-sphere-large.png": {
+  "width": 1024,
+  "height": 1024,
+  "variants": [
+   [
+    320,
+    "/_img/home/offer-sphere-large-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/offer-sphere-large-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/offer-sphere-large-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/offer-sphere-large-960.webp"
+   ],
+   [
+    1024,
+    "/_img/home/offer-sphere-large-1024.webp"
+   ]
+  ]
+ },
+ "/assets/home/offer-sphere-small.png": {
+  "width": 1024,
+  "height": 1024,
+  "variants": [
+   [
+    320,
+    "/_img/home/offer-sphere-small-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/offer-sphere-small-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/offer-sphere-small-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/offer-sphere-small-960.webp"
+   ],
+   [
+    1024,
+    "/_img/home/offer-sphere-small-1024.webp"
+   ]
+  ]
+ },
+ "/assets/home/quote-mark.png": {
+  "width": 87,
+  "height": 68,
+  "variants": [
+   [
+    87,
+    "/_img/home/quote-mark-87.webp"
+   ]
+  ]
+ },
+ "/assets/home/service-agentic-ai.png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/home/service-agentic-ai-240.webp"
+   ]
+  ]
+ },
+ "/assets/home/service-iot-ml.png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/home/service-iot-ml-240.webp"
+   ]
+  ]
+ },
+ "/assets/home/service-product-design.png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/home/service-product-design-240.webp"
+   ]
+  ]
+ },
+ "/assets/home/service-sre.png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/home/service-sre-240.webp"
+   ]
+  ]
+ },
+ "/assets/home/team-1.png": {
+  "width": 1920,
+  "height": 1080,
+  "variants": [
+   [
+    320,
+    "/_img/home/team-1-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/team-1-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/team-1-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/team-1-960.webp"
+   ],
+   [
+    1280,
+    "/_img/home/team-1-1280.webp"
+   ],
+   [
+    1600,
+    "/_img/home/team-1-1600.webp"
+   ],
+   [
+    1920,
+    "/_img/home/team-1-1920.webp"
+   ]
+  ]
+ },
+ "/assets/home/team-2.png": {
+  "width": 1528,
+  "height": 2037,
+  "variants": [
+   [
+    320,
+    "/_img/home/team-2-320.webp"
+   ],
+   [
+    480,
+    "/_img/home/team-2-480.webp"
+   ],
+   [
+    640,
+    "/_img/home/team-2-640.webp"
+   ],
+   [
+    960,
+    "/_img/home/team-2-960.webp"
+   ],
+   [
+    1280,
+    "/_img/home/team-2-1280.webp"
+   ],
+   [
+    1528,
+    "/_img/home/team-2-1528.webp"
+   ]
+  ]
+ },
+ "/assets/icons/account-circle.png": {
+  "width": 38,
+  "height": 38,
+  "variants": [
+   [
+    38,
+    "/_img/icons/account-circle-38.webp"
+   ]
+  ]
+ },
+ "/assets/icons/card-dot.png": {
+  "width": 24,
+  "height": 24,
+  "variants": [
+   [
+    24,
+    "/_img/icons/card-dot-24.webp"
+   ]
+  ]
+ },
+ "/assets/icons/eyebrow-dot.png": {
+  "width": 24,
+  "height": 24,
+  "variants": [
+   [
+    24,
+    "/_img/icons/eyebrow-dot-24.webp"
+   ]
+  ]
+ },
+ "/assets/icons/spinner-ring.png": {
+  "width": 38,
+  "height": 38,
+  "variants": [
+   [
+    38,
+    "/_img/icons/spinner-ring-38.webp"
+   ]
+  ]
+ },
+ "/assets/offerings/calculator.jpg": {
+  "width": 322,
+  "height": 346,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/calculator-320.webp"
+   ],
+   [
+    322,
+    "/_img/offerings/calculator-322.webp"
+   ]
+  ]
+ },
+ "/assets/offerings/hero-studio.jpg": {
+  "width": 680,
+  "height": 780,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/hero-studio-320.webp"
+   ],
+   [
+    480,
+    "/_img/offerings/hero-studio-480.webp"
+   ],
+   [
+    640,
+    "/_img/offerings/hero-studio-640.webp"
+   ],
+   [
+    680,
+    "/_img/offerings/hero-studio-680.webp"
+   ]
+  ]
+ },
+ "/assets/offerings/mockup-hand.jpg": {
+  "width": 329,
+  "height": 329,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/mockup-hand-320.webp"
+   ],
+   [
+    329,
+    "/_img/offerings/mockup-hand-329.webp"
+   ]
+  ]
+ },
+ "/assets/offerings/mockup-stack.jpg": {
+  "width": 329,
+  "height": 329,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/mockup-stack-320.webp"
+   ],
+   [
+    329,
+    "/_img/offerings/mockup-stack-329.webp"
+   ]
+  ]
+ },
+ "/assets/offerings/mockup-wealth.jpg": {
+  "width": 329,
+  "height": 320,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/mockup-wealth-320.webp"
+   ],
+   [
+    329,
+    "/_img/offerings/mockup-wealth-329.webp"
+   ]
+  ]
+ },
+ "/assets/partners/cloudnine.png": {
+  "width": 439,
+  "height": 115,
+  "variants": [
+   [
+    320,
+    "/_img/partners/cloudnine-320.webp"
+   ],
+   [
+    439,
+    "/_img/partners/cloudnine-439.webp"
+   ]
+  ]
+ },
+ "/assets/partners/napkin.png": {
+  "width": 398,
+  "height": 127,
+  "variants": [
+   [
+    320,
+    "/_img/partners/napkin-320.webp"
+   ],
+   [
+    398,
+    "/_img/partners/napkin-398.webp"
+   ]
+  ]
+ },
+ "/assets/partners/ratnagarba.png": {
+  "width": 200,
+  "height": 55,
+  "variants": [
+   [
+    200,
+    "/_img/partners/ratnagarba-200.webp"
+   ]
+  ]
+ },
+ "/assets/partners/reverie-mark.png": {
+  "width": 160,
+  "height": 48,
+  "variants": [
+   [
+    160,
+    "/_img/partners/reverie-mark-160.webp"
+   ]
+  ]
+ },
+ "/assets/partners/reverie-word.png": {
+  "width": 160,
+  "height": 48,
+  "variants": [
+   [
+    160,
+    "/_img/partners/reverie-word-160.webp"
+   ]
+  ]
+ },
+ "/assets/partners/vocera.png": {
+  "width": 600,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/partners/vocera-320.webp"
+   ],
+   [
+    480,
+    "/_img/partners/vocera-480.webp"
+   ],
+   [
+    600,
+    "/_img/partners/vocera-600.webp"
+   ]
+  ]
+ },
+ "/assets/team/697bc70f37ea59cabe6b35f5.jpg": {
+  "width": 832,
+  "height": 1063,
+  "variants": [
+   [
+    320,
+    "/_img/team/697bc70f37ea59cabe6b35f5-320.webp"
+   ],
+   [
+    480,
+    "/_img/team/697bc70f37ea59cabe6b35f5-480.webp"
+   ],
+   [
+    640,
+    "/_img/team/697bc70f37ea59cabe6b35f5-640.webp"
+   ],
+   [
+    832,
+    "/_img/team/697bc70f37ea59cabe6b35f5-832.webp"
+   ]
+  ]
+ },
+ "/assets/team/697bc74cb86d99142812fab6.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/697bc74cb86d99142812fab6-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/697bc74cb86d99142812fab6-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/697bc764597029fb59044f5d.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/697bc764597029fb59044f5d-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/697bc764597029fb59044f5d-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e4ff0acddf4e56b43e8a.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e4ff0acddf4e56b43e8a-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e4ff0acddf4e56b43e8a-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e52b969046dba7e893b4.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e52b969046dba7e893b4-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e52b969046dba7e893b4-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5692796d205e062ff86.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5692796d205e062ff86-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e5692796d205e062ff86-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5878e5ebbe23b103c5e.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5878e5ebbe23b103c5e-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e5878e5ebbe23b103c5e-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5a4ce2dc1d502684e6b.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5a4ce2dc1d502684e6b-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e5a4ce2dc1d502684e6b-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5c12c4ed1c6a033ac5c.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5c12c4ed1c6a033ac5c-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e5c12c4ed1c6a033ac5c-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5d78d3b7cab972680a6.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5d78d3b7cab972680a6-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e5d78d3b7cab972680a6-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e5ee66330c2eadfe939d.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e5ee66330c2eadfe939d-320.webp"
+   ],
+   [
+    414,
+    "/_img/team/69f5e5ee66330c2eadfe939d-414.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e60aad274265a80dde17.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e60aad274265a80dde17-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e60aad274265a80dde17-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e625d2c8defecbc3507a.jpg": {
+  "width": 832,
+  "height": 1129,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e625d2c8defecbc3507a-320.webp"
+   ],
+   [
+    480,
+    "/_img/team/69f5e625d2c8defecbc3507a-480.webp"
+   ],
+   [
+    640,
+    "/_img/team/69f5e625d2c8defecbc3507a-640.webp"
+   ],
+   [
+    832,
+    "/_img/team/69f5e625d2c8defecbc3507a-832.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e6455913d16a6999ca95.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e6455913d16a6999ca95-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e6455913d16a6999ca95-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/69f5e658812b8328bb26f2c7.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/69f5e658812b8328bb26f2c7-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/69f5e658812b8328bb26f2c7-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b38e006fa184aa66a06b.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b38e006fa184aa66a06b-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b38e006fa184aa66a06b-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b3b58ed40f21f030919d.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b3b58ed40f21f030919d-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b3b58ed40f21f030919d-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b3cca90a974c89efcd1d.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b3cca90a974c89efcd1d-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b3cca90a974c89efcd1d-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b3e42baee3b4ca5f9fd7.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b3e42baee3b4ca5f9fd7-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b3e42baee3b4ca5f9fd7-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b3f282c473db9e910a71.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b3f282c473db9e910a71-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b3f282c473db9e910a71-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b403f6404c83c52e9acb.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b403f6404c83c52e9acb-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b403f6404c83c52e9acb-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b41bb861f231b3b39176.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b41bb861f231b3b39176-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b41bb861f231b3b39176-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b429493112c774af4434.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b429493112c774af4434-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b429493112c774af4434-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b439039fcbd947dd6e4a.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b439039fcbd947dd6e4a-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b439039fcbd947dd6e4a-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b448039fcbd947dd736e.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b448039fcbd947dd736e-320.webp"
+   ],
+   [
+    414,
+    "/_img/team/6a71b448039fcbd947dd736e-414.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b45cba2216b4d02819eb.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b45cba2216b4d02819eb-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b45cba2216b4d02819eb-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b46ba90a974c89f0608e.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b46ba90a974c89f0608e-320.webp"
+   ],
+   [
+    414,
+    "/_img/team/6a71b46ba90a974c89f0608e-414.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b488f6404c83c52f8b62.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b488f6404c83c52f8b62-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b488f6404c83c52f8b62-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a71b496493112c774afd0de.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a71b496493112c774afd0de-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a71b496493112c774afd0de-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a72d4f3b8934933c7e9f358.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a72d4f3b8934933c7e9f358-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a72d4f3b8934933c7e9f358-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6a72d50cc2a9f2862de62d33.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6a72d50cc2a9f2862de62d33-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6a72d50cc2a9f2862de62d33-416.webp"
+   ]
+  ]
+ },
+ "/assets/team/6ab115f8b6a534a7d802fb87.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/team/6ab115f8b6a534a7d802fb87-320.webp"
+   ],
+   [
+    416,
+    "/_img/team/6ab115f8b6a534a7d802fb87-416.webp"
+   ]
+  ]
+ }
+}

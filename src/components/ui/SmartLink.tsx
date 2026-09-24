@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 
 type SmartLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }
 

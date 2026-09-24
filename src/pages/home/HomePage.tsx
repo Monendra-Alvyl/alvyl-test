@@ -1,3 +1,5 @@
+import { Seo } from '@/components/layout/Seo'
+import { pageMeta } from '@/data/seo'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { PartnersStrip } from '@/components/sections/PartnersStrip'
 import { Hero } from './sections/Hero'
@@ -11,6 +13,7 @@ import { WhyWeExist } from './sections/WhyWeExist'
 export function HomePage() {
   return (
     <>
+      <Seo {...pageMeta.home} />
       <Hero />
       <WhyWeExist />
       <WhatWeOffer />

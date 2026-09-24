@@ -6,6 +6,7 @@ import { RichHeading } from '@/components/ui/RichHeading'
 import { whyWeExist } from '@/data/home'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { cn } from '@/lib/cn'
+import { Img } from '@/components/ui/Img'
 
 /** "Why we exist" — Figma 17:341. Photo track overflows the panel and scrolls horizontally. */
 export function WhyWeExist() {
@@ -47,10 +48,11 @@ export function WhyWeExist() {
                 slide.overlay && 'border-light-grey border',
               )}
             >
-              <img
+              <Img
                 src={slide.src}
                 alt={slide.alt}
                 className="absolute size-full max-w-none rounded-[16px] object-cover"
+                sizes="(min-width: 1033px) 996px, (min-width: 450px) 854px, 400px"
               />
               {slide.overlay && <div className="absolute inset-0 rounded-[16px] bg-black/40" />}
             </div>

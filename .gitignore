@@ -1,8 +1,11 @@
 node_modules
 dist
+dist-ssr
 test-results
 playwright-report
 *.local
 .env
 .env.local
 .DS_Store
+# Generated responsive WebP variants (npm run images)
+public/_img

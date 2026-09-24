@@ -6,6 +6,7 @@ import { team, type TeamMember } from '@/data/home'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { cn } from '@/lib/cn'
 import { asset } from '@/lib/asset'
+import { Img } from '@/components/ui/Img'
 
 const cardSize = 'h-[480px] w-[334px] shrink-0 snap-start lg:h-[600px] lg:w-[416px]'
 const face = 'absolute inset-0 flex flex-col overflow-clip rounded-[16px] backface-hidden'
@@ -71,12 +72,12 @@ function FlipCard({ person }: { person: TeamMember }) {
       >
         <Face hidden={flipped} className={cn('justify-end', !person.image && 'bg-dark-grey')}>
           {person.image && (
-            <img
+            <Img
               src={person.image}
               alt={person.imageAlt}
-              loading="lazy"
               decoding="async"
               className="absolute size-full max-w-none object-cover"
+              sizes="(min-width: 1033px) 416px, 334px"
             />
           )}
           {flipButton}
@@ -86,11 +87,12 @@ function FlipCard({ person }: { person: TeamMember }) {
         <Face hidden={!flipped} className="bg-pitch-black rotate-y-180 justify-between">
           {flipButton}
           <div className="px-card-nested pointer-events-none relative flex flex-col gap-6 pt-12">
-            <img
+            <Img
               src={asset('/assets/home/quote-mark.png')}
               alt=""
               aria-hidden
               className="h-[68px] w-[87px] -translate-x-px"
+              sizes="87px"
             />
             <blockquote className="text-h3 text-text-white max-w-[330px] font-sans font-medium">
               {person.quote}

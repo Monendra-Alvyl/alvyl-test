@@ -17,7 +17,9 @@ function spaFallback(): Plugin {
       outDir = path.resolve(config.root, config.build.outDir)
     },
     closeBundle() {
-      fs.copyFileSync(path.join(outDir, 'index.html'), path.join(outDir, '404.html'))
+      const index = path.join(outDir, 'index.html')
+      /* Client build only (the SSR prerender build has no index.html). */
+      if (fs.existsSync(index)) fs.copyFileSync(index, path.join(outDir, '404.html'))
     },
   }
 }

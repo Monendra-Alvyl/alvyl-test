@@ -1,6 +1,7 @@
 import { FeaturePanel } from '@/components/sections/FeaturePanel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { startupSpeed, stats } from '@/data/home'
+import { Img } from '@/components/ui/Img'
 
 /** "Startup Speed. Enterprise Impact." feature panel + stats row — Figma 17:433 / 17:445. */
 export function StartupSpeed() {
@@ -13,11 +14,12 @@ export function StartupSpeed() {
         headingWidth="lg:w-[453px]"
         body={startupSpeed.body}
         art={
-          <img
+          <Img
             src={startupSpeed.image}
             alt=""
             aria-hidden
             className="pointer-events-none mx-auto aspect-square w-[300px] object-cover md:w-[360px] lg:absolute lg:top-1/2 lg:right-[-1px] lg:size-[604px] lg:-translate-y-1/2"
+            sizes="(min-width: 1033px) 604px, (min-width: 450px) 360px, 300px"
           />
         }
       />

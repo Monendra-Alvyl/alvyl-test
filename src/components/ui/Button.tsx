@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import { cn } from '@/lib/cn'
 import { Icon } from './Icon'
 import { Spinner } from './Spinner'

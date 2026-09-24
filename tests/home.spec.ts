@@ -94,6 +94,11 @@ test('team card flips to the quote and back on click', async ({ page }) => {
 
 test('brand fonts load', async ({ page }) => {
   await page.goto('/')
+  /* Accent italics are registered once an accent nears the viewport (src/lib/accentFonts.ts). */
+  await page.locator('[data-accent]').first().scrollIntoViewIfNeeded()
+  await page.waitForFunction(
+    () => [...document.fonts].filter((f) => f.style === 'italic').length === 3,
+  )
   await page.evaluate(() => document.fonts.ready)
   const checks = await page.evaluate(async () => {
     const faces = [

@@ -1,3 +1,5 @@
+import { Seo } from '@/components/layout/Seo'
+import { pageMeta } from '@/data/seo'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { PartnersStrip } from '@/components/sections/PartnersStrip'
 import { Team } from '@/components/sections/Team'
@@ -15,6 +17,7 @@ import { Ordinary } from './sections/Ordinary'
 export function OfferingsPage() {
   return (
     <>
+      <Seo {...pageMeta.offerings} />
       <OfferHero />
       <OfferNumbers />
       <Ordinary />

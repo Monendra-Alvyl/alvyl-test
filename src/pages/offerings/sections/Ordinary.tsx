@@ -3,6 +3,7 @@ import { ProgressIndicator } from '@/components/ui/ProgressIndicator'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { ordinary } from '@/data/offerings'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
+import { Img } from '@/components/ui/Img'
 
 /**
  * "From ordinary to extraordinary". Desktop: centred statement over an Alchemy disc with two
@@ -19,15 +20,17 @@ export function Ordinary() {
       className="p-section-inner flex flex-col gap-12 lg:h-[780px] lg:items-center lg:justify-center"
     >
       {/* Desktop collage */}
-      <img
+      <Img
         src={hand.src}
         alt={hand.alt}
         className="absolute top-[69px] left-[57px] size-[329px] rounded-[16px] object-cover max-lg:hidden"
+        sizes="329px"
       />
-      <img
+      <Img
         src={stack.src}
         alt={stack.alt}
         className="absolute right-[48px] bottom-[23px] size-[329px] rounded-[16px] object-cover max-lg:hidden"
+        sizes="329px"
       />
       <div
         aria-hidden
@@ -48,12 +51,12 @@ export function Ordinary() {
           className="-mr-section-inner flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden"
         >
           {[stack, wealth, hand].map((mockup) => (
-            <img
+            <Img
               key={mockup.src}
               src={mockup.src}
               alt={mockup.alt}
-              loading="lazy"
               className="size-[240px] shrink-0 snap-start rounded-[16px] object-cover md:h-[320px] md:w-[329px]"
+              sizes="329px"
             />
           ))}
         </div>

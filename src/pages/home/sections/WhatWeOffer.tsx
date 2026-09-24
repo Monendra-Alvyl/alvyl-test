@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import { FeaturePanel } from '@/components/sections/FeaturePanel'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Icon } from '@/components/ui/Icon'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { whatWeOffer } from '@/data/home'
 import { asset } from '@/lib/asset'
+import { Img } from '@/components/ui/Img'
 
 /**
  * Sphere art (image 6 / image 5 / image 3), vertically flipped as in Figma 17:366.
@@ -14,15 +15,17 @@ import { asset } from '@/lib/asset'
 function SphereArt() {
   const small = (
     <div className="relative size-[140px] shrink-0 -scale-y-100 md:size-[180px] lg:size-[236px]">
-      <img
+      <Img
         alt=""
         src={asset('/assets/home/offer-sphere-small.png')}
         className="absolute size-full max-w-none object-cover opacity-50"
+        sizes="(min-width: 1033px) 236px, (min-width: 450px) 180px, 140px"
       />
-      <img
+      <Img
         alt=""
         src={asset('/assets/home/offer-sphere-small.png')}
         className="absolute size-full max-w-none object-cover opacity-50"
+        sizes="(min-width: 1033px) 236px, (min-width: 450px) 180px, 140px"
       />
     </div>
   )
@@ -33,10 +36,11 @@ function SphereArt() {
     >
       {small}
       <div className="relative size-[175px] shrink-0 -scale-y-100 md:size-[230px] lg:size-[310px]">
-        <img
+        <Img
           alt=""
           src={asset('/assets/home/offer-sphere-large.png')}
           className="absolute size-full max-w-none object-cover"
+          sizes="(min-width: 1033px) 310px, (min-width: 450px) 230px, 175px"
         />
       </div>
       {small}
@@ -62,11 +66,12 @@ function ServiceCard({ number, title, href, image }: Service) {
           <Icon name="arrowCircle" size={18.222} />
         </Link>
       </div>
-      <img
+      <Img
         src={image}
         alt=""
         aria-hidden
         className="h-[140px] w-[148px] shrink-0 rounded-[16px] object-cover md:size-[180px] lg:size-[240px]"
+        sizes="(min-width: 1033px) 240px, 180px"
       />
     </article>
   )

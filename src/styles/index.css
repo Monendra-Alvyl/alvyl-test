@@ -34,7 +34,7 @@
 }
 
 /* Tablet mode (800 frame) */
-@media (min-width: 768px) {
+@media (min-width: 450px) {
   :root {
     --fs-h1: 44px;
     --lh-h1: 52px;
@@ -62,7 +62,7 @@
 }
 
 /* Desktop mode (1440 frame) */
-@media (min-width: 1024px) {
+@media (min-width: 1033px) {
   :root {
     --fs-h1: 56px;
     --lh-h1: 68px;
@@ -90,8 +90,9 @@
 }
 
 @theme {
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
+  /* Mobile < 450px, tablet 450–1032px, desktop ≥ 1033px. */
+  --breakpoint-md: 450px;
+  --breakpoint-lg: 1033px;
 
   /* Fonts */
   --font-display: 'IvyMode', 'Times New Roman', serif;
@@ -129,6 +130,14 @@
   /* Icons */
   --color-icon-white: #ffffff;
   --color-icon-black: #333333;
+
+  /* Partner logo marquee */
+  --animate-marquee: marquee 30s linear infinite;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 
   /* Alchemy */
   --color-alchemy-1: #ce521d;
