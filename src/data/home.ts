@@ -1,4 +1,5 @@
 import teamMembers from './team.generated.json'
+import { asset } from '@/lib/asset'
 
 /*
  * Home page content — copied verbatim from Figma frame 17:320 (Home Desktop).
@@ -12,9 +13,9 @@ export const hero = {
   titleLines: ['We’re a team', 'of builders'],
   /* Per-breakpoint art, cropped from the PNG exports (see README "Assets"). */
   images: {
-    mobile: '/assets/home/hero-mobile.jpg',
-    tablet: '/assets/home/hero-tablet.jpg',
-    desktop: '/assets/home/hero-desktop.jpg',
+    mobile: asset('/assets/home/hero-mobile.jpg'),
+    tablet: asset('/assets/home/hero-tablet.jpg'),
+    desktop: asset('/assets/home/hero-desktop.jpg'),
   },
   actions: [
     { label: 'Send us a proposal', href: '#', variant: 'primary' },
@@ -31,7 +32,7 @@ export const whyWeExist = {
   ] satisfies HeadingSegment[],
   subheadline: 'We create genuine experiences that meet real needs.',
   cta: { label: 'Learn more about us', href: '/about' },
-  slides: [{ src: '/assets/home/team-1.png', alt: 'The Alvyl team', overlay: true }],
+  slides: [{ src: asset('/assets/home/team-1.png'), alt: 'The Alvyl team', overlay: true }],
 }
 
 export const whatWeOffer = {
@@ -47,25 +48,25 @@ export const whatWeOffer = {
       number: '01',
       title: 'End-to-End Product Design',
       href: '/offerings',
-      image: '/assets/home/service-product-design.png',
+      image: asset('/assets/home/service-product-design.png'),
     },
     {
       number: '02',
       title: 'Site Reliability Engineering',
       href: '/offerings',
-      image: '/assets/home/service-sre.png',
+      image: asset('/assets/home/service-sre.png'),
     },
     {
       number: '03',
       title: 'Agentic AI',
       href: '/offerings',
-      image: '/assets/home/service-agentic-ai.png',
+      image: asset('/assets/home/service-agentic-ai.png'),
     },
     {
       number: '04',
       title: 'IoT & Machine Learning',
       href: '/offerings',
-      image: '/assets/home/service-iot-ml.png',
+      image: asset('/assets/home/service-iot-ml.png'),
     },
   ],
 }
@@ -77,7 +78,7 @@ export const startupSpeed = {
     [{ text: 'Enterprise ' }, { text: 'Impact', accent: true }, { text: '.' }],
   ] satisfies HeadingSegment[][],
   body: 'We move with the agility of a startup and the precision of an enterprise partner — designing, building, and scaling ideas that make a lasting mark.',
-  image: '/assets/home/cubes.png',
+  image: asset('/assets/home/cubes.png'),
 }
 
 export const stats = [
@@ -105,7 +106,7 @@ export const techIntent = {
     [{ text: 'Humanity', accent: true }, { text: ' is intent.' }],
   ] satisfies HeadingSegment[][],
   body: 'We move with the agility of a startup and the precision of an enterprise partner — designing, building, and scaling ideas that make a lasting mark.',
-  image: '/assets/home/offer-sphere-large.png',
+  image: asset('/assets/home/offer-sphere-large.png'),
 }
 
 /*
@@ -171,7 +172,7 @@ export const caseStudies: CaseStudySlide[] = [
     title: 'Silk Worm',
     focus: 'Machine Learning & IoT',
     summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
-    image: '/assets/home/case-silkworm.png',
+    image: asset('/assets/home/case-silkworm.png'),
     cta: { label: 'View Case Study', href: '#' },
   },
   {
@@ -181,10 +182,10 @@ export const caseStudies: CaseStudySlide[] = [
     focus: 'Agentic AI',
     /* Duplicated from Silk Worm in the design — see README open questions. */
     summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
-    image: '/assets/home/case-pepsico.png',
+    image: asset('/assets/home/case-pepsico.png'),
     cta: { label: 'View Case Studies', href: '#' },
   },
-  { kind: 'image', image: '/assets/home/team-1.png', alt: 'The Alvyl team' },
+  { kind: 'image', image: asset('/assets/home/team-1.png'), alt: 'The Alvyl team' },
 ]
 
 export type Partner = { name: string; src: string; width: number; opacity?: string }
@@ -192,15 +193,20 @@ export type Partner = { name: string; src: string; width: number; opacity?: stri
 export const partners = {
   eyebrow: 'more partners',
   logos: [
-    { name: 'cloudnine', src: '/assets/partners/cloudnine.png', width: 153, opacity: 'opacity-60' },
-    { name: 'Napkin', src: '/assets/partners/napkin.png', width: 125 },
-    { name: 'Vocera', src: '/assets/partners/vocera.png', width: 153 },
-    { name: 'Ratnagarba', src: '/assets/partners/ratnagarba.png', width: 153 },
+    {
+      name: 'cloudnine',
+      src: asset('/assets/partners/cloudnine.png'),
+      width: 153,
+      opacity: 'opacity-60',
+    },
+    { name: 'Napkin', src: asset('/assets/partners/napkin.png'), width: 125 },
+    { name: 'Vocera', src: asset('/assets/partners/vocera.png'), width: 153 },
+    { name: 'Ratnagarba', src: asset('/assets/partners/ratnagarba.png'), width: 153 },
   ] satisfies Partner[],
   /* Reverie is two images in the design (mark + wordmark), grouped with a 2px gap. */
   reverie: {
     name: 'Reverie Language Technologies',
-    mark: '/assets/partners/reverie-mark.png',
-    word: '/assets/partners/reverie-word.png',
+    mark: asset('/assets/partners/reverie-mark.png'),
+    word: asset('/assets/partners/reverie-word.png'),
   },
 }

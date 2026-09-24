@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { SmartLink } from '@/components/ui/SmartLink'
 import { headerCta, primaryNav } from '@/data/site'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 /** Three-line menu icon that turns into a close (×) icon when the menu is open. */
 function MenuIcon({ open }: { open: boolean }) {
@@ -52,7 +53,7 @@ export function Header() {
       <div className="flex items-center justify-between">
         <Link to="/" aria-label="Alvyl home" className="shrink-0" onClick={close}>
           <img
-            src="/assets/brand/logo.svg"
+            src={asset('/assets/brand/logo.svg')}
             alt="Alvyl"
             width={58}
             height={40}

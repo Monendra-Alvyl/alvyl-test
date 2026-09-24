@@ -4,6 +4,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Icon } from '@/components/ui/Icon'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { whatWeOffer } from '@/data/home'
+import { asset } from '@/lib/asset'
 
 /**
  * Sphere art (image 6 / image 5 / image 3), vertically flipped as in Figma 17:366.
@@ -15,12 +16,12 @@ function SphereArt() {
     <div className="relative size-[140px] shrink-0 -scale-y-100 md:size-[180px] lg:size-[236px]">
       <img
         alt=""
-        src="/assets/home/offer-sphere-small.png"
+        src={asset('/assets/home/offer-sphere-small.png')}
         className="absolute size-full max-w-none object-cover opacity-50"
       />
       <img
         alt=""
-        src="/assets/home/offer-sphere-small.png"
+        src={asset('/assets/home/offer-sphere-small.png')}
         className="absolute size-full max-w-none object-cover opacity-50"
       />
     </div>
@@ -34,7 +35,7 @@ function SphereArt() {
       <div className="relative size-[175px] shrink-0 -scale-y-100 md:size-[230px] lg:size-[310px]">
         <img
           alt=""
-          src="/assets/home/offer-sphere-large.png"
+          src={asset('/assets/home/offer-sphere-large.png')}
           className="absolute size-full max-w-none object-cover"
         />
       </div>

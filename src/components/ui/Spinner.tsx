@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset'
 /** Loading indicator from the Button "State=Loading" variant (Figma 16:1074). */
 export function Spinner() {
   return (
@@ -6,14 +7,14 @@ export function Spinner() {
         <span className="relative block h-[17.313px] w-[10.044px] rotate-[27.86deg]">
           <img
             alt=""
-            src="/assets/icons/spinner-arc.svg"
+            src={asset('/assets/icons/spinner-arc.svg')}
             className="absolute inset-[-36.34%_-62.63%] block max-w-none"
           />
         </span>
       </span>
       <img
         alt=""
-        src="/assets/icons/spinner-ring.png"
+        src={asset('/assets/icons/spinner-ring.png')}
         width={18.68}
         height={18.68}
         className="absolute top-[0.58px] left-[0.46px] size-[18.68px]"

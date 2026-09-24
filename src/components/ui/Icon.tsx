@@ -1,11 +1,12 @@
 import type { CSSProperties } from 'react'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 const icons = {
-  arrow: '/assets/icons/arrow-forward.svg',
-  arrowCircle: '/assets/icons/arrow-circle.svg',
-  send: '/assets/icons/send.svg',
-  linkedin: '/assets/icons/linkedin.svg',
+  arrow: asset('/assets/icons/arrow-forward.svg'),
+  arrowCircle: asset('/assets/icons/arrow-circle.svg'),
+  send: asset('/assets/icons/send.svg'),
+  linkedin: asset('/assets/icons/linkedin.svg'),
 } as const
 
 type IconProps = {

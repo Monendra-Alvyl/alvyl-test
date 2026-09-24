@@ -1,5 +1,6 @@
 import { useId, type InputHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 /*
  * Text field — Figma "Text Fields with Icon" (16:1144) and "Text without Icon" (16:1169).
@@ -43,7 +44,7 @@ function AccountIcon({ size }: { size: Size }) {
     <span aria-hidden className="relative shrink-0" style={{ width: px, height: px }}>
       <img
         alt=""
-        src="/assets/icons/account-circle.png"
+        src={asset('/assets/icons/account-circle.png')}
         width={inner}
         height={inner}
         className="absolute"

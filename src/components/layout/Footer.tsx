@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { footer } from '@/data/site'
+import { asset } from '@/lib/asset'
 
 /** Site footer — closing headline, contact details, column headings and legal row. */
 export function Footer() {
@@ -13,7 +14,7 @@ export function Footer() {
         </p>
         <Link to="/" aria-label="Alvyl home" className="shrink-0">
           <img
-            src="/assets/brand/logo.svg"
+            src={asset('/assets/brand/logo.svg')}
             alt="Alvyl"
             className="h-10 w-[58px] md:h-[81px] md:w-[117.5px]"
           />

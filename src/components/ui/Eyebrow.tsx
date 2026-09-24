@@ -1,4 +1,5 @@
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 type EyebrowProps = {
   children: string
@@ -16,7 +17,11 @@ export function Eyebrow({ children, tone = 'section', className }: EyebrowProps)
         width={12}
         height={12}
         className="size-3 shrink-0"
-        src={tone === 'card' ? '/assets/icons/card-dot.png' : '/assets/icons/eyebrow-dot.png'}
+        src={
+          tone === 'card'
+            ? asset('/assets/icons/card-dot.png')
+            : asset('/assets/icons/eyebrow-dot.png')
+        }
       />
       <span
         className={cn(

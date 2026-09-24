@@ -5,6 +5,7 @@ import { ProgressIndicator } from '@/components/ui/ProgressIndicator'
 import { team, type TeamMember } from '@/data/home'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 const cardSize = 'h-[480px] w-[334px] shrink-0 snap-start lg:h-[600px] lg:w-[416px]'
 const face = 'absolute inset-0 flex flex-col overflow-clip rounded-[16px] backface-hidden'
@@ -86,7 +87,7 @@ function FlipCard({ person }: { person: TeamMember }) {
           {flipButton}
           <div className="px-card-nested pointer-events-none relative flex flex-col gap-6 pt-12">
             <img
-              src="/assets/home/quote-mark.png"
+              src={asset('/assets/home/quote-mark.png')}
               alt=""
               aria-hidden
               className="h-[68px] w-[87px] -translate-x-px"

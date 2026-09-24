@@ -48,6 +48,18 @@ The full licensed kits are in `fonts/` (source). Only the cuts the design uses a
 | `FormaDJRMicro-Light.woff2`  | Forma DJR Micro · Light                          |
 | `FormaDJRMicro-Medium.woff2` | Forma DJR Micro · Medium                         |
 
+## Deploy (GitHub Pages)
+
+The site is served from a sub-path (`https://<user>.github.io/alvyl-test/`), so the build needs that base:
+
+- `.github/workflows/deploy.yml` builds with `BASE_PATH=/<repo-name>/` and deploys on every push to
+  `main`. In the repo, set **Settings → Pages → Source** to **GitHub Actions**. Optionally add the
+  `WEBFLOW_API_TOKEN` repository secret so each deploy refreshes the team from Webflow.
+- Paths to files in `public/` must go through `asset('/assets/…')` (`src/lib/asset.ts`) so they
+  get the base prefix; the router uses the same base, and `404.html` (a copy of `index.html`) makes
+  deep links like `/alvyl-test/about` work.
+- Local dev and tests use base `/` — nothing changes there.
+
 ## CMS (Webflow)
 
 The Home team carousel is fed by the Webflow **Teams** collection (name, `profile` photo, `linkedin`,
