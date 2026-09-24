@@ -5,15 +5,15 @@
   "variants": [
    [
     320,
-    "/_img/about/careers-320.webp"
+    "/_img/about/careers-e388ef42-320.webp"
    ],
    [
     480,
-    "/_img/about/careers-480.webp"
+    "/_img/about/careers-e388ef42-480.webp"
    ],
    [
     488,
-    "/_img/about/careers-488.webp"
+    "/_img/about/careers-e388ef42-488.webp"
    ]
   ]
  },
@@ -23,19 +23,19 @@
   "variants": [
    [
     320,
-    "/_img/about/hero-team-320.webp"
+    "/_img/about/hero-team-dc1ef267-320.webp"
    ],
    [
     480,
-    "/_img/about/hero-team-480.webp"
+    "/_img/about/hero-team-dc1ef267-480.webp"
    ],
    [
     640,
-    "/_img/about/hero-team-640.webp"
+    "/_img/about/hero-team-dc1ef267-640.webp"
    ],
    [
     680,
-    "/_img/about/hero-team-680.webp"
+    "/_img/about/hero-team-dc1ef267-680.webp"
    ]
   ]
  },
@@ -45,7 +45,7 @@
   "variants": [
    [
     262,
-    "/_img/about/promise-palm-262.webp"
+    "/_img/about/promise-palm-bb183291-262.webp"
    ]
   ]
  },
@@ -55,7 +55,7 @@
   "variants": [
    [
     262,
-    "/_img/about/promise-peace-262.webp"
+    "/_img/about/promise-peace-b538beba-262.webp"
    ]
   ]
  },
@@ -65,15 +65,15 @@
   "variants": [
    [
     320,
-    "/_img/about/why-we-started-320.webp"
+    "/_img/about/why-we-started-4b462594-320.webp"
    ],
    [
     480,
-    "/_img/about/why-we-started-480.webp"
+    "/_img/about/why-we-started-4b462594-480.webp"
    ],
    [
     615,
-    "/_img/about/why-we-started-615.webp"
+    "/_img/about/why-we-started-4b462594-615.webp"
    ]
   ]
  },
@@ -83,23 +83,23 @@
   "variants": [
    [
     320,
-    "/_img/home/case-pepsico-320.webp"
+    "/_img/home/case-pepsico-6be75ebc-320.webp"
    ],
    [
     480,
-    "/_img/home/case-pepsico-480.webp"
+    "/_img/home/case-pepsico-6be75ebc-480.webp"
    ],
    [
     640,
-    "/_img/home/case-pepsico-640.webp"
+    "/_img/home/case-pepsico-6be75ebc-640.webp"
    ],
    [
     960,
-    "/_img/home/case-pepsico-960.webp"
+    "/_img/home/case-pepsico-6be75ebc-960.webp"
    ],
    [
     1024,
-    "/_img/home/case-pepsico-1024.webp"
+    "/_img/home/case-pepsico-6be75ebc-1024.webp"
    ]
   ]
  },
@@ -109,31 +109,31 @@
   "variants": [
    [
     320,
-    "/_img/home/case-silkworm-320.webp"
+    "/_img/home/case-silkworm-6d253036-320.webp"
    ],
    [
     480,
-    "/_img/home/case-silkworm-480.webp"
+    "/_img/home/case-silkworm-6d253036-480.webp"
    ],
    [
     640,
-    "/_img/home/case-silkworm-640.webp"
+    "/_img/home/case-silkworm-6d253036-640.webp"
    ],
    [
     960,
-    "/_img/home/case-silkworm-960.webp"
+    "/_img/home/case-silkworm-6d253036-960.webp"
    ],
    [
     1280,
-    "/_img/home/case-silkworm-1280.webp"
+    "/_img/home/case-silkworm-6d253036-1280.webp"
    ],
    [
     1600,
-    "/_img/home/case-silkworm-1600.webp"
+    "/_img/home/case-silkworm-6d253036-1600.webp"
    ],
    [
     1920,
-    "/_img/home/case-silkworm-1920.webp"
+    "/_img/home/case-silkworm-6d253036-1920.webp"
    ]
   ]
  },
@@ -143,23 +143,23 @@
   "variants": [
    [
     320,
-    "/_img/home/cubes-320.webp"
+    "/_img/home/cubes-f5fb8621-320.webp"
    ],
    [
     480,
-    "/_img/home/cubes-480.webp"
+    "/_img/home/cubes-f5fb8621-480.webp"
    ],
    [
     640,
-    "/_img/home/cubes-640.webp"
+    "/_img/home/cubes-f5fb8621-640.webp"
    ],
    [
     960,
-    "/_img/home/cubes-960.webp"
+    "/_img/home/cubes-f5fb8621-960.webp"
    ],
    [
     1024,
-    "/_img/home/cubes-1024.webp"
+    "/_img/home/cubes-f5fb8621-1024.webp"
    ]
   ]
  },
@@ -169,27 +169,27 @@
   "variants": [
    [
     320,
-    "/_img/home/hero-desktop-320.webp"
+    "/_img/home/hero-desktop-571a202b-320.webp"
    ],
    [
     480,
-    "/_img/home/hero-desktop-480.webp"
+    "/_img/home/hero-desktop-571a202b-480.webp"
    ],
    [
     640,
-    "/_img/home/hero-desktop-640.webp"
+    "/_img/home/hero-desktop-571a202b-640.webp"
    ],
    [
     960,
-    "/_img/home/hero-desktop-960.webp"
+    "/_img/home/hero-desktop-571a202b-960.webp"
    ],
    [
     1280,
-    "/_img/home/hero-desktop-1280.webp"
+    "/_img/home/hero-desktop-571a202b-1280.webp"
    ],
    [
     1376,
-    "/_img/home/hero-desktop-1376.webp"
+    "/_img/home/hero-desktop-571a202b-1376.webp"
    ]
   ]
  },
@@ -199,11 +199,11 @@
   "variants": [
    [
     320,
-    "/_img/home/hero-mobile-320.webp"
+    "/_img/home/hero-mobile-c8fc07bb-320.webp"
    ],
    [
     358,
-    "/_img/home/hero-mobile-358.webp"
+    "/_img/home/hero-mobile-c8fc07bb-358.webp"
    ]
   ]
  },
@@ -213,19 +213,19 @@
   "variants": [
    [
     320,
-    "/_img/home/hero-tablet-320.webp"
+    "/_img/home/hero-tablet-ba64f3cc-320.webp"
    ],
    [
     480,
-    "/_img/home/hero-tablet-480.webp"
+    "/_img/home/hero-tablet-ba64f3cc-480.webp"
    ],
    [
     640,
-    "/_img/home/hero-tablet-640.webp"
+    "/_img/home/hero-tablet-ba64f3cc-640.webp"
    ],
    [
     752,
-    "/_img/home/hero-tablet-752.webp"
+    "/_img/home/hero-tablet-ba64f3cc-752.webp"
    ]
   ]
  },
@@ -235,23 +235,23 @@
   "variants": [
    [
     320,
-    "/_img/home/offer-sphere-large-320.webp"
+    "/_img/home/offer-sphere-large-eb007dd5-320.webp"
    ],
    [
     480,
-    "/_img/home/offer-sphere-large-480.webp"
+    "/_img/home/offer-sphere-large-eb007dd5-480.webp"
    ],
    [
     640,
-    "/_img/home/offer-sphere-large-640.webp"
+    "/_img/home/offer-sphere-large-eb007dd5-640.webp"
    ],
    [
     960,
-    "/_img/home/offer-sphere-large-960.webp"
+    "/_img/home/offer-sphere-large-eb007dd5-960.webp"
    ],
    [
     1024,
-    "/_img/home/offer-sphere-large-1024.webp"
+    "/_img/home/offer-sphere-large-eb007dd5-1024.webp"
    ]
   ]
  },
@@ -261,23 +261,23 @@
   "variants": [
    [
     320,
-    "/_img/home/offer-sphere-small-320.webp"
+    "/_img/home/offer-sphere-small-e6d4b70f-320.webp"
    ],
    [
     480,
-    "/_img/home/offer-sphere-small-480.webp"
+    "/_img/home/offer-sphere-small-e6d4b70f-480.webp"
    ],
    [
     640,
-    "/_img/home/offer-sphere-small-640.webp"
+    "/_img/home/offer-sphere-small-e6d4b70f-640.webp"
    ],
    [
     960,
-    "/_img/home/offer-sphere-small-960.webp"
+    "/_img/home/offer-sphere-small-e6d4b70f-960.webp"
    ],
    [
     1024,
-    "/_img/home/offer-sphere-small-1024.webp"
+    "/_img/home/offer-sphere-small-e6d4b70f-1024.webp"
    ]
   ]
  },
@@ -287,7 +287,7 @@
   "variants": [
    [
     87,
-    "/_img/home/quote-mark-87.webp"
+    "/_img/home/quote-mark-599ed891-87.webp"
    ]
   ]
  },
@@ -297,7 +297,7 @@
   "variants": [
    [
     240,
-    "/_img/home/service-agentic-ai-240.webp"
+    "/_img/home/service-agentic-ai-9fc9515a-240.webp"
    ]
   ]
  },
@@ -307,7 +307,7 @@
   "variants": [
    [
     240,
-    "/_img/home/service-iot-ml-240.webp"
+    "/_img/home/service-iot-ml-9181eb08-240.webp"
    ]
   ]
  },
@@ -317,7 +317,7 @@
   "variants": [
    [
     240,
-    "/_img/home/service-product-design-240.webp"
+    "/_img/home/service-product-design-b364c2ba-240.webp"
    ]
   ]
  },
@@ -327,7 +327,7 @@
   "variants": [
    [
     240,
-    "/_img/home/service-sre-240.webp"
+    "/_img/home/service-sre-6f54eec0-240.webp"
    ]
   ]
  },
@@ -337,31 +337,31 @@
   "variants": [
    [
     320,
-    "/_img/home/team-1-320.webp"
+    "/_img/home/team-1-1a756cc6-320.webp"
    ],
    [
     480,
-    "/_img/home/team-1-480.webp"
+    "/_img/home/team-1-1a756cc6-480.webp"
    ],
    [
     640,
-    "/_img/home/team-1-640.webp"
+    "/_img/home/team-1-1a756cc6-640.webp"
    ],
    [
     960,
-    "/_img/home/team-1-960.webp"
+    "/_img/home/team-1-1a756cc6-960.webp"
    ],
    [
     1280,
-    "/_img/home/team-1-1280.webp"
+    "/_img/home/team-1-1a756cc6-1280.webp"
    ],
    [
     1600,
-    "/_img/home/team-1-1600.webp"
+    "/_img/home/team-1-1a756cc6-1600.webp"
    ],
    [
     1920,
-    "/_img/home/team-1-1920.webp"
+    "/_img/home/team-1-1a756cc6-1920.webp"
    ]
   ]
  },
@@ -371,27 +371,27 @@
   "variants": [
    [
     320,
-    "/_img/home/team-2-320.webp"
+    "/_img/home/team-2-ce857447-320.webp"
    ],
    [
     480,
-    "/_img/home/team-2-480.webp"
+    "/_img/home/team-2-ce857447-480.webp"
    ],
    [
     640,
-    "/_img/home/team-2-640.webp"
+    "/_img/home/team-2-ce857447-640.webp"
    ],
    [
     960,
-    "/_img/home/team-2-960.webp"
+    "/_img/home/team-2-ce857447-960.webp"
    ],
    [
     1280,
-    "/_img/home/team-2-1280.webp"
+    "/_img/home/team-2-ce857447-1280.webp"
    ],
    [
     1528,
-    "/_img/home/team-2-1528.webp"
+    "/_img/home/team-2-ce857447-1528.webp"
    ]
   ]
  },
@@ -401,7 +401,7 @@
   "variants": [
    [
     38,
-    "/_img/icons/account-circle-38.webp"
+    "/_img/icons/account-circle-d8806d15-38.webp"
    ]
   ]
  },
@@ -411,7 +411,7 @@
   "variants": [
    [
     24,
-    "/_img/icons/card-dot-24.webp"
+    "/_img/icons/card-dot-ef2f24dd-24.webp"
    ]
   ]
  },
@@ -421,7 +421,7 @@
   "variants": [
    [
     24,
-    "/_img/icons/eyebrow-dot-24.webp"
+    "/_img/icons/eyebrow-dot-ba94ff48-24.webp"
    ]
   ]
  },
@@ -431,7 +431,7 @@
   "variants": [
    [
     38,
-    "/_img/icons/spinner-ring-38.webp"
+    "/_img/icons/spinner-ring-0f18c8a6-38.webp"
    ]
   ]
  },
@@ -441,19 +441,19 @@
   "variants": [
    [
     320,
-    "/_img/offerings/hero-studio-320.webp"
+    "/_img/offerings/hero-studio-749b347d-320.webp"
    ],
    [
     480,
-    "/_img/offerings/hero-studio-480.webp"
+    "/_img/offerings/hero-studio-749b347d-480.webp"
    ],
    [
     640,
-    "/_img/offerings/hero-studio-640.webp"
+    "/_img/offerings/hero-studio-749b347d-640.webp"
    ],
    [
     680,
-    "/_img/offerings/hero-studio-680.webp"
+    "/_img/offerings/hero-studio-749b347d-680.webp"
    ]
   ]
  },
@@ -463,19 +463,19 @@
   "variants": [
    [
     320,
-    "/_img/offerings/ordinary-allocation-320.webp"
+    "/_img/offerings/ordinary-allocation-4eceb020-320.webp"
    ],
    [
     480,
-    "/_img/offerings/ordinary-allocation-480.webp"
+    "/_img/offerings/ordinary-allocation-4eceb020-480.webp"
    ],
    [
     640,
-    "/_img/offerings/ordinary-allocation-640.webp"
+    "/_img/offerings/ordinary-allocation-4eceb020-640.webp"
    ],
    [
     900,
-    "/_img/offerings/ordinary-allocation-900.webp"
+    "/_img/offerings/ordinary-allocation-4eceb020-900.webp"
    ]
   ]
  },
@@ -485,19 +485,19 @@
   "variants": [
    [
     320,
-    "/_img/offerings/ordinary-investments-320.webp"
+    "/_img/offerings/ordinary-investments-da9cd691-320.webp"
    ],
    [
     480,
-    "/_img/offerings/ordinary-investments-480.webp"
+    "/_img/offerings/ordinary-investments-da9cd691-480.webp"
    ],
    [
     640,
-    "/_img/offerings/ordinary-investments-640.webp"
+    "/_img/offerings/ordinary-investments-da9cd691-640.webp"
    ],
    [
     900,
-    "/_img/offerings/ordinary-investments-900.webp"
+    "/_img/offerings/ordinary-investments-da9cd691-900.webp"
    ]
   ]
  },
@@ -507,15 +507,15 @@
   "variants": [
    [
     320,
-    "/_img/offerings/selected-work-320.webp"
+    "/_img/offerings/selected-work-65158f56-320.webp"
    ],
    [
     480,
-    "/_img/offerings/selected-work-480.webp"
+    "/_img/offerings/selected-work-65158f56-480.webp"
    ],
    [
     550,
-    "/_img/offerings/selected-work-550.webp"
+    "/_img/offerings/selected-work-65158f56-550.webp"
    ]
   ]
  },
@@ -525,7 +525,7 @@
   "variants": [
    [
     176,
-    "/_img/partners/brandbass-176.webp"
+    "/_img/partners/brandbass-43b5800a-176.webp"
    ]
   ]
  },
@@ -535,7 +535,7 @@
   "variants": [
    [
     160,
-    "/_img/partners/britive-160.webp"
+    "/_img/partners/britive-253e6bbf-160.webp"
    ]
   ]
  },
@@ -545,11 +545,11 @@
   "variants": [
    [
     320,
-    "/_img/partners/cloudnine-320.webp"
+    "/_img/partners/cloudnine-ae76ed10-320.webp"
    ],
    [
     439,
-    "/_img/partners/cloudnine-439.webp"
+    "/_img/partners/cloudnine-ae76ed10-439.webp"
    ]
   ]
  },
@@ -559,11 +559,11 @@
   "variants": [
    [
     320,
-    "/_img/partners/napkin-320.webp"
+    "/_img/partners/napkin-6031c698-320.webp"
    ],
    [
     398,
-    "/_img/partners/napkin-398.webp"
+    "/_img/partners/napkin-6031c698-398.webp"
    ]
   ]
  },
@@ -573,7 +573,7 @@
   "variants": [
    [
     200,
-    "/_img/partners/ratnagarba-200.webp"
+    "/_img/partners/ratnagarba-c43a65e1-200.webp"
    ]
   ]
  },
@@ -583,7 +583,7 @@
   "variants": [
    [
     160,
-    "/_img/partners/reunify-160.webp"
+    "/_img/partners/reunify-47b89282-160.webp"
    ]
   ]
  },
@@ -593,7 +593,7 @@
   "variants": [
    [
     96,
-    "/_img/partners/reverie-96.webp"
+    "/_img/partners/reverie-23b00dae-96.webp"
    ]
   ]
  },
@@ -603,7 +603,7 @@
   "variants": [
    [
     160,
-    "/_img/partners/tagbox-160.webp"
+    "/_img/partners/tagbox-e71d83c3-160.webp"
    ]
   ]
  },
@@ -613,15 +613,15 @@
   "variants": [
    [
     320,
-    "/_img/partners/vocera-320.webp"
+    "/_img/partners/vocera-2d6d0e15-320.webp"
    ],
    [
     480,
-    "/_img/partners/vocera-480.webp"
+    "/_img/partners/vocera-2d6d0e15-480.webp"
    ],
    [
     600,
-    "/_img/partners/vocera-600.webp"
+    "/_img/partners/vocera-2d6d0e15-600.webp"
    ]
   ]
  },
@@ -631,19 +631,19 @@
   "variants": [
    [
     320,
-    "/_img/team/697bc70f37ea59cabe6b35f5-320.webp"
+    "/_img/team/697bc70f37ea59cabe6b35f5-7cda21d3-320.webp"
    ],
    [
     480,
-    "/_img/team/697bc70f37ea59cabe6b35f5-480.webp"
+    "/_img/team/697bc70f37ea59cabe6b35f5-7cda21d3-480.webp"
    ],
    [
     640,
-    "/_img/team/697bc70f37ea59cabe6b35f5-640.webp"
+    "/_img/team/697bc70f37ea59cabe6b35f5-7cda21d3-640.webp"
    ],
    [
     832,
-    "/_img/team/697bc70f37ea59cabe6b35f5-832.webp"
+    "/_img/team/697bc70f37ea59cabe6b35f5-7cda21d3-832.webp"
    ]
   ]
  },
@@ -653,11 +653,11 @@
   "variants": [
    [
     320,
-    "/_img/team/697bc74cb86d99142812fab6-320.webp"
+    "/_img/team/697bc74cb86d99142812fab6-ed1c5c14-320.webp"
    ],
    [
     416,
-    "/_img/team/697bc74cb86d99142812fab6-416.webp"
+    "/_img/team/697bc74cb86d99142812fab6-ed1c5c14-416.webp"
    ]
   ]
  },
@@ -667,11 +667,11 @@
   "variants": [
    [
     320,
-    "/_img/team/697bc764597029fb59044f5d-320.webp"
+    "/_img/team/697bc764597029fb59044f5d-8ba706b2-320.webp"
    ],
    [
     416,
-    "/_img/team/697bc764597029fb59044f5d-416.webp"
+    "/_img/team/697bc764597029fb59044f5d-8ba706b2-416.webp"
    ]
   ]
  },
@@ -681,11 +681,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e4ff0acddf4e56b43e8a-320.webp"
+    "/_img/team/69f5e4ff0acddf4e56b43e8a-de0f596a-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e4ff0acddf4e56b43e8a-416.webp"
+    "/_img/team/69f5e4ff0acddf4e56b43e8a-de0f596a-416.webp"
    ]
   ]
  },
@@ -695,11 +695,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e52b969046dba7e893b4-320.webp"
+    "/_img/team/69f5e52b969046dba7e893b4-f9da867f-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e52b969046dba7e893b4-416.webp"
+    "/_img/team/69f5e52b969046dba7e893b4-f9da867f-416.webp"
    ]
   ]
  },
@@ -709,11 +709,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5692796d205e062ff86-320.webp"
+    "/_img/team/69f5e5692796d205e062ff86-07be2c85-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e5692796d205e062ff86-416.webp"
+    "/_img/team/69f5e5692796d205e062ff86-07be2c85-416.webp"
    ]
   ]
  },
@@ -723,11 +723,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5878e5ebbe23b103c5e-320.webp"
+    "/_img/team/69f5e5878e5ebbe23b103c5e-c27938d9-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e5878e5ebbe23b103c5e-416.webp"
+    "/_img/team/69f5e5878e5ebbe23b103c5e-c27938d9-416.webp"
    ]
   ]
  },
@@ -737,11 +737,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5a4ce2dc1d502684e6b-320.webp"
+    "/_img/team/69f5e5a4ce2dc1d502684e6b-d550846b-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e5a4ce2dc1d502684e6b-416.webp"
+    "/_img/team/69f5e5a4ce2dc1d502684e6b-d550846b-416.webp"
    ]
   ]
  },
@@ -751,11 +751,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5c12c4ed1c6a033ac5c-320.webp"
+    "/_img/team/69f5e5c12c4ed1c6a033ac5c-f04b399a-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e5c12c4ed1c6a033ac5c-416.webp"
+    "/_img/team/69f5e5c12c4ed1c6a033ac5c-f04b399a-416.webp"
    ]
   ]
  },
@@ -765,11 +765,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5d78d3b7cab972680a6-320.webp"
+    "/_img/team/69f5e5d78d3b7cab972680a6-ecb189fb-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e5d78d3b7cab972680a6-416.webp"
+    "/_img/team/69f5e5d78d3b7cab972680a6-ecb189fb-416.webp"
    ]
   ]
  },
@@ -779,11 +779,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e5ee66330c2eadfe939d-320.webp"
+    "/_img/team/69f5e5ee66330c2eadfe939d-1228a0a3-320.webp"
    ],
    [
     414,
-    "/_img/team/69f5e5ee66330c2eadfe939d-414.webp"
+    "/_img/team/69f5e5ee66330c2eadfe939d-1228a0a3-414.webp"
    ]
   ]
  },
@@ -793,11 +793,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e60aad274265a80dde17-320.webp"
+    "/_img/team/69f5e60aad274265a80dde17-492ce789-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e60aad274265a80dde17-416.webp"
+    "/_img/team/69f5e60aad274265a80dde17-492ce789-416.webp"
    ]
   ]
  },
@@ -807,19 +807,19 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e625d2c8defecbc3507a-320.webp"
+    "/_img/team/69f5e625d2c8defecbc3507a-4c73d58c-320.webp"
    ],
    [
     480,
-    "/_img/team/69f5e625d2c8defecbc3507a-480.webp"
+    "/_img/team/69f5e625d2c8defecbc3507a-4c73d58c-480.webp"
    ],
    [
     640,
-    "/_img/team/69f5e625d2c8defecbc3507a-640.webp"
+    "/_img/team/69f5e625d2c8defecbc3507a-4c73d58c-640.webp"
    ],
    [
     832,
-    "/_img/team/69f5e625d2c8defecbc3507a-832.webp"
+    "/_img/team/69f5e625d2c8defecbc3507a-4c73d58c-832.webp"
    ]
   ]
  },
@@ -829,11 +829,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e6455913d16a6999ca95-320.webp"
+    "/_img/team/69f5e6455913d16a6999ca95-a4071266-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e6455913d16a6999ca95-416.webp"
+    "/_img/team/69f5e6455913d16a6999ca95-a4071266-416.webp"
    ]
   ]
  },
@@ -843,11 +843,11 @@
   "variants": [
    [
     320,
-    "/_img/team/69f5e658812b8328bb26f2c7-320.webp"
+    "/_img/team/69f5e658812b8328bb26f2c7-ad425656-320.webp"
    ],
    [
     416,
-    "/_img/team/69f5e658812b8328bb26f2c7-416.webp"
+    "/_img/team/69f5e658812b8328bb26f2c7-ad425656-416.webp"
    ]
   ]
  },
@@ -857,11 +857,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b38e006fa184aa66a06b-320.webp"
+    "/_img/team/6a71b38e006fa184aa66a06b-b2a248c5-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b38e006fa184aa66a06b-416.webp"
+    "/_img/team/6a71b38e006fa184aa66a06b-b2a248c5-416.webp"
    ]
   ]
  },
@@ -871,11 +871,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b3b58ed40f21f030919d-320.webp"
+    "/_img/team/6a71b3b58ed40f21f030919d-464daf3e-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b3b58ed40f21f030919d-416.webp"
+    "/_img/team/6a71b3b58ed40f21f030919d-464daf3e-416.webp"
    ]
   ]
  },
@@ -885,11 +885,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b3cca90a974c89efcd1d-320.webp"
+    "/_img/team/6a71b3cca90a974c89efcd1d-7255e608-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b3cca90a974c89efcd1d-416.webp"
+    "/_img/team/6a71b3cca90a974c89efcd1d-7255e608-416.webp"
    ]
   ]
  },
@@ -899,11 +899,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b3e42baee3b4ca5f9fd7-320.webp"
+    "/_img/team/6a71b3e42baee3b4ca5f9fd7-4f0ddb8a-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b3e42baee3b4ca5f9fd7-416.webp"
+    "/_img/team/6a71b3e42baee3b4ca5f9fd7-4f0ddb8a-416.webp"
    ]
   ]
  },
@@ -913,11 +913,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b3f282c473db9e910a71-320.webp"
+    "/_img/team/6a71b3f282c473db9e910a71-428c44a8-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b3f282c473db9e910a71-416.webp"
+    "/_img/team/6a71b3f282c473db9e910a71-428c44a8-416.webp"
    ]
   ]
  },
@@ -927,11 +927,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b403f6404c83c52e9acb-320.webp"
+    "/_img/team/6a71b403f6404c83c52e9acb-aab53123-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b403f6404c83c52e9acb-416.webp"
+    "/_img/team/6a71b403f6404c83c52e9acb-aab53123-416.webp"
    ]
   ]
  },
@@ -941,11 +941,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b41bb861f231b3b39176-320.webp"
+    "/_img/team/6a71b41bb861f231b3b39176-e4fd02f5-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b41bb861f231b3b39176-416.webp"
+    "/_img/team/6a71b41bb861f231b3b39176-e4fd02f5-416.webp"
    ]
   ]
  },
@@ -955,11 +955,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b429493112c774af4434-320.webp"
+    "/_img/team/6a71b429493112c774af4434-eca6dd7a-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b429493112c774af4434-416.webp"
+    "/_img/team/6a71b429493112c774af4434-eca6dd7a-416.webp"
    ]
   ]
  },
@@ -969,11 +969,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b439039fcbd947dd6e4a-320.webp"
+    "/_img/team/6a71b439039fcbd947dd6e4a-10355707-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b439039fcbd947dd6e4a-416.webp"
+    "/_img/team/6a71b439039fcbd947dd6e4a-10355707-416.webp"
    ]
   ]
  },
@@ -983,11 +983,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b448039fcbd947dd736e-320.webp"
+    "/_img/team/6a71b448039fcbd947dd736e-f8e5ce5d-320.webp"
    ],
    [
     414,
-    "/_img/team/6a71b448039fcbd947dd736e-414.webp"
+    "/_img/team/6a71b448039fcbd947dd736e-f8e5ce5d-414.webp"
    ]
   ]
  },
@@ -997,11 +997,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b45cba2216b4d02819eb-320.webp"
+    "/_img/team/6a71b45cba2216b4d02819eb-e42dc706-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b45cba2216b4d02819eb-416.webp"
+    "/_img/team/6a71b45cba2216b4d02819eb-e42dc706-416.webp"
    ]
   ]
  },
@@ -1011,11 +1011,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b46ba90a974c89f0608e-320.webp"
+    "/_img/team/6a71b46ba90a974c89f0608e-b93a7395-320.webp"
    ],
    [
     414,
-    "/_img/team/6a71b46ba90a974c89f0608e-414.webp"
+    "/_img/team/6a71b46ba90a974c89f0608e-b93a7395-414.webp"
    ]
   ]
  },
@@ -1025,11 +1025,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b488f6404c83c52f8b62-320.webp"
+    "/_img/team/6a71b488f6404c83c52f8b62-407dbf08-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b488f6404c83c52f8b62-416.webp"
+    "/_img/team/6a71b488f6404c83c52f8b62-407dbf08-416.webp"
    ]
   ]
  },
@@ -1039,11 +1039,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a71b496493112c774afd0de-320.webp"
+    "/_img/team/6a71b496493112c774afd0de-15698a76-320.webp"
    ],
    [
     416,
-    "/_img/team/6a71b496493112c774afd0de-416.webp"
+    "/_img/team/6a71b496493112c774afd0de-15698a76-416.webp"
    ]
   ]
  },
@@ -1053,11 +1053,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a72d4f3b8934933c7e9f358-320.webp"
+    "/_img/team/6a72d4f3b8934933c7e9f358-fbf0f4bb-320.webp"
    ],
    [
     416,
-    "/_img/team/6a72d4f3b8934933c7e9f358-416.webp"
+    "/_img/team/6a72d4f3b8934933c7e9f358-fbf0f4bb-416.webp"
    ]
   ]
  },
@@ -1067,11 +1067,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6a72d50cc2a9f2862de62d33-320.webp"
+    "/_img/team/6a72d50cc2a9f2862de62d33-d4b7c9f4-320.webp"
    ],
    [
     416,
-    "/_img/team/6a72d50cc2a9f2862de62d33-416.webp"
+    "/_img/team/6a72d50cc2a9f2862de62d33-d4b7c9f4-416.webp"
    ]
   ]
  },
@@ -1081,11 +1081,11 @@
   "variants": [
    [
     320,
-    "/_img/team/6ab115f8b6a534a7d802fb87-320.webp"
+    "/_img/team/6ab115f8b6a534a7d802fb87-f6cae579-320.webp"
    ],
    [
     416,
-    "/_img/team/6ab115f8b6a534a7d802fb87-416.webp"
+    "/_img/team/6ab115f8b6a534a7d802fb87-f6cae579-416.webp"
    ]
   ]
  }
