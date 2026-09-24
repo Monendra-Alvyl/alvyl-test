@@ -1,7 +1,6 @@
 import { Link } from '@/lib/router'
 import { FeaturePanel } from '@/components/sections/FeaturePanel'
 import { Eyebrow } from '@/components/ui/Eyebrow'
-import { Icon } from '@/components/ui/Icon'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { whatWeOffer } from '@/data/home'
 import { asset } from '@/lib/asset'
@@ -50,30 +49,25 @@ function SphereArt() {
 
 type Service = { number: string; title: string; href: string; image: string }
 
+/** Service card: the whole card links to Offerings and takes the Alchemy hover (as on Webflow). */
 function ServiceCard({ number, title, href, image }: Service) {
   return (
-    <article className="bg-dark-grey p-card flex flex-1 gap-4 rounded-[16px]">
-      <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 self-stretch">
-        <div className="flex flex-col gap-3">
-          <Eyebrow tone="card">{number}</Eyebrow>
-          <h3 className="font-display text-h3 text-text-dark max-w-[230px] font-light">{title}</h3>
-        </div>
-        <Link
-          to={href}
-          aria-label={title}
-          className="flex size-8 items-center justify-center rounded-[38px] border border-white/20 text-white md:size-10 lg:size-12"
-        >
-          <Icon name="arrowCircle" size={18.222} />
-        </Link>
+    <Link
+      to={href}
+      className="bg-dark-grey p-card hover-alchemy flex flex-1 items-start gap-4 rounded-[16px]"
+    >
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
+        <Eyebrow tone="card">{number}</Eyebrow>
+        <h3 className="font-display text-h3 text-text-dark max-w-[230px] font-light">{title}</h3>
       </div>
       <Img
         src={image}
         alt=""
         aria-hidden
-        className="h-[140px] w-[148px] shrink-0 rounded-[16px] object-cover md:size-[180px] lg:size-[240px]"
+        className="h-[140px] w-[148px] shrink-0 object-contain md:size-[180px] lg:size-[240px]"
         sizes="(min-width: 1033px) 240px, 180px"
       />
-    </article>
+    </Link>
   )
 }
 

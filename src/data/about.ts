@@ -1,5 +1,5 @@
 /*
- * About page content — copied from pg/About Desktop.png (tablet/mobile use the same copy).
+ * About page content — copy matches the live Webflow site (alvyl-revamp-site.webflow.io/about).
  * Heading segments marked `accent` render in the Alchemy italic style.
  */
 import type { HeadingSegment } from './home'
@@ -8,7 +8,7 @@ import { asset } from '@/lib/asset'
 export const aboutIntro = {
   headline: 'At Alvyl, we’ve got each other’s backs. We team up and love to lend a hand!',
   stats: [
-    { label: 'Launched', value: '2020' },
+    { label: 'Launched', value: '2018' },
     { label: 'Employees', value: '40+' },
   ],
   /* Desktop uses a portrait crop; tablet/phone show the full landscape group photo. */
@@ -33,13 +33,11 @@ export const promise = {
   body: 'From concept to launch, we’re committed to your success with rapid response times and personalized attention to detail.',
   cards: [
     {
-      tone: 'alchemy',
       title: 'We Promise to...',
       body: 'Continuously innovate digital solutions for contract caterers, resulting in better experiences for the customer, increased profits for clients, and positive impact on the planet',
       image: asset('/assets/about/promise-peace.png'),
     },
     {
-      tone: 'dark',
       title: 'We Promise NOT to...',
       body: 'Prioritise profits at the expense of customer satisfaction and suggest solutions that don’t meet our high standards. We won’t pursue profit in ways that harm the planet. And we won’t resist new tech.',
       image: asset('/assets/about/promise-palm.png'),

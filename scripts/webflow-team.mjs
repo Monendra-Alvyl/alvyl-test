@@ -86,6 +86,7 @@ const team = items
     return {
       id: item.id,
       name: (f.name ?? '').trim(),
+      role: (f['job-role'] ?? '').trim() || null,
       sourceImage: f.profile?.url ?? null,
       imageAlt: f.profile?.alt || f.name,
       linkedin: linkedinUrl(f.linkedin),

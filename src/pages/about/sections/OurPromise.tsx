@@ -27,8 +27,8 @@ export function OurPromise() {
           <li
             key={card.title}
             className={cn(
-              'flex flex-col gap-12 rounded-[16px] p-6 md:p-8 lg:h-[600px] lg:justify-between',
-              card.tone === 'alchemy' ? 'bg-alchemy' : 'bg-dark-grey',
+              'group flex flex-col gap-12 rounded-[16px] p-6 md:p-8 lg:h-[600px] lg:justify-between',
+              'bg-dark-grey hover-alchemy',
             )}
           >
             <Img
@@ -40,12 +40,7 @@ export function OurPromise() {
             />
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h2 text-text-white font-light">{card.title}</h3>
-              <p
-                className={cn(
-                  'text-body-lg font-sans font-medium',
-                  card.tone === 'alchemy' ? 'text-white/80' : 'text-text-light',
-                )}
-              >
+              <p className="text-body-lg text-text-light font-sans font-medium transition-colors group-hover:text-white">
                 {card.body}
               </p>
             </div>

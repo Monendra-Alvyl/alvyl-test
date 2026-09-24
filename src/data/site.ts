@@ -9,11 +9,11 @@ export type NavLink = {
 }
 
 export const primaryNav: NavLink[] = [
-  { label: 'About us', href: '/about' },
   { label: 'Offerings', href: '/offerings' },
+  { label: 'About Us', href: '/about' },
 ]
 
-export const headerCta = { label: 'Schedule a Call', href: '#' }
+export const headerCta = { label: 'Schedule a Call', href: '/contact-us' }
 
 export const footer = {
   headline: [[{ text: "Let's create your unique" }], [{ text: 'success story.', accent: true }]],
@@ -21,7 +21,7 @@ export const footer = {
   phone: '+91 98278 28912',
   /* Column headings only — the Home footer design shows no links under them. */
   columns: ['Services', 'Company'],
-  copyright: '2025 Alvyl Consulting',
+  copyright: '2026 Alvyl Consulting',
   legal: [
     { label: 'Terms & Conditions', href: '#' },
     { label: 'Privacy Policy', href: '#' },

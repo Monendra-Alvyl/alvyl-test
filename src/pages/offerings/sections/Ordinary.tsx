@@ -11,7 +11,7 @@ import { Img } from '@/components/ui/Img'
  */
 export function Ordinary() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>()
-  const [stack, wealth, hand] = ordinary.mockups
+  const [topLeft, bottomRight] = ordinary.mockups
 
   return (
     <Panel
@@ -21,16 +21,16 @@ export function Ordinary() {
     >
       {/* Desktop collage */}
       <Img
-        src={hand.src}
-        alt={hand.alt}
-        className="absolute top-[69px] left-[57px] size-[329px] rounded-[16px] object-cover max-lg:hidden"
-        sizes="329px"
+        src={topLeft.src}
+        alt={topLeft.alt}
+        className="absolute top-[40px] left-[48px] size-[374px] rounded-[16px] object-cover max-lg:hidden"
+        sizes="374px"
       />
       <Img
-        src={stack.src}
-        alt={stack.alt}
-        className="absolute right-[48px] bottom-[23px] size-[329px] rounded-[16px] object-cover max-lg:hidden"
-        sizes="329px"
+        src={bottomRight.src}
+        alt={bottomRight.alt}
+        className="absolute right-[48px] bottom-[23px] size-[403px] rounded-[16px] object-cover max-lg:hidden"
+        sizes="403px"
       />
       <div
         aria-hidden
@@ -50,7 +50,7 @@ export function Ordinary() {
           ref={ref}
           className="-mr-section-inner flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden"
         >
-          {[stack, wealth, hand].map((mockup) => (
+          {ordinary.mockups.map((mockup) => (
             <Img
               key={mockup.src}
               src={mockup.src}

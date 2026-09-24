@@ -15,6 +15,8 @@ type FeaturePanelProps = {
   art: ReactNode
   /** Heading text-box width on desktop (Figma: 627 / 453). */
   headingWidth: string
+  /** 400px tall on desktop instead of 600px (Offerings "Selected work"). */
+  compact?: boolean
 }
 
 /**
@@ -29,12 +31,16 @@ export function FeaturePanel({
   cta,
   art,
   headingWidth,
+  compact = false,
 }: FeaturePanelProps) {
   return (
     <Panel
       as="section"
       aria-labelledby={id}
-      className="p-section-inner flex flex-col gap-8 md:gap-12 lg:h-[600px]"
+      className={cn(
+        'p-section-inner flex flex-col gap-8 md:gap-12',
+        compact ? 'lg:h-[400px]' : 'lg:h-[600px]',
+      )}
     >
       <Eyebrow>{eyebrow}</Eyebrow>
       <div className="relative z-10 flex flex-1 flex-col items-start justify-between gap-8 max-lg:contents md:gap-12">

@@ -93,6 +93,12 @@ ordered by `sort-order`). Other content is still in `src/data/*.ts`.
 
 Content changes in Webflow appear after the next build/deploy. Photos load from Webflow's CDN.
 
+## Content source
+
+Page copy, the Customers strip, the Our People carousel and card hover interactions follow the live
+Webflow site (alvyl-revamp-site.webflow.io). Everything else — tokens, colours, type, component states
+— follows the Figma design system.
+
 ## Design reference
 
 The Figma MCP quota ran out, so Home was finished from the full-page PNG exports in `pg/`
@@ -127,7 +133,7 @@ retina screens — replace them with real exports **under the same filenames**:
 | Case-study carousel                        | Removed from Home (not in the PNGs); component kept in `pages/home/sections/CaseStudies.tsx` |
 | About (`/about`), Offerings (`/offerings`) | Built from `pg/About *.png`, `pg/Offer *.png`; shared sections follow Home                   |
 | Project, Careers, Case-study pages         | Not started                                                                                  |
-| Contact page (reuses `ContactSection`)     | Not started                                                                                  |
+| Contact us (`/contact-us`)                 | Copied from the Webflow contact page; Home form styling                                      |
 
 ## Open questions
 
@@ -135,16 +141,11 @@ retina screens — replace them with real exports **under the same filenames**:
    sections), the Home implementation is used. The Offer design's contact form (4 fields with icons,
    attachment, large Send tile) is therefore not built. The footer is the Home footer on every page
    (only "Services"/"Company" headings, no link columns). The duplicated numbers panel on Offer desktop is shown once.
-2. **Copy** — the About "Careers" button reads "View Case Studies" in the design; "extraordinary" is
-   accented on every size (only tablet/phone designs accent it).
-3. **Navigation / link targets** — Case Studies, Resources, Culture, Schedule a Call, proposal/discovery
+2. **Navigation / link targets** — Case Studies, Resources, Culture, Schedule a Call, proposal/discovery
    buttons, case-study/resource links, Terms and Privacy are `#` (`src/data/*.ts`). About and service links
    go to `/about` and `/offerings`.
-4. **Contact form submission** — no endpoint is defined, so submit does nothing yet. No validation or
+3. **Contact form submission** — no endpoint is defined, so submit does nothing yet. No validation or
    success/error states are designed.
-5. **Team quotes** — the Webflow Teams collection has no quote field, so the design's single quote stands
+4. **Team quotes** — the Webflow Teams collection has no quote field, so the design's single quote stands
    in on the back of every card. Roles (`job-role`) are fetched-ready but hidden for now.
-6. **Copy** — "WHY WE EXSIST" (spelling). On phone, the Startup Speed body and button differ from
-   desktop; the desktop copy is used.
-7. **Placeholder colour** — contact-form placeholders are #828282, which is not a design-system token.
-8. **Carousels** — swipe/scroll tracks with a progress indicator. Are autoplay or arrow controls intended?
+5. **Carousels** — swipe/scroll tracks with a progress indicator. Are autoplay or arrow controls intended?

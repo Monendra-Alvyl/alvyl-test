@@ -226,3 +226,48 @@
     outline-offset: 2px;
   }
 }
+
+/*
+ * Card hover interactions — copied exactly from the live Webflow site (the user asked for this).
+ * `hover-alchemy`: a top-to-bottom gradient (#CE1D1E → #CE521D at 40%, the Alchemy colours) fades in and
+ * the card grows 3%. The gradient sits on a pseudo-element so it can fade (gradients can't transition).
+ * `hover-grow`: team cards grow 5%.
+ * Hover only applies on devices with a real pointer; reduced-motion users get no scaling.
+ */
+@utility hover-alchemy {
+  position: relative;
+  isolation: isolate;
+  transition: transform 0.3s ease;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-image: linear-gradient(180deg, var(--color-alchemy-2), var(--color-alchemy-1) 40%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  @media (hover: hover) {
+    &:hover::before {
+      opacity: 1;
+    }
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+@utility hover-grow {
+  transition: transform 0.3s ease;
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

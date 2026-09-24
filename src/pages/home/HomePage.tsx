@@ -1,7 +1,7 @@
 import { Seo } from '@/components/layout/Seo'
 import { pageMeta } from '@/data/seo'
 import { ContactSection } from '@/components/sections/ContactSection'
-import { PartnersStrip } from '@/components/sections/PartnersStrip'
+import { CustomersStrip } from '@/components/sections/CustomersStrip'
 import { Hero } from './sections/Hero'
 import { StartupSpeed } from './sections/StartupSpeed'
 import { Team } from '@/components/sections/Team'
@@ -19,7 +19,7 @@ export function HomePage() {
       <WhatWeOffer />
       <div className="flex flex-col gap-4">
         <StartupSpeed />
-        <PartnersStrip />
+        <CustomersStrip />
       </div>
       <div className="flex flex-col gap-4">
         <TechIntent />

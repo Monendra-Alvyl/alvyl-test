@@ -10,7 +10,7 @@ import { Spinner } from './Spinner'
  *          'responsive' at the tablet breakpoint (Home hero), 'responsive-lg' at desktop (feature panels)
  *   Type:  Primary | Secondary
  *   State: Active (default) | Clicked (:active) | Disabled | Loading
- * The design defines no hover state, so none is styled.
+ * The Figma design system defines no hover state, so none is styled.
  */
 
 type Variant = 'primary' | 'secondary'

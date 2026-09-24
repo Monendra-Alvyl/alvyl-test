@@ -27,8 +27,8 @@ export function Goals() {
           <li
             key={card.body}
             className={cn(
-              'flex flex-col gap-8 rounded-[16px] p-6 lg:h-[600px] lg:justify-between lg:pb-10',
-              card.tone === 'alchemy' ? 'bg-alchemy' : 'bg-dark-grey',
+              'group flex flex-col gap-8 rounded-[16px] p-6 lg:h-[600px] lg:justify-between lg:pb-10',
+              'bg-dark-grey hover-alchemy',
             )}
           >
             <Img
@@ -47,12 +47,7 @@ export function Goals() {
                   </span>
                 ))}
               </h3>
-              <p
-                className={cn(
-                  'text-body-lg font-sans font-medium',
-                  card.tone === 'alchemy' ? 'text-white/60' : 'text-text-light',
-                )}
-              >
+              <p className="text-body-lg text-text-light font-sans font-medium transition-colors group-hover:text-white">
                 {card.body}
               </p>
             </div>

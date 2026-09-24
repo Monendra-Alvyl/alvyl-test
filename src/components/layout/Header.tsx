@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from '@/lib/router'
 import { Button } from '@/components/ui/Button'
 import { SmartLink } from '@/components/ui/SmartLink'
@@ -21,36 +21,42 @@ function MenuIcon({ open }: { open: boolean }) {
 
 /**
  * Site header — Figma 17:321 (desktop), 17:659 (tablet), 383:853 (mobile).
- * Sticks to the top of the viewport. Below the tablet breakpoint the links collapse into a
- * hamburger menu that expands inside the header card (up to 600px, where the inline links no longer fit).
+ * Sticks to the top of the viewport. Up to 600px (where the inline links no longer fit) the links
+ * move into a hamburger menu: a card that drops out from under the header, aligned right.
  */
 export function Header() {
   const [open, setOpen] = useState(false)
   const menuId = useId()
+  const wrapper = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && setOpen(false)
-    const desktop = window.matchMedia('(min-width: 601px)')
-    const onResize = () => desktop.matches && setOpen(false)
+    const onPointer = (event: PointerEvent) => {
+      if (!wrapper.current?.contains(event.target as Node)) setOpen(false)
+    }
+    const wide = window.matchMedia('(min-width: 601px)')
+    const onResize = () => wide.matches && setOpen(false)
     window.addEventListener('keydown', onKey)
-    desktop.addEventListener('change', onResize)
+    document.addEventListener('pointerdown', onPointer)
+    wide.addEventListener('change', onResize)
     return () => {
       window.removeEventListener('keydown', onKey)
-      desktop.removeEventListener('change', onResize)
+      document.removeEventListener('pointerdown', onPointer)
+      wide.removeEventListener('change', onResize)
     }
   }, [open])
 
   const close = () => setOpen(false)
 
   return (
-    <header
-      className={cn(
-        'border-stroke-light sticky top-3 z-50 overflow-clip rounded-[24px] border px-6 py-4 backdrop-blur-[12px]',
-        open ? 'bg-pitch-black' : 'bg-btn-secondary',
-      )}
-    >
-      <div className="flex items-center justify-between">
+    <div ref={wrapper} className="sticky top-3 z-50">
+      <header
+        className={cn(
+          'border-stroke-light relative z-10 flex items-center justify-between overflow-clip rounded-[24px] border px-6 py-4 backdrop-blur-[12px]',
+          open ? 'bg-pitch-black' : 'bg-btn-secondary',
+        )}
+      >
         <Link to="/" aria-label="Alvyl home" className="shrink-0" onClick={close}>
           <img
             src={asset('/assets/brand/logo.svg')}
@@ -84,15 +90,16 @@ export function Header() {
         >
           <MenuIcon open={open} />
         </button>
-      </div>
+      </header>
 
+      {/* Mobile menu: its top edge tucks under the header card. */}
       <nav
         id={menuId}
         aria-label="Primary"
         hidden={!open}
-        className="flex flex-col items-start gap-6 pt-6 pb-2 min-[601px]:hidden"
+        className="border-stroke-light bg-pitch-black absolute top-[calc(100%-24px)] right-0 flex flex-col items-start gap-8 rounded-b-[24px] border border-t-0 px-4 pt-12 pb-4 min-[601px]:hidden"
       >
-        <ul className="text-body-lg flex flex-col gap-4 font-sans font-medium text-white">
+        <ul className="text-body-lg flex flex-col gap-8 px-2 font-sans font-medium text-white">
           {primaryNav.map((link) => (
             <li key={link.label}>
               <SmartLink href={link.href} onClick={close}>
@@ -101,10 +108,10 @@ export function Header() {
             </li>
           ))}
         </ul>
-        <Button variant="secondary" size="s" href={headerCta.href} onClick={close}>
+        <Button variant="secondary" href={headerCta.href} onClick={close}>
           {headerCta.label}
         </Button>
       </nav>
-    </header>
+    </div>
   )
 }

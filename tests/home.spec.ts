@@ -4,6 +4,7 @@ for (const [name, path] of [
   ['home', '/'],
   ['about', '/about'],
   ['offerings', '/offerings'],
+  ['contact', '/contact-us'],
 ]) {
   test(`${name} renders without horizontal overflow or broken images`, async ({
     page,
@@ -36,10 +37,13 @@ for (const [name, path] of [
 test('header links navigate between pages', async ({ page }, testInfo) => {
   const mobile = testInfo.project.name === 'mobile'
   const nav = (name: string) =>
-    page.locator('header').getByRole('link', { name, exact: true }).locator('visible=true')
+    page
+      .getByRole('navigation', { name: 'Primary' })
+      .getByRole('link', { name, exact: true })
+      .locator('visible=true')
   await page.goto('/')
   if (mobile) await page.getByRole('button', { name: 'Open menu' }).click()
-  await nav('About us').click()
+  await nav('About Us').click()
   await expect(page).toHaveURL(/\/about$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('each other’s backs')
   if (mobile) await page.getByRole('button', { name: 'Open menu' }).click()
@@ -48,13 +52,13 @@ test('header links navigate between pages', async ({ page }, testInfo) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Digital')
 })
 
-test('team carousel indicator follows horizontal scroll', async ({ page }) => {
+test('team carousel arrow scrolls and moves the indicator', async ({ page }) => {
   await page.goto('/')
-  const track = page.locator('section[aria-label="Our team"] > div').first()
-  const thumb = page.locator('section[aria-label="Our team"] [aria-hidden] > div').last()
+  const section = page.locator('section[aria-label="Our People"]')
+  const thumb = section.locator('div[aria-hidden] > div.bg-alchemy')
   const before = await thumb.evaluate((el) => el.getBoundingClientRect().left)
-  await track.evaluate((el) => el.scrollTo({ left: el.scrollWidth }))
-  await page.waitForTimeout(300)
+  await section.getByRole('button', { name: 'Next team members' }).click()
+  await page.waitForTimeout(800)
   const after = await thumb.evaluate((el) => el.getBoundingClientRect().left)
   expect(after).toBeGreaterThan(before)
 })
@@ -114,13 +118,14 @@ test('brand fonts load', async ({ page }) => {
   for (const [face, loaded] of checks) expect(loaded, face as string).toBe(true)
 })
 
-test('contact form has every field from the design', async ({ page }) => {
+test('contact form has every field from the design', async ({ page }, testInfo) => {
   await page.goto('/')
+  test.skip(testInfo.project.name === 'mobile', 'phones show a Contact Us button instead')
   const form = page.locator('section[aria-labelledby="contact-heading"] form')
-  for (const label of ['Name', 'Company name', 'Contact no', 'Email', 'Message']) {
+  for (const label of ['Name', 'Email', 'Contact No', 'Attachment Link', 'Message']) {
     await expect(form.getByLabel(label, { exact: true })).toBeVisible()
   }
-  await expect(form.getByRole('button', { name: 'Send Message' })).toBeVisible()
+  await expect(form.getByRole('button', { name: 'Submit' })).toBeVisible()
 })
 
 test('about intro photo sits beside the statement on desktop', async ({ page }, testInfo) => {
@@ -132,4 +137,37 @@ test('about intro photo sits beside the statement on desktop', async ({ page }, 
   expect(photo!.y).toBeCloseTo(card!.y, 0)
   expect(photo!.x).toBeGreaterThan(card!.x + card!.width)
   expect(photo!.height).toBeCloseTo(780, 0)
+})
+
+test('Schedule a Call opens the contact page with the full form', async ({ page }, testInfo) => {
+  await page.goto('/')
+  if (testInfo.project.name === 'mobile')
+    await page.getByRole('button', { name: 'Open menu' }).click()
+  await page.getByRole('link', { name: 'Schedule a Call' }).locator('visible=true').first().click()
+  await expect(page).toHaveURL(/\/contact-us$/)
+  await expect(page).toHaveTitle('Contact Us')
+  for (const label of ['Name', 'Email', 'Contact No', 'Attachment Link', 'Message']) {
+    await expect(page.getByLabel(label, { exact: true })).toBeVisible()
+  }
+  await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible()
+})
+
+test('get in touch shows a Contact Us button instead of the form on phones', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'phone-only layout')
+  await page.goto('/')
+  const section = page.locator('section[aria-labelledby="contact-heading"]')
+  await expect(section.locator('form')).toBeHidden()
+  await section.getByRole('link', { name: 'Contact Us' }).click()
+  await expect(page).toHaveURL(/\/contact-us$/)
+})
+
+test('mobile menu closes when tapping outside it', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'hamburger is mobile-only')
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await expect(page.getByRole('link', { name: 'Offerings', exact: true })).toBeVisible()
+  await page.mouse.click(40, 600)
+  await expect(page.getByRole('link', { name: 'Offerings', exact: true })).toBeHidden()
 })

@@ -1,5 +1,5 @@
 /*
- * Per-page <title> and meta description — used by <Seo> in the browser and written into the
+ * Per-page <title> and meta description (copied from the live Webflow site) — used by <Seo> in the browser and written into the
  * prerendered HTML by scripts/prerender.mjs, so crawlers see them without running JavaScript.
  */
 export type PageMeta = { path: string; title: string; description: string }
@@ -7,20 +7,26 @@ export type PageMeta = { path: string; title: string; description: string }
 export const pageMeta = {
   home: {
     path: '/',
-    title: 'Alvyl',
+    title: 'Alvyl - Human & Meaningful',
     description:
-      'Alvyl is a team of builders delivering end-to-end product design, site reliability engineering, agentic AI and IoT & machine learning — startup speed with enterprise impact.',
+      'We create genuine experiences that meet real needs. From MVPs to enterprise solutions—Site Reliability, Agentic AI, IoT & Machine Learning.',
   },
   about: {
     path: '/about',
-    title: 'About us | Alvyl',
+    title: 'Alvyl - About',
     description:
-      'Meet Alvyl: launched in 2020, 40+ people who believe technology should simplify life — why we started, our promise and the team behind the work.',
+      'Founded in 2020 with 40+ employees, Alvyl innovates digital solutions for contract caterers. We prioritize customer satisfaction and sustainability.',
   },
   offerings: {
     path: '/offerings',
-    title: 'Offerings | Alvyl',
+    title: 'Alvyl - Offerings',
     description:
-      'Alvyl’s digital design studio: UX/UI design, development, brand identity and ongoing support — with measurable results and 24/7 priority care.',
+      'Clarity, empathy, and rhythm built into everything we touch. Explore our UX/UI design, development, brand identity, and ongoing support services.',
+  },
+  contact: {
+    path: '/contact-us',
+    title: 'Contact Us',
+    description:
+      'Have a question, idea, or project? Contact Alvyl Consulting today. Reach us at hello@alvyl.com or +91 98278 28912 to discuss your unique success story.',
   },
 } satisfies Record<string, PageMeta>

@@ -435,20 +435,6 @@
    ]
   ]
  },
- "/assets/offerings/calculator.jpg": {
-  "width": 322,
-  "height": 346,
-  "variants": [
-   [
-    320,
-    "/_img/offerings/calculator-320.webp"
-   ],
-   [
-    322,
-    "/_img/offerings/calculator-322.webp"
-   ]
-  ]
- },
  "/assets/offerings/hero-studio.jpg": {
   "width": 680,
   "height": 780,
@@ -471,45 +457,85 @@
    ]
   ]
  },
- "/assets/offerings/mockup-hand.jpg": {
-  "width": 329,
-  "height": 329,
+ "/assets/offerings/ordinary-allocation.jpg": {
+  "width": 900,
+  "height": 900,
   "variants": [
    [
     320,
-    "/_img/offerings/mockup-hand-320.webp"
+    "/_img/offerings/ordinary-allocation-320.webp"
    ],
    [
-    329,
-    "/_img/offerings/mockup-hand-329.webp"
+    480,
+    "/_img/offerings/ordinary-allocation-480.webp"
+   ],
+   [
+    640,
+    "/_img/offerings/ordinary-allocation-640.webp"
+   ],
+   [
+    900,
+    "/_img/offerings/ordinary-allocation-900.webp"
    ]
   ]
  },
- "/assets/offerings/mockup-stack.jpg": {
-  "width": 329,
-  "height": 329,
+ "/assets/offerings/ordinary-investments.jpg": {
+  "width": 900,
+  "height": 900,
   "variants": [
    [
     320,
-    "/_img/offerings/mockup-stack-320.webp"
+    "/_img/offerings/ordinary-investments-320.webp"
    ],
    [
-    329,
-    "/_img/offerings/mockup-stack-329.webp"
+    480,
+    "/_img/offerings/ordinary-investments-480.webp"
+   ],
+   [
+    640,
+    "/_img/offerings/ordinary-investments-640.webp"
+   ],
+   [
+    900,
+    "/_img/offerings/ordinary-investments-900.webp"
    ]
   ]
  },
- "/assets/offerings/mockup-wealth.jpg": {
-  "width": 329,
-  "height": 320,
+ "/assets/offerings/selected-work.png": {
+  "width": 550,
+  "height": 336,
   "variants": [
    [
     320,
-    "/_img/offerings/mockup-wealth-320.webp"
+    "/_img/offerings/selected-work-320.webp"
    ],
    [
-    329,
-    "/_img/offerings/mockup-wealth-329.webp"
+    480,
+    "/_img/offerings/selected-work-480.webp"
+   ],
+   [
+    550,
+    "/_img/offerings/selected-work-550.webp"
+   ]
+  ]
+ },
+ "/assets/partners/brandbass.png": {
+  "width": 176,
+  "height": 51,
+  "variants": [
+   [
+    176,
+    "/_img/partners/brandbass-176.webp"
+   ]
+  ]
+ },
+ "/assets/partners/britive.png": {
+  "width": 160,
+  "height": 48,
+  "variants": [
+   [
+    160,
+    "/_img/partners/britive-160.webp"
    ]
   ]
  },
@@ -551,23 +577,33 @@
    ]
   ]
  },
- "/assets/partners/reverie-mark.png": {
+ "/assets/partners/reunify.png": {
   "width": 160,
-  "height": 48,
+  "height": 64,
   "variants": [
    [
     160,
-    "/_img/partners/reverie-mark-160.webp"
+    "/_img/partners/reunify-160.webp"
    ]
   ]
  },
- "/assets/partners/reverie-word.png": {
+ "/assets/partners/reverie.png": {
+  "width": 96,
+  "height": 40,
+  "variants": [
+   [
+    96,
+    "/_img/partners/reverie-96.webp"
+   ]
+  ]
+ },
+ "/assets/partners/tagbox.png": {
   "width": 160,
-  "height": 48,
+  "height": 72,
   "variants": [
    [
     160,
-    "/_img/partners/reverie-word-160.webp"
+    "/_img/partners/tagbox-160.webp"
    ]
   ]
  },

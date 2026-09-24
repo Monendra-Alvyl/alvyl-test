@@ -2,20 +2,27 @@ import { useState, type ReactNode } from 'react'
 import { Icon } from '@/components/ui/Icon'
 import { Panel } from '@/components/ui/Panel'
 import { ProgressIndicator } from '@/components/ui/ProgressIndicator'
-import { team, type TeamMember } from '@/data/home'
+import { Eyebrow } from '@/components/ui/Eyebrow'
+import { team, teamHeading, type TeamMember } from '@/data/home'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { cn } from '@/lib/cn'
 import { asset } from '@/lib/asset'
 import { Img } from '@/components/ui/Img'
 
-const cardSize = 'h-[480px] w-[334px] shrink-0 snap-start lg:h-[600px] lg:w-[416px]'
+/* On phones the card is narrowed to leave a peek of the next one (and keep the LinkedIn icon on screen). */
+const cardSize =
+  'h-[480px] w-[min(334px,calc(100vw-80px))] shrink-0 snap-start lg:h-[600px] lg:w-[416px]'
 const face = 'absolute inset-0 flex flex-col overflow-clip rounded-[16px] backface-hidden'
 
 function Caption({ person }: { person: TeamMember }) {
   return (
     <div className="from-light-grey/50 to-light-grey/0 p-card-nested relative flex items-end justify-between gap-4 bg-linear-to-t">
-      {/* Roles are hidden for now (not yet wanted from the CMS). */}
-      <p className="text-h3 text-text-dark min-w-0 font-sans font-medium">{person.name}</p>
+      <div className="flex min-w-0 flex-col gap-2">
+        {person.role && (
+          <p className="text-body-sm text-text-ultra-light font-sans font-medium">{person.role}</p>
+        )}
+        <p className="text-h3 text-text-dark font-sans font-medium">{person.name}</p>
+      </div>
       {/* Sits above the full-card flip button so it stays clickable. */}
       {person.linkedin && (
         <a
@@ -63,7 +70,10 @@ function FlipCard({ person }: { person: TeamMember }) {
   )
 
   return (
-    <article aria-label={person.name} className={cn(cardSize, 'relative perspective-[1600px]')}>
+    <article
+      aria-label={person.name}
+      className={cn(cardSize, 'hover-grow relative perspective-[1600px]')}
+    >
       <div
         className={cn(
           'relative size-full transition-transform duration-700 ease-in-out transform-3d motion-reduce:transition-none',
@@ -105,21 +115,74 @@ function FlipCard({ person }: { person: TeamMember }) {
   )
 }
 
-/** Team carousel — flip cards (photo ↔ quote), with a scroll-progress indicator. */
+/** Long thin arrow used by the carousel controls (points right; flipped for "previous"). */
+function LongArrow({ flip = false }: { flip?: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 38 14"
+      fill="none"
+      className={cn('h-[14px] w-[38px]', flip && '-scale-x-100')}
+    >
+      <path d="M0 7h36M30 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+/** "Our People" carousel — flip cards (photo ↔ quote), progress indicator and prev/next arrows. */
 export function Team() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>()
 
+  /** Scrolls the track by one card (card width + 16px gap). */
+  const step = (direction: 1 | -1) => {
+    const track = ref.current
+    const card = track?.querySelector('article')
+    if (!track || !card) return
+    track.scrollBy({ left: direction * (card.offsetWidth + 16), behavior: 'smooth' })
+  }
+
+  const arrow =
+    'text-white opacity-60 transition-[opacity,transform] duration-200 hover:opacity-100 disabled:pointer-events-none disabled:opacity-25'
+
   return (
-    <Panel as="section" aria-label="Our team" className="p-section-inner flex flex-col gap-12">
+    <Panel
+      as="section"
+      aria-label={teamHeading}
+      className="p-section-inner flex flex-col gap-8 md:gap-12"
+    >
+      <Eyebrow>{teamHeading}</Eyebrow>
+      {/* Extra padding keeps cards from being clipped while they grow on hover. */}
       <div
         ref={ref}
-        className="-mr-section-inner flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+        className="-mr-section-inner -my-4 -ml-3 flex snap-x snap-mandatory scroll-pl-3 [scrollbar-width:none] gap-4 overflow-x-auto py-4 pl-3 [&::-webkit-scrollbar]:hidden"
       >
         {team.map((person) => (
           <FlipCard key={person.id} person={person} />
         ))}
       </div>
-      <ProgressIndicator progress={progress} />
+      <div className="flex items-center justify-between">
+        <ProgressIndicator progress={progress} />
+        <div className="flex items-center gap-5">
+          <button
+            type="button"
+            aria-label="Previous team members"
+            onClick={() => step(-1)}
+            disabled={progress <= 0.001}
+            className={cn(arrow, 'hover:-translate-x-[3px]')}
+          >
+            <LongArrow flip />
+          </button>
+          <button
+            type="button"
+            aria-label="Next team members"
+            onClick={() => step(1)}
+            disabled={progress >= 0.999}
+            className={cn(arrow, 'hover:translate-x-[3px]')}
+          >
+            <LongArrow />
+          </button>
+        </div>
+      </div>
     </Panel>
   )
 }

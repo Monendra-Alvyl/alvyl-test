@@ -2,6 +2,7 @@
   {
     "id": "697bc764597029fb59044f5d",
     "name": "Hari Krishna",
+    "role": "Founder",
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/697b9b04220614d8d4f8bbb2_hari.png",
     "imageAlt": "Hari Krishna",
     "linkedin": "https://www.linkedin.com/in/harikrishnaganji",
@@ -10,6 +11,7 @@
   {
     "id": "697bc74cb86d99142812fab6",
     "name": "Navya Ganduri",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/697b9b284d2bfc27ae1eefa8_Navya.png",
     "imageAlt": "Navya Ganduri",
     "linkedin": "https://www.linkedin.com/in/navya-ganduri/",
@@ -18,6 +20,7 @@
   {
     "id": "697bc70f37ea59cabe6b35f5",
     "name": "Raghavan",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a3cd072505568d65b85d18b_image%2030.jpg",
     "imageAlt": "Raghavan",
     "linkedin": "https://www.linkedin.com/in/jayaraghavan-fidel-a23b92240/",
@@ -26,6 +29,7 @@
   {
     "id": "69f5e4ff0acddf4e56b43e8a",
     "name": "Sanjay Munde",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a6b602a499ba4d0c92bd47e_PVEN1721-2.png",
     "imageAlt": "Sanjay Munde",
     "linkedin": "https://www.linkedin.com/in/sanjay-munde-a33bb1134/",
@@ -34,6 +38,7 @@
   {
     "id": "69f5e52b969046dba7e893b4",
     "name": "Pallavi",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a6b192c9158e2e4f731adfb_1a3361e03ec75516afad0df38123948f3384da3a.png",
     "imageAlt": "Pallavi",
     "linkedin": "https://www.linkedin.com/in/pallavi-v-892aa3251/",
@@ -42,6 +47,7 @@
   {
     "id": "69f5e5692796d205e062ff86",
     "name": "Kaushal",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a6b5ef1b6b979f6ad842d02_6ab935dcd572ca89f86faab5c07756905ad41ac4.png",
     "imageAlt": "Kaushal",
     "linkedin": null,
@@ -50,6 +56,7 @@
   {
     "id": "69f5e5878e5ebbe23b103c5e",
     "name": "Aman Sharma",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d7c851b0034d6cc6b06c8_image.png",
     "imageAlt": "Aman Sharma",
     "linkedin": "https://www.linkedin.com/in/aman-sharma-7a63371aa/",
@@ -58,6 +65,7 @@
   {
     "id": "69f5e5a4ce2dc1d502684e6b",
     "name": "Anand Jekka",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d6a952e38b73d1c05b4eb_anan.png",
     "imageAlt": "Anand Jekka",
     "linkedin": null,
@@ -66,6 +74,7 @@
   {
     "id": "69f5e5c12c4ed1c6a033ac5c",
     "name": "Srikanth",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d7548ca8c3dfdf80a58be_ac003e45b7bc3771e585d4e931fc21534f7cf67b.png",
     "imageAlt": "Srikanth",
     "linkedin": "https://www.linkedin.com/in/srikanth-satturi/",
@@ -74,6 +83,7 @@
   {
     "id": "69f5e5d78d3b7cab972680a6",
     "name": "Akash NG",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a6b17c3b4d2459dec6a0c07_852644968fa1f1908f03e3ee6d65268629c1ba3d.png",
     "imageAlt": "Akash NG",
     "linkedin": null,
@@ -82,6 +92,7 @@
   {
     "id": "69f5e5ee66330c2eadfe939d",
     "name": "Sahithi M",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a79ebfbef9e87e7b05604ee_Sahiti.png",
     "imageAlt": "Sahithi M",
     "linkedin": "https://www.linkedin.com/in/sahithi8/",
@@ -90,6 +101,7 @@
   {
     "id": "69f5e60aad274265a80dde17",
     "name": "Lakshmi Narashima",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d73a2f3ba813c920ad6c5_9c2b84066b28510a4d6c01ef866e0f2b4898656f.png",
     "imageAlt": "Lakshmi Narashima",
     "linkedin": "https://www.linkedin.com/in/lakshminarasimha2/",
@@ -98,6 +110,7 @@
   {
     "id": "6a71b41bb861f231b3b39176",
     "name": "Sneha K",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6aad31a8e07fa8dd8e7a9b4a_1000144846.jpg",
     "imageAlt": "Sneha K",
     "linkedin": "https://www.linkedin.com/in/sneha-kawale",
@@ -106,6 +119,7 @@
   {
     "id": "69f5e6455913d16a6999ca95",
     "name": "Kowshik Chemikela",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d8ceeb33b5f38a7e3d195_Kaushik.png",
     "imageAlt": "Kowshik Chemikela",
     "linkedin": "https://www.linkedin.com/in/kowshik-reddy-chemikela-363041200",
@@ -114,6 +128,7 @@
   {
     "id": "69f5e658812b8328bb26f2c7",
     "name": "Laxman S",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d8d796e1f481a2bc1941c_Laxman.png",
     "imageAlt": "Laxman S",
     "linkedin": "https://www.linkedin.com/in/s-lakshman-004ab827b/",
@@ -122,6 +137,7 @@
   {
     "id": "6a71b38e006fa184aa66a06b",
     "name": "Srinivasa Rao Adari",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d8e9146d0ef5550d7298c_Srinu.png",
     "imageAlt": "Srinivasa Rao Adari",
     "linkedin": null,
@@ -130,6 +146,7 @@
   {
     "id": "6a71b3b58ed40f21f030919d",
     "name": "Archiman Sarkar",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d80715c6735fe3284e2e9_Archi.png",
     "imageAlt": "Archiman Sarkar",
     "linkedin": "https://www.linkedin.com/in/archismans/",
@@ -138,6 +155,7 @@
   {
     "id": "6a71b3cca90a974c89efcd1d",
     "name": "Hymanvathi Eemane",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a72d2fb447ea70825e498f6_Hymanvathi.png",
     "imageAlt": "Hymanvathi Eemane",
     "linkedin": null,
@@ -146,6 +164,7 @@
   {
     "id": "6a71b3e42baee3b4ca5f9fd7",
     "name": "Priyanka Murahari",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a71c4df2cc340bb40296535_Priyangk.png",
     "imageAlt": "Priyanka Murahari",
     "linkedin": "https://www.linkedin.com/in/priyanka-m-46b2281a8/",
@@ -154,6 +173,7 @@
   {
     "id": "6a71b3f282c473db9e910a71",
     "name": "Manish Kunder",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a71ca0e235ed76c79bd63b5_Manish%202.png",
     "imageAlt": "Manish Kunder",
     "linkedin": "https://www.linkedin.com/in/manishkunder/",
@@ -162,6 +182,7 @@
   {
     "id": "6a71b403f6404c83c52e9acb",
     "name": "Bhanesh Sai Reddy",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d818582fafe038cafc440_bhanesh.png",
     "imageAlt": "Bhanesh Sai Reddy",
     "linkedin": "https://www.linkedin.com/in/bhanesh-sai-reddy-m-9589a7190",
@@ -170,6 +191,7 @@
   {
     "id": "69f5e625d2c8defecbc3507a",
     "name": "Pranay M",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a22b27c5c0bf516f9f611ef_pranay.jpg",
     "imageAlt": "Pranay M",
     "linkedin": "https://www.linkedin.com/in/pranay2003/",
@@ -178,6 +200,7 @@
   {
     "id": "6a71b488f6404c83c52f8b62",
     "name": "N Monendra",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a72d68ce993151e03788cfe_DSC02893.png",
     "imageAlt": "N Monendra ",
     "linkedin": "https://www.linkedin.com/in/monendra-ningthoujam23/",
@@ -186,6 +209,7 @@
   {
     "id": "6a71b439039fcbd947dd6e4a",
     "name": "Shaik Riyaz",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a71c944bd85fbadca913c4e_Riaz.png",
     "imageAlt": "Shaik Riyaz",
     "linkedin": "https://www.linkedin.com/in/riyaz2715/",
@@ -194,6 +218,7 @@
   {
     "id": "6a71b448039fcbd947dd736e",
     "name": "D Satya Reddy",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a79ebdd5bcc783050322369_satya.png",
     "imageAlt": "D Satya Reddy",
     "linkedin": null,
@@ -202,6 +227,7 @@
   {
     "id": "6a71b45cba2216b4d02819eb",
     "name": "Abhiram G",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6aacf8576e9522859c681c30_Abhi.jpg",
     "imageAlt": "Abhiram G",
     "linkedin": "https://www.linkedin.com/in/abhi-ram-44b792386/",
@@ -210,6 +236,7 @@
   {
     "id": "6a71b46ba90a974c89f0608e",
     "name": "Bhoomika N",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a79ebb7ca08a1f21e6df1bf_bhoomika.png",
     "imageAlt": "Bhoomika N",
     "linkedin": "https://www.linkedin.com/in/bhoomika2325/",
@@ -218,6 +245,7 @@
   {
     "id": "6a71b429493112c774af4434",
     "name": "Sanjay K",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a71ce640c39534a6bc0b0b9_Sanjay%20K.png",
     "imageAlt": "Sanjay K",
     "linkedin": "https://www.linkedin.com/in/sanjay-kothapally-8ab8a4199/",
@@ -226,6 +254,7 @@
   {
     "id": "6a71b496493112c774afd0de",
     "name": "Santosh H",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6ab267c7c5795120449c7a6f_Santosh.png.jpg",
     "imageAlt": "Santosh H",
     "linkedin": "https://www.linkedin.com/in/santoshharthik11/",
@@ -234,6 +263,7 @@
   {
     "id": "6a72d4f3b8934933c7e9f358",
     "name": "Sasank Chintham",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a72d52e1382013d689be7d9_Shasank.png",
     "imageAlt": "Sasank Chintham",
     "linkedin": "https://www.linkedin.com/in/sreesasankreddy",
@@ -242,6 +272,7 @@
   {
     "id": "6a72d50cc2a9f2862de62d33",
     "name": "Anudeep Mergu",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6a7d805582fafe038caeb5f9_anudeep.png",
     "imageAlt": "Anudeep Mergu",
     "linkedin": "https://www.linkedin.com/in/mergu-anudeep",
@@ -250,6 +281,7 @@
   {
     "id": "6ab115f8b6a534a7d802fb87",
     "name": "Suraj Kumar",
+    "role": null,
     "sourceImage": "https://cdn.prod.website-files.com/697b9a711df828d18136918c/6ab115f4e9c34e8bfa0199ff_Suraj.jpg",
     "imageAlt": "Suraj Kumar",
     "linkedin": "https://www.linkedin.com/in/surajkumarofficially/",

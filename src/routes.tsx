@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 import { SiteLayout } from '@/components/layout/SiteLayout'
 import { useLocation } from '@/lib/router'
 import { AboutPage } from '@/pages/about/AboutPage'
+import { ContactPage } from '@/pages/contact/ContactPage'
 import { HomePage } from '@/pages/home/HomePage'
 import { OfferingsPage } from '@/pages/offerings/OfferingsPage'
 
@@ -10,6 +11,7 @@ const pages: Record<string, ComponentType> = {
   '/': HomePage,
   '/about': AboutPage,
   '/offerings': OfferingsPage,
+  '/contact-us': ContactPage,
 }
 
 /** Renders the site shell with the page for the current location (browser and prerender). */
