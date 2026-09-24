@@ -4,7 +4,7 @@ import { asset } from '@/lib/asset'
 
 /*
  * Text field — Figma "Text Fields with Icon" (16:1144) and "Text without Icon" (16:1169).
- *   Size:   Large | Small | Compact (56px contact-form field — Home "Get in touch")
+ *   Size:   Large | Small | Compact (56px contact-form field; Small's Figma typography)
  *   States: Default | While Entering (mapped to :focus-within)
  */
 
@@ -22,14 +22,14 @@ type SharedProps = {
 const container: Record<Size, string> = {
   large: 'rounded-[24px] p-12',
   small: 'rounded-[16px] p-6',
-  compact: 'rounded-[16px] px-6 pt-4 pb-[14px]',
+  compact: 'rounded-[16px] px-6 py-4',
 }
 
 const text: Record<Size, string> = {
   large: 'text-[20px] leading-[1.2] font-light placeholder:text-text-ultra-light',
   small: 'text-[16px] leading-[1.2] font-light placeholder:text-text-ultra-light',
-  /* Placeholder colour #828282 is a one-off in the contact-form design (not a token). */
-  compact: 'text-[18px] leading-6 font-medium placeholder:text-[#828282]',
+  /* Figma "Text without Icon" Small: Forma DJR Micro Light 16/1.2, Ultra Light placeholder. */
+  compact: 'text-[16px] leading-[1.2] font-light placeholder:text-text-ultra-light',
 }
 
 const wrapperBase =
@@ -68,6 +68,7 @@ export function TextField({
         wrapperBase,
         container[size],
         size === 'large' && 'h-[120px] items-start',
+        size === 'compact' && 'h-14',
         size !== 'large' && 'items-center',
         className,
       )}

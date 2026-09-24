@@ -43,7 +43,6 @@ export function FormCta({
           className={cn(
             'font-sans leading-none font-medium whitespace-nowrap',
             isLarge ? 'text-[20px]' : 'text-[16px]',
-            size === 'bar' && 'tracking-[0.05em]',
           )}
         >
           {label}
