@@ -1,0 +1,219 @@
+@import 'tailwindcss';
+@import './fonts.css';
+
+/*
+ * Design tokens — mirrored 1:1 from the Figma variables (file ToZoELMITbcMeaB0kfUhjU).
+ * Responsive tokens have three modes in Figma (Desktop / Tablet / Mobile); they are
+ * expressed here as custom properties that switch at the tablet and desktop breakpoints,
+ * so components use one class (e.g. `text-h2`, `px-side`) across every breakpoint.
+ */
+:root {
+  /* Mobile mode (375 frame) */
+  --fs-h1: 32px;
+  --lh-h1: 36px;
+  --fs-h2: 28px;
+  --lh-h2: 32px;
+  --fs-h3: 20px;
+  --lh-h3: 24px;
+  --fs-h4: 18px;
+  --lh-h4: 24px;
+  --fs-body-lg: 16px;
+  --lh-body-lg: 24px;
+  --fs-body: 14px;
+  --lh-body: 20px;
+  --fs-body-sm: 12px;
+  --lh-body-sm: 20px;
+  --fs-caption: 10px;
+  --lh-caption: 16px;
+
+  --space-side: 16px;
+  --space-section-inner: 24px;
+  --space-card: 24px;
+  --space-card-nested: 16px;
+  --space-section-lg: 48px;
+}
+
+/* Tablet mode (800 frame) */
+@media (min-width: 768px) {
+  :root {
+    --fs-h1: 44px;
+    --lh-h1: 52px;
+    --fs-h2: 40px;
+    --lh-h2: 48px;
+    --fs-h3: 24px;
+    --lh-h3: 30px;
+    --fs-h4: 22px;
+    --lh-h4: 28px;
+    --fs-body-lg: 18px;
+    --lh-body-lg: 26px;
+    --fs-body: 16px;
+    --lh-body: 24px;
+    --fs-body-sm: 14px;
+    --lh-body-sm: 22px;
+    --fs-caption: 12px;
+    --lh-caption: 20px;
+
+    --space-side: 24px;
+    --space-section-inner: 32px;
+    --space-card: 32px;
+    --space-card-nested: 24px;
+    --space-section-lg: 80px;
+  }
+}
+
+/* Desktop mode (1440 frame) */
+@media (min-width: 1024px) {
+  :root {
+    --fs-h1: 56px;
+    --lh-h1: 68px;
+    --fs-h2: 48px;
+    --lh-h2: 54px;
+    --fs-h3: 32px;
+    --lh-h3: 38px;
+    --fs-h4: 24px;
+    --lh-h4: 30px;
+    --fs-body-lg: 20px;
+    --lh-body-lg: 26px;
+    --fs-body: 16px;
+    --lh-body: 24px;
+    --fs-body-sm: 14px;
+    --lh-body-sm: 22px;
+    --fs-caption: 12px;
+    --lh-caption: 20px;
+
+    --space-side: 32px;
+    --space-section-inner: 48px;
+    --space-card: 48px;
+    --space-card-nested: 32px;
+    --space-section-lg: 120px;
+  }
+}
+
+@theme {
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+
+  /* Fonts */
+  --font-display: 'IvyMode', 'Times New Roman', serif;
+  --font-sans: 'Forma DJR Micro', ui-sans-serif, system-ui, sans-serif;
+
+  /* Backgrounds */
+  --color-pitch-black: #000000;
+  --color-dark-grey: #101010;
+  --color-light-grey: #171717;
+
+  /* Strokes */
+  --color-stroke-dark-black: #000000;
+  --color-stroke-dark: #4e4e4e;
+  --color-stroke-light: #1e1e1e;
+  --color-stroke-very-light: #161616;
+
+  /* Buttons */
+  --color-btn-primary: #ffffff;
+  --color-btn-primary-text: #333333;
+  --color-btn-secondary: rgb(0 0 0 / 0.2);
+  --color-btn-secondary-stroke: #ffffff;
+  --color-btn-secondary-text: #ffffff;
+
+  /* Text */
+  --color-text-white: #ffffff;
+  --color-text-dark: #e8e8e8;
+  --color-text-light: #d6d6d6;
+  --color-text-ultra-light: #b5b5b5;
+
+  /* Status */
+  --color-positive: #85c786;
+  --color-negative: #e44d4d;
+  --color-amber: #e4c247;
+
+  /* Icons */
+  --color-icon-white: #ffffff;
+  --color-icon-black: #333333;
+
+  /* Alchemy */
+  --color-alchemy-1: #ce521d;
+  --color-alchemy-2: #ce1d1e;
+}
+
+@theme inline {
+  --text-h1: var(--fs-h1);
+  --text-h1--line-height: var(--lh-h1);
+  --text-h2: var(--fs-h2);
+  --text-h2--line-height: var(--lh-h2);
+  --text-h3: var(--fs-h3);
+  --text-h3--line-height: var(--lh-h3);
+  --text-h4: var(--fs-h4);
+  --text-h4--line-height: var(--lh-h4);
+  --text-body-lg: var(--fs-body-lg);
+  --text-body-lg--line-height: var(--lh-body-lg);
+  --text-body: var(--fs-body);
+  --text-body--line-height: var(--lh-body);
+  --text-body-sm: var(--fs-body-sm);
+  --text-body-sm--line-height: var(--lh-body-sm);
+  --text-caption: var(--fs-caption);
+  --text-caption--line-height: var(--lh-caption);
+
+  --spacing-side: var(--space-side);
+  --spacing-section-inner: var(--space-section-inner);
+  --spacing-card: var(--space-card);
+  --spacing-card-nested: var(--space-card-nested);
+  --spacing-section-lg: var(--space-section-lg);
+}
+
+/*
+ * "Alchemy Gradient" style (#CE521D → #CE1D1E → #CE521D).
+ * Figma defines it as an angular (conic) gradient whose centre sits at 54.5% / 52.1%
+ * of the filled box in every node where it is used.
+ */
+:root {
+  --alchemy-gradient: conic-gradient(
+    from 180deg at 54.5% 52.1%,
+    #ce521d 0%,
+    #ce381e 25%,
+    #ce1d1e 50%,
+    #ce381e 62.5%,
+    #ce521d 75%,
+    #ce521d 100%
+  );
+}
+
+@utility bg-alchemy {
+  background-image: var(--alchemy-gradient);
+}
+
+@utility text-alchemy {
+  background-image: var(--alchemy-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Single-colour SVG icon tinted by `currentColor` (keeps the exported asset untouched). */
+@utility mask-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-pitch-black);
+    color: var(--color-text-white);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-pitch-black);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-text-white);
+    outline-offset: 2px;
+  }
+}

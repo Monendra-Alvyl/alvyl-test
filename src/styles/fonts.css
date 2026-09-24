@@ -1,0 +1,71 @@
+/*
+ * Licensed brand fonts — self-hosted.
+ * Only the cuts actually referenced by the Figma file are declared.
+ * Source kits live in /fonts; the used cuts are copied to /public/fonts.
+ */
+
+/* IvyMode Light — headings (Figma: "Ivy Mode:Light") */
+@font-face {
+  font-family: 'IvyMode';
+  src:
+    url('/fonts/IvyMode-Light.woff2') format('woff2'),
+    url('/fonts/IvyMode-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IvyMode Italic — accent words (Figma: "Ivy Mode:Italic") */
+@font-face {
+  font-family: 'IvyMode';
+  src:
+    url('/fonts/IvyMode-Italic.woff2') format('woff2'),
+    url('/fonts/IvyMode-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IvyMode Thin Italic — accent words (Figma: "Ivy Mode:Thin Italic") */
+@font-face {
+  font-family: 'IvyMode';
+  src:
+    url('/fonts/IvyMode-ThinItalic.woff2') format('woff2'),
+    url('/fonts/IvyMode-ThinItalic.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IvyMode Light Italic — contact-form heading accent (matched by width against pg/Home Desktop.png) */
+@font-face {
+  font-family: 'IvyMode';
+  src:
+    url('/fonts/IvyMode-LightItalic.woff2') format('woff2'),
+    url('/fonts/IvyMode-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Forma DJR Micro Light — form field text (Figma: "Forma DJR Micro:Light") */
+@font-face {
+  font-family: 'Forma DJR Micro';
+  src:
+    url('/fonts/FormaDJRMicro-Light.woff2') format('woff2'),
+    url('/fonts/FormaDJRMicro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Forma DJR Micro Medium — UI / body (Figma: "Forma DJR Micro:Medium") */
+@font-face {
+  font-family: 'Forma DJR Micro';
+  src:
+    url('/fonts/FormaDJRMicro-Medium.woff2') format('woff2'),
+    url('/fonts/FormaDJRMicro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
