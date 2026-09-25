@@ -5,6 +5,10 @@ for (const [name, path] of [
   ['about', '/about'],
   ['offerings', '/offerings'],
   ['contact', '/contact-us'],
+  ['service-product-design', '/services/product-design'],
+  ['service-sre', '/services/site-reliability-engineering'],
+  ['service-agentic-ai', '/services/agentic-ai'],
+  ['service-iot-ml', '/services/iot-machine-learning'],
 ]) {
   test(`${name} renders without horizontal overflow or broken images`, async ({
     page,
@@ -170,4 +174,18 @@ test('mobile menu closes when tapping outside it', async ({ page }, testInfo) =>
   await expect(page.getByRole('link', { name: 'Offerings', exact: true })).toBeVisible()
   await page.mouse.click(40, 600)
   await expect(page.getByRole('link', { name: 'Offerings', exact: true })).toBeHidden()
+})
+
+test('each Home service card opens its own service page', async ({ page }) => {
+  for (const [title, path] of [
+    ['End-to-End Product Design', '/services/product-design'],
+    ['Site Reliability Engineering', '/services/site-reliability-engineering'],
+    ['Agentic AI', '/services/agentic-ai'],
+    ['IoT & Machine Learning', '/services/iot-machine-learning'],
+  ]) {
+    await page.goto('/')
+    await page.getByRole('link', { name: title }).click()
+    await expect(page).toHaveURL((url) => url.pathname === path)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(title.split(' ')[0])
+  }
 })

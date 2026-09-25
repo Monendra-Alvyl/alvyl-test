@@ -3,8 +3,9 @@
 React + Vite + TypeScript + Tailwind CSS v4, built from the Figma file
 `ToZoELMITbcMeaB0kfUhjU` according to `SKILL_with_Figma.md`.
 
-Pages: Home (`/`), About (`/about`), Offerings (`/offerings`), Contact us (`/contact-us`) and a
-"Page not found" page for any other URL.
+Pages: Home (`/`), About (`/about`), Offerings (`/offerings`), Contact us (`/contact-us`), four service
+pages (`/services/product-design`, `/services/site-reliability-engineering`, `/services/agentic-ai`,
+`/services/iot-machine-learning`) and a "Page not found" page for any other URL.
 
 ```bash
 npm install
@@ -87,6 +88,25 @@ Excel, TXT, RTF, ODT; 10 MB max).
   info@alvyl.com. Nothing is delivered until someone clicks its link.
 - Spam protection is a hidden honeypot field. FormSubmit's captcha page is turned off.
 - On phones the "Get in touch" section shows only its heading and a "Contact Us" button to `/contact-us`.
+
+## Service pages
+
+One page per Home service card, all rendered by `src/pages/services/ServicePage.tsx` from
+`src/data/services.ts`. Each card on Home links to its page, and each page gets its own search title
+and description.
+
+- **Sections:** Alchemy hero card with the service art, "What we build" capability tags (Chip style),
+  "How we help" benefit cards (Alchemy hover), a named testimonial when there is one, the other three
+  services, and the contact section.
+- **Content** comes from www.alvyl.com (`/design-service`, `/iot-and-cloud-service`,
+  `/machine-learning-iot`). The design (tokens, fonts, components) follows Figma, not the live site.
+- **To confirm:**
+  - The live site has no Agentic AI page, so that page uses the AI half of `/machine-learning-iot`,
+    and IoT & Machine Learning uses the IoT/cloud half.
+  - Three hero intros are new copy (marked `/* new */` in `src/data/services.ts`).
+  - The live site's anonymous testimonials are left out.
+
+To add a service, add an entry to `services`: the route, the Home card and the search text follow.
 
 ## Page not found (404)
 
@@ -210,7 +230,8 @@ Edited images (keep these edits if the art is re-exported):
 | Contact us (`/contact-us`)                         | Webflow contact page with the Home form; sends email via FormSubmit                                                               |
 | Page not found                                     | Done; prerendered to `404.html` with `noindex`                                                                                    |
 | Case-study carousel                                | Removed from Home (not in the PNGs); component kept in `pages/home/sections/CaseStudies.tsx`                                      |
-| Terms, Privacy, service, case-study, careers pages | Not started (see `feedback.md`)                                                                                                   |
+| Service pages (`/services/*`)                      | Done; content from www.alvyl.com, design from Figma (see "Service pages")                                                         |
+| Terms, Privacy, case-study, careers pages          | Not started (see `feedback.md`)                                                                                                   |
 
 ## Open questions
 
@@ -219,8 +240,8 @@ Edited images (keep these edits if the art is re-exported):
    ("Services"/"Company" headings with no link columns). The duplicated numbers panel on Offer desktop is
    shown once.
 2. **Link targets.** Terms & Conditions, Privacy Policy and the "View Case Study" buttons are still `#`
-   (`src/data/*.ts`). "Schedule a Call" and "Contact Us" go to `/contact-us`. All four service cards go
-   to `/offerings`.
+   (`src/data/*.ts`). "Schedule a Call" and "Contact Us" go to `/contact-us`. Each service card goes to its
+   own `/services/<slug>` page.
 3. **Team data.** The Webflow Teams collection has no quote field, so one stand-in quote is on the back
    of every card. Only one person has a `job-role`.
 4. **Copy to confirm.**

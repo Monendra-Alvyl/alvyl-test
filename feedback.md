@@ -37,12 +37,12 @@ This recheck also found 4 new issues:
 
 ## 2. How this recheck was done
 
-| Skill / tool         | How it was used                                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **design-critique**  | First impression, usability, hierarchy, consistency and accessibility (sections 4–6)                             |
-| **Lighthouse 13.5**  | Mobile and desktop scores for all 5 pages on the production build (`npm run build`, `vite preview`)              |
+| Skill / tool         | How it was used                                                                                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **design-critique**  | First impression, usability, hierarchy, consistency and accessibility (sections 4–6)                                                                                           |
+| **Lighthouse 13.5**  | Mobile and desktop scores for all 5 pages on the production build (`npm run build`, `vite preview`)                                                                            |
 | **Playwright audit** | Every page at 1440px and 375px: text under 12px, tap areas under 44×44px, missing alt text, `#` links, heading order, horizontal scroll, console errors, full-page screenshots |
-| **Code review**      | Each item from the first review checked against `src/data/*`, components and build scripts                       |
+| **Code review**      | Each item from the first review checked against `src/data/*`, components and build scripts                                                                                     |
 
 ---
 
@@ -50,13 +50,13 @@ This recheck also found 4 new issues:
 
 ### Lighthouse (production build)
 
-| Page          | Performance (mobile / desktop) | Accessibility | Best Practices | SEO      | Page weight (mobile) | LCP (mobile) |
-| ------------- | ------------------------------ | ------------- | -------------- | -------- | -------------------- | ------------ |
-| Home          | 96 / 100                       | 100           | 100            | 100      | 368 KiB              | 2.7 s        |
-| About         | 96 / 100                       | 100           | 100            | 100      | 327 KiB              | 2.9 s        |
-| Offerings     | 97 / 100                       | 100           | 100            | 100      | 287 KiB              | 2.6 s        |
-| Contact       | 94 / 100                       | 100           | 100            | 100      | 342 KiB              | 3.0 s        |
-| 404           | 91 / 100                       | 100           | 96             | 66 \*    | 480 KiB              | 3.4 s        |
+| Page      | Performance (mobile / desktop) | Accessibility | Best Practices | SEO   | Page weight (mobile) | LCP (mobile) |
+| --------- | ------------------------------ | ------------- | -------------- | ----- | -------------------- | ------------ |
+| Home      | 96 / 100                       | 100           | 100            | 100   | 368 KiB              | 2.7 s        |
+| About     | 96 / 100                       | 100           | 100            | 100   | 327 KiB              | 2.9 s        |
+| Offerings | 97 / 100                       | 100           | 100            | 100   | 287 KiB              | 2.6 s        |
+| Contact   | 94 / 100                       | 100           | 100            | 100   | 342 KiB              | 3.0 s        |
+| 404       | 91 / 100                       | 100           | 96             | 66 \* | 480 KiB              | 3.4 s        |
 
 CLS is 0–0.001 on every page. The live site measured 28–65 for performance, 82–95 for accessibility and up to 27 MB per page.
 
@@ -66,16 +66,16 @@ CLS is 0–0.001 on every page. The live site measured 28–65 for performance, 
 
 ### Automated audit (all pages, 375px and 1440px)
 
-| Check                     | Result                                                                    |
-| ------------------------- | ------------------------------------------------------------------------- |
-| Text smaller than 12px    | ✅ None                                                                   |
-| Links/buttons under 44×44 | ✅ None                                                                   |
-| Form fields under 44px    | ❌ Text inputs are 19px tall where a tap registers (see §4)               |
-| Images without `alt`      | ✅ None                                                                   |
-| Heading order             | ✅ One `h1` per page, no skipped levels                                   |
-| Horizontal scroll (375px) | ✅ None                                                                   |
-| Console errors            | ✅ None                                                                   |
-| Links to `#`              | ❌ Terms & Conditions, Privacy Policy (every page), 2 case-study buttons  |
+| Check                     | Result                                                                   |
+| ------------------------- | ------------------------------------------------------------------------ |
+| Text smaller than 12px    | ✅ None                                                                  |
+| Links/buttons under 44×44 | ✅ None                                                                  |
+| Form fields under 44px    | ❌ Text inputs are 19px tall where a tap registers (see §4)              |
+| Images without `alt`      | ✅ None                                                                  |
+| Heading order             | ✅ One `h1` per page, no skipped levels                                  |
+| Horizontal scroll (375px) | ✅ None                                                                  |
+| Console errors            | ✅ None                                                                  |
+| Links to `#`              | ❌ Terms & Conditions, Privacy Policy (every page), 2 case-study buttons |
 
 ---
 
@@ -87,17 +87,17 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 
 ### Usability
 
-| Finding | Severity | Recommendation |
-| ------- | -------- | -------------- |
-| Terms & Conditions and Privacy Policy still go to `#`. The form now collects names, emails, phone numbers and documents. | 🔴 Critical (legal) | Publish `/terms` and `/privacy` before launch. The privacy page must say the form is processed by FormSubmit and emailed to info@alvyl.com. |
-| Contact form needs a one-time activation. FormSubmit delivers nothing until the link in its activation email to info@alvyl.com is clicked. | 🔴 Critical until done | Send one test submission from the deployed site and confirm the activation email. |
-| No validation messages for Name, Email, Contact No or Message. Only the browser's default bubbles appear. | 🟡 Moderate | Show a message under each field, with `aria-invalid` and `aria-describedby`. The attachment field already does this. |
-| "Proven results, stunning designs" (Offerings → Selected work) is a heading and a paragraph with no work in it. The "View Case Study" buttons go to `#`. | 🟡 Moderate | Add at least 2 case studies (Silk Worm from the live site first), or hide the panel until they exist. |
-| All four Home service cards go to the same `/offerings` page. That page is titled "Digital Design Studio" and only covers design. | 🟡 Moderate | Give each service its own page (§7, item 5). Until then, retitle Offerings to cover all four services. |
-| The Careers panel (About) has a headline and a photo but no link or button. | 🟡 Moderate | Add a "See open roles" button (email, a careers page or LinkedIn Jobs). |
-| "Schedule a Call" still opens the contact form, not a booking tool. | 🟡 Moderate | Link to Calendly (`calendly.com/hello-chc/coffee-with-alvyl` from the live site, to be confirmed). |
-| The "What we offer" panel's button says "Learn more about us" and goes to `/about`. | 🟢 Minor | Change it to "Explore our services" → `/offerings`. |
-| Contact text fields: only the 19px-tall input inside each 56px field responds to a tap. Tapping the padding does nothing. | 🟢 Minor | Make the whole field clickable: have the `<input>` fill the field (`h-full`), or make the wrapper a `<label>`. |
+| Finding                                                                                                                                                  | Severity               | Recommendation                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Terms & Conditions and Privacy Policy still go to `#`. The form now collects names, emails, phone numbers and documents.                                 | 🔴 Critical (legal)    | Publish `/terms` and `/privacy` before launch. The privacy page must say the form is processed by FormSubmit and emailed to info@alvyl.com. |
+| Contact form needs a one-time activation. FormSubmit delivers nothing until the link in its activation email to info@alvyl.com is clicked.               | 🔴 Critical until done | Send one test submission from the deployed site and confirm the activation email.                                                           |
+| No validation messages for Name, Email, Contact No or Message. Only the browser's default bubbles appear.                                                | 🟡 Moderate            | Show a message under each field, with `aria-invalid` and `aria-describedby`. The attachment field already does this.                        |
+| "Proven results, stunning designs" (Offerings → Selected work) is a heading and a paragraph with no work in it. The "View Case Study" buttons go to `#`. | 🟡 Moderate            | Add at least 2 case studies (Silk Worm from the live site first), or hide the panel until they exist.                                       |
+| ✅ Fixed: each Home service card now opens its own page (`/services/…`). Offerings is still titled "Digital Design Studio" and only covers design.       | 🟢 Minor               | Retitle Offerings to cover all four services, or make it the design page.                                                                   |
+| The Careers panel (About) has a headline and a photo but no link or button.                                                                              | 🟡 Moderate            | Add a "See open roles" button (email, a careers page or LinkedIn Jobs).                                                                     |
+| "Schedule a Call" still opens the contact form, not a booking tool.                                                                                      | 🟡 Moderate            | Link to Calendly (`calendly.com/hello-chc/coffee-with-alvyl` from the live site, to be confirmed).                                          |
+| The "What we offer" panel's button says "Learn more about us" and goes to `/about`.                                                                      | 🟢 Minor               | Change it to "Explore our services" → `/offerings`.                                                                                         |
+| Contact text fields: only the 19px-tall input inside each 56px field responds to a tap. Tapping the padding does nothing.                                | 🟢 Minor               | Make the whole field clickable: have the `<input>` fill the field (`h-full`), or make the wrapper a `<label>`.                              |
 
 ### Visual hierarchy
 
@@ -108,15 +108,15 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 
 ### Consistency
 
-| Element | Issue | Recommendation |
-| ------- | ----- | -------------- |
+| Element            | Issue                                                                                                                                                                                                                           | Recommendation                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | Repeated paragraph | "We move with the agility of a startup and the precision of an enterprise partner…" appears in **Startup Speed** and **Tech is our language** on Home, and again in **Selected work** on Offerings. Visitors read it 2–3 times. | Give "Tech is our language" and "Selected work" their own copy (`src/data/home.ts`, `src/data/offerings.ts`). |
-| Section labels | Three Home sections are all labelled "WHAT WE OFFER": What we offer, Startup Speed and Tech is our language. | Give each its own eyebrow, e.g. "How we work" and "What drives us". |
-| About promise copy | "digital solutions for **contract caterers**" still appears in the "We Promise to…" card and in the About search description. It contradicts the services on every other page. | Rewrite both (`src/data/about.ts`, `src/data/seo.ts`). |
-| Employee count | About says "40+ employees"; the team carousel shows 32 people. | Confirm the number, or add the missing people to the Webflow Teams collection. |
-| Team cards | Only 1 of 32 people has a role, and every card shows the same stand-in quote. | Fill `job-role` and add a `quote` field in Webflow. |
-| ✅ Founded year | Fixed: 2018 on the About page and in its search description. | — |
-| ✅ Customer logos | Fixed: cropped tight, one grey, sized by visual weight. Reverie's source file is only 95×28px and looks slightly soft. | Replace with a larger export, then run `npm run logos`. |
+| Section labels     | Three Home sections are all labelled "WHAT WE OFFER": What we offer, Startup Speed and Tech is our language.                                                                                                                    | Give each its own eyebrow, e.g. "How we work" and "What drives us".                                           |
+| About promise copy | "digital solutions for **contract caterers**" still appears in the "We Promise to…" card and in the About search description. It contradicts the services on every other page.                                                  | Rewrite both (`src/data/about.ts`, `src/data/seo.ts`).                                                        |
+| Employee count     | About says "40+ employees"; the team carousel shows 32 people.                                                                                                                                                                  | Confirm the number, or add the missing people to the Webflow Teams collection.                                |
+| Team cards         | Only 1 of 32 people has a role, and every card shows the same stand-in quote.                                                                                                                                                   | Fill `job-role` and add a `quote` field in Webflow.                                                           |
+| ✅ Founded year    | Fixed: 2018 on the About page and in its search description.                                                                                                                                                                    | —                                                                                                             |
+| ✅ Customer logos  | Fixed: cropped tight, one grey, sized by visual weight. Reverie's source file is only 95×28px and looks slightly soft.                                                                                                          | Replace with a larger export, then run `npm run logos`.                                                       |
 
 ### Accessibility
 
@@ -132,24 +132,24 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 
 ## 5. Status of the first review's items
 
-| #    | Item                                   | Status         | Notes |
-| ---- | -------------------------------------- | -------------- | ----- |
-| 5.1  | Working contact form                   | ✅ Done\*      | FormSubmit emails info@alvyl.com with the document attached (10 MB max) and shows sending/sent states. \*Needs the one-time activation, and per-field messages are still missing. |
-| 5.2  | Terms & Privacy pages                  | ❌ Open        | Links still go to `#`. |
-| 5.3  | Book a call (Calendly)                 | ❌ Open        | "Schedule a Call" still goes to `/contact-us`. |
-| 5.4  | Content contradictions                 | ⚠️ Partly      | Year fixed (2018). "Contract caterers", 40+ vs. 32, and unsourced stats remain. |
-| 5.5  | One page per service                   | ❌ Open        | |
-| 5.6  | Case studies                           | ❌ Open        | |
-| 5.7  | Testimonials                           | ❌ Open        | |
-| 5.8  | Team roles and quotes                  | ❌ Open        | 1 of 32 roles filled; one shared stand-in quote. |
-| 5.9  | Social links                           | ❌ Open        | |
-| 5.10 | Culture story                          | ❌ Open        | |
-| 5.11 | Accessibility fixes                    | ⚠️ Partly      | 12px minimum ✅, 44×44 tap areas ✅. Skip link, visible labels and field errors are open. |
-| 5.12 | SEO extras                             | ⚠️ Partly      | 404 page with `noindex` ✅. Canonical links, `sitemap.xml`, JSON-LD and a 1200×630 share image are open. |
-| 5.13 | Blog / insights                        | — Optional     | |
-| 5.14 | Marquee accent                         | — Optional     | |
-| 5.15 | Customer logos                         | ✅ Done        | See Consistency. |
-| —    | Hero sub-headline                      | ✅ Done        | "Product design, SRE, AI and IoT for startups and enterprises." |
+| #    | Item                   | Status     | Notes                                                                                                                                                                             |
+| ---- | ---------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.1  | Working contact form   | ✅ Done\*  | FormSubmit emails info@alvyl.com with the document attached (10 MB max) and shows sending/sent states. \*Needs the one-time activation, and per-field messages are still missing. |
+| 5.2  | Terms & Privacy pages  | ❌ Open    | Links still go to `#`.                                                                                                                                                            |
+| 5.3  | Book a call (Calendly) | ❌ Open    | "Schedule a Call" still goes to `/contact-us`.                                                                                                                                    |
+| 5.4  | Content contradictions | ⚠️ Partly  | Year fixed (2018). "Contract caterers", 40+ vs. 32, and unsourced stats remain.                                                                                                   |
+| 5.5  | One page per service   | ✅ Done    | 4 pages with content from www.alvyl.com. Agentic AI copy and 3 hero intros to confirm; no named testimonials yet except Ratna Garba (design).                                     |
+| 5.6  | Case studies           | ❌ Open    |                                                                                                                                                                                   |
+| 5.7  | Testimonials           | ❌ Open    |                                                                                                                                                                                   |
+| 5.8  | Team roles and quotes  | ❌ Open    | 1 of 32 roles filled; one shared stand-in quote.                                                                                                                                  |
+| 5.9  | Social links           | ❌ Open    |                                                                                                                                                                                   |
+| 5.10 | Culture story          | ❌ Open    |                                                                                                                                                                                   |
+| 5.11 | Accessibility fixes    | ⚠️ Partly  | 12px minimum ✅, 44×44 tap areas ✅. Skip link, visible labels and field errors are open.                                                                                         |
+| 5.12 | SEO extras             | ⚠️ Partly  | 404 page with `noindex` ✅. Canonical links, `sitemap.xml`, JSON-LD and a 1200×630 share image are open.                                                                          |
+| 5.13 | Blog / insights        | — Optional |                                                                                                                                                                                   |
+| 5.14 | Marquee accent         | — Optional |                                                                                                                                                                                   |
+| 5.15 | Customer logos         | ✅ Done    | See Consistency.                                                                                                                                                                  |
+| —    | Hero sub-headline      | ✅ Done    | "Product design, SRE, AI and IoT for startups and enterprises."                                                                                                                   |
 
 ---
 
@@ -178,7 +178,7 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 **Next sprint**
 
 4. **Proof**: at least 2 case studies (Silk Worm first) and named testimonials. Link the ↑52% and ↑24% stats to them, and hide the empty "Selected work" panel until then.
-5. **Service pages**: one page per service, and point each Home card at its own page.
+5. **Service pages**: done. Confirm the Agentic AI copy and the new hero intros, and add a named testimonial to each page.
 6. **Conversion**:
    - Calendly for "Schedule a Call"
    - a Careers link

@@ -1,5 +1,6 @@
 import teamMembers from './team.generated.json'
 import { asset } from '@/lib/asset'
+import { servicePath, services } from './services'
 
 /*
  * Home page content — copy matches the live Webflow site (alvyl-revamp-site.webflow.io).
@@ -41,32 +42,13 @@ export const whatWeOffer = {
   ] satisfies HeadingSegment[],
   body: 'We take pride in our work and it’s about bringing ideas to life! It’s all about turning dreams into reality.',
   cta: { label: 'Learn more about us', href: '/about' },
-  services: [
-    {
-      number: '01',
-      title: 'End-to-End Product Design',
-      href: '/offerings',
-      image: asset('/assets/home/service-product-design.png'),
-    },
-    {
-      number: '02',
-      title: 'Site Reliability Engineering',
-      href: '/offerings',
-      image: asset('/assets/home/service-sre.png'),
-    },
-    {
-      number: '03',
-      title: 'Agentic AI',
-      href: '/offerings',
-      image: asset('/assets/home/service-agentic-ai.png'),
-    },
-    {
-      number: '04',
-      title: 'IoT & Machine Learning',
-      href: '/offerings',
-      image: asset('/assets/home/service-iot-ml.png'),
-    },
-  ],
+  /* Each card links to its own service page (data/services.ts). */
+  services: services.map(({ number, title, slug, image }) => ({
+    number,
+    title,
+    href: servicePath(slug),
+    image,
+  })),
 }
 
 export const startupSpeed = {

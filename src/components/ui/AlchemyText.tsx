@@ -17,9 +17,20 @@ type AlchemyTextProps = {
 
 /** Accent words in headings, filled with the Alchemy gradient. */
 export function AlchemyText({ children, weight = 'thin-italic' }: AlchemyTextProps) {
-  /* data-accent lets src/lib/accentFonts.ts load the italic faces only when accents are near view. */
+  /*
+   * data-accent lets src/lib/accentFonts.ts load the italic faces only when accents are near view.
+   * The gradient is only painted inside the span's box, so tall italic ascenders ("d", "l") and the
+   * slant past the last letter were cut off. The padding enlarges the painted area; the negative
+   * margin keeps the layout unchanged (vertical inline padding doesn't affect line height).
+   */
   return (
-    <span data-accent className={cn('text-alchemy font-display italic', weights[weight])}>
+    <span
+      data-accent
+      className={cn(
+        'text-alchemy font-display -mr-[0.1em] box-decoration-clone py-[0.15em] pr-[0.1em] italic',
+        weights[weight],
+      )}
+    >
       {children}
     </span>
   )
