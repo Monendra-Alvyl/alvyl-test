@@ -57,7 +57,7 @@ export function Header() {
           open ? 'bg-pitch-black' : 'bg-btn-secondary',
         )}
       >
-        <Link to="/" aria-label="Alvyl home" className="shrink-0" onClick={close}>
+        <Link to="/" aria-label="Alvyl home" className="tap-target shrink-0" onClick={close}>
           <img
             src={asset('/assets/brand/logo.svg')}
             alt="Alvyl"
@@ -71,7 +71,9 @@ export function Header() {
           <ul className="text-body-sm flex items-center gap-6 font-sans font-medium whitespace-nowrap text-white">
             {primaryNav.map((link) => (
               <li key={link.label}>
-                <SmartLink href={link.href}>{link.label}</SmartLink>
+                <SmartLink href={link.href} className="tap-target">
+                  {link.label}
+                </SmartLink>
               </li>
             ))}
           </ul>
@@ -86,7 +88,7 @@ export function Header() {
           aria-controls={menuId}
           aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((value) => !value)}
-          className="-mr-2 flex size-10 items-center justify-center text-white min-[601px]:hidden"
+          className="tap-target -mr-2 flex size-10 items-center justify-center text-white min-[601px]:hidden"
         >
           <MenuIcon open={open} />
         </button>
@@ -102,7 +104,7 @@ export function Header() {
         <ul className="text-body-lg flex flex-col gap-8 px-2 font-sans font-medium text-white">
           {primaryNav.map((link) => (
             <li key={link.label}>
-              <SmartLink href={link.href} onClick={close}>
+              <SmartLink href={link.href} onClick={close} className="tap-target">
                 {link.label}
               </SmartLink>
             </li>

@@ -11,6 +11,8 @@ export type HeadingSegment = { text: string; accent?: boolean }
 export const hero = {
   /* One line on mobile; broken after "team" from the tablet breakpoint. */
   titleLines: ['We’re a team', 'of builders'],
+  /* Says what Alvyl does, under the headline. */
+  subheadline: 'Product design, SRE, AI and IoT for startups and enterprises.',
   /* Per-breakpoint art, cropped from the PNG exports (see README "Assets"). */
   images: {
     mobile: asset('/assets/home/hero-mobile.jpg'),
@@ -182,25 +184,26 @@ export const caseStudies: CaseStudySlide[] = [
   { kind: 'image', image: asset('/assets/home/team-1.png'), alt: 'The Alvyl team' },
 ]
 
+/** width/height: the cropped file's pixel size (printed by npm run logos); only the ratio is used. */
 export type CustomerLogo = { name: string; src: string; width: number; height: number }
 
-/* Order and rendered sizes as on the Webflow site. */
+/* Order as on the Webflow site. The strip sizes each logo from its aspect ratio (CustomersStrip.tsx). */
 export const customers = {
   eyebrow: 'Customers',
   logos: [
-    { name: 'Cloudnine', src: asset('/assets/partners/cloudnine.png'), width: 153, height: 40 },
-    { name: 'Napkin', src: asset('/assets/partners/napkin.png'), width: 125, height: 40 },
-    { name: 'Vocera', src: asset('/assets/partners/vocera.png'), width: 153, height: 40 },
-    { name: 'Ratnagarba', src: asset('/assets/partners/ratnagarba.png'), width: 153, height: 40 },
+    { name: 'Cloudnine', src: asset('/assets/partners/cloudnine.png'), width: 429, height: 103 },
+    { name: 'Napkin', src: asset('/assets/partners/napkin.png'), width: 398, height: 114 },
+    { name: 'Vocera', src: asset('/assets/partners/vocera.png'), width: 540, height: 88 },
+    { name: 'Ratnagarba', src: asset('/assets/partners/ratnagarba.png'), width: 192, height: 41 },
     {
       name: 'Reverie Language Technologies',
       src: asset('/assets/partners/reverie.png'),
-      width: 96,
-      height: 40,
+      width: 95,
+      height: 28,
     },
-    { name: 'Britive', src: asset('/assets/partners/britive.png'), width: 120, height: 36 },
-    { name: 'TAGBOX', src: asset('/assets/partners/tagbox.png'), width: 120, height: 54 },
-    { name: 're|unify', src: asset('/assets/partners/reunify.png'), width: 122, height: 49 },
-    { name: 'Brandbass', src: asset('/assets/partners/brandbass.png'), width: 122, height: 35 },
+    { name: 'Britive', src: asset('/assets/partners/britive.png'), width: 159, height: 47 },
+    { name: 'TAGBOX', src: asset('/assets/partners/tagbox.png'), width: 134, height: 57 },
+    { name: 're|unify', src: asset('/assets/partners/reunify.png'), width: 150, height: 58 },
+    { name: 'Brandbass', src: asset('/assets/partners/brandbass.png'), width: 168, height: 34 },
   ] satisfies CustomerLogo[],
 }

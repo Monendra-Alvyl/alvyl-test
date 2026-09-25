@@ -6,9 +6,17 @@ import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { Img } from '@/components/ui/Img'
 
 /**
- * "From ordinary to extraordinary". Desktop: centred statement over an Alchemy disc with two
- * phone mockups in opposite corners. Tablet/phone: statement, then a swipeable mockup carousel.
+ * "From ordinary to extraordinary". Desktop: centred statement with an Alchemy disc over the end of
+ * the headline, two phone mockups in opposite corners. Where the headline crosses the disc its letters
+ * turn black: a black copy of the headline sits on top, clipped to the disc's circle.
+ * Tablet/phone: statement, then a swipeable mockup carousel.
  */
+
+/* Disc size and position relative to the headline box (its top edge, near its right end). */
+const DISC = 180
+const discLeft = 'calc(100% - 50px)'
+const discTop = '-2px'
+const discClip = `circle(${DISC / 2}px at calc(${discLeft} + ${DISC / 2}px) calc(${discTop} + ${DISC / 2}px))`
 export function Ordinary() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>()
   const [topLeft, bottomRight] = ordinary.mockups
@@ -32,16 +40,30 @@ export function Ordinary() {
         className="absolute right-[48px] bottom-[23px] size-[403px] rounded-[16px] object-cover max-lg:hidden"
         sizes="403px"
       />
-      <div
-        aria-hidden
-        className="bg-alchemy absolute top-[309px] left-[calc(50%+127px)] size-[180px] rounded-full max-lg:hidden"
-      />
-
       <div className="relative flex flex-col gap-4 lg:items-center lg:gap-6 lg:text-center">
-        <h2 id="ordinary-heading" className="font-display text-h1 text-text-dark font-light">
-          <RichHeading lines={ordinary.headline} accentWeight="italic" />
-        </h2>
-        <p className="text-body-lg text-text-ultra-light font-sans font-medium">{ordinary.body}</p>
+        <div className="relative">
+          <div
+            aria-hidden
+            className="bg-alchemy absolute rounded-full max-lg:hidden"
+            style={{ left: discLeft, top: discTop, width: DISC, height: DISC }}
+          />
+          <h2
+            id="ordinary-heading"
+            className="font-display text-h1 text-text-dark relative font-light"
+          >
+            <RichHeading lines={ordinary.headline} />
+          </h2>
+          <p
+            aria-hidden
+            className="font-display text-h1 text-pitch-black absolute inset-0 font-light max-lg:hidden"
+            style={{ clipPath: discClip }}
+          >
+            <RichHeading lines={ordinary.headline} />
+          </p>
+        </div>
+        <p className="text-body-lg text-text-ultra-light relative font-sans font-light">
+          {ordinary.body}
+        </p>
       </div>
 
       {/* Tablet / phone carousel */}

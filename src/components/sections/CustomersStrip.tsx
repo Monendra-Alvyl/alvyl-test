@@ -1,7 +1,20 @@
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Img } from '@/components/ui/Img'
-import { customers } from '@/data/home'
+import { customers, type CustomerLogo } from '@/data/home'
 import { cn } from '@/lib/cn'
+
+/*
+ * Every logo gets the same visual area rather than the same height, so wide wordmarks and compact
+ * marks look equally big: width × height ≈ LOGO_AREA px², with the height capped at MAX_HEIGHT.
+ */
+const LOGO_AREA = 4800
+const MAX_HEIGHT = 44
+
+function displaySize({ width, height }: CustomerLogo) {
+  const ratio = width / height
+  const h = Math.min(MAX_HEIGHT, Math.sqrt(LOGO_AREA / ratio))
+  return { width: Math.round(h * ratio), height: Math.round(h) }
+}
 
 function LogoList({ duplicate = false }: { duplicate?: boolean }) {
   return (
@@ -9,19 +22,21 @@ function LogoList({ duplicate = false }: { duplicate?: boolean }) {
       aria-hidden={duplicate || undefined}
       className={cn('flex shrink-0 items-center gap-20 pr-20', duplicate && 'motion-reduce:hidden')}
     >
-      {customers.logos.map((logo) => (
-        <li key={logo.name} className="shrink-0">
-          <Img
-            src={logo.src}
-            alt={duplicate ? '' : logo.name}
-            width={logo.width}
-            height={logo.height}
-            sizes={`${logo.width}px`}
-            style={{ width: logo.width, height: logo.height }}
-            className="max-w-none object-cover"
-          />
-        </li>
-      ))}
+      {customers.logos.map((logo) => {
+        const size = displaySize(logo)
+        return (
+          <li key={logo.name} className="shrink-0">
+            <Img
+              src={logo.src}
+              alt={duplicate ? '' : logo.name}
+              {...size}
+              sizes={`${size.width}px`}
+              style={size}
+              className="max-w-none object-contain"
+            />
+          </li>
+        )
+      })}
     </ul>
   )
 }

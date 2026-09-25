@@ -134,7 +134,7 @@ export function ContactForm({
               <button
                 type="button"
                 onClick={clearFile}
-                className="text-text-ultra-light hover:text-text-dark shrink-0 font-sans text-[14px] underline"
+                className="tap-target text-text-ultra-light hover:text-text-dark shrink-0 font-sans text-[14px] underline"
               >
                 Remove
               </button>

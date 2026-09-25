@@ -55,7 +55,7 @@
   "variants": [
    [
     262,
-    "/_img/about/promise-peace-b538beba-262.webp"
+    "/_img/about/promise-peace-26b9d3fc-262.webp"
    ]
   ]
  },
@@ -435,6 +435,32 @@
    ]
   ]
  },
+ "/assets/offerings/goal-rings.png": {
+  "width": 1024,
+  "height": 1024,
+  "variants": [
+   [
+    320,
+    "/_img/offerings/goal-rings-e03b78fe-320.webp"
+   ],
+   [
+    480,
+    "/_img/offerings/goal-rings-e03b78fe-480.webp"
+   ],
+   [
+    640,
+    "/_img/offerings/goal-rings-e03b78fe-640.webp"
+   ],
+   [
+    960,
+    "/_img/offerings/goal-rings-e03b78fe-960.webp"
+   ],
+   [
+    1024,
+    "/_img/offerings/goal-rings-e03b78fe-1024.webp"
+   ]
+  ]
+ },
  "/assets/offerings/hero-studio.jpg": {
   "width": 680,
   "height": 780,
@@ -520,108 +546,108 @@
   ]
  },
  "/assets/partners/brandbass.png": {
-  "width": 176,
-  "height": 51,
+  "width": 168,
+  "height": 34,
   "variants": [
    [
-    176,
-    "/_img/partners/brandbass-43b5800a-176.webp"
+    168,
+    "/_img/partners/brandbass-0060a94d-168.webp"
    ]
   ]
  },
  "/assets/partners/britive.png": {
-  "width": 160,
-  "height": 48,
+  "width": 159,
+  "height": 47,
   "variants": [
    [
-    160,
-    "/_img/partners/britive-253e6bbf-160.webp"
+    159,
+    "/_img/partners/britive-afeb4826-159.webp"
    ]
   ]
  },
  "/assets/partners/cloudnine.png": {
-  "width": 439,
-  "height": 115,
+  "width": 429,
+  "height": 103,
   "variants": [
    [
     320,
-    "/_img/partners/cloudnine-ae76ed10-320.webp"
+    "/_img/partners/cloudnine-0e9b8ef3-320.webp"
    ],
    [
-    439,
-    "/_img/partners/cloudnine-ae76ed10-439.webp"
+    429,
+    "/_img/partners/cloudnine-0e9b8ef3-429.webp"
    ]
   ]
  },
  "/assets/partners/napkin.png": {
   "width": 398,
-  "height": 127,
+  "height": 114,
   "variants": [
    [
     320,
-    "/_img/partners/napkin-6031c698-320.webp"
+    "/_img/partners/napkin-a9e13f72-320.webp"
    ],
    [
     398,
-    "/_img/partners/napkin-6031c698-398.webp"
+    "/_img/partners/napkin-a9e13f72-398.webp"
    ]
   ]
  },
  "/assets/partners/ratnagarba.png": {
-  "width": 200,
-  "height": 55,
+  "width": 192,
+  "height": 41,
   "variants": [
    [
-    200,
-    "/_img/partners/ratnagarba-c43a65e1-200.webp"
+    192,
+    "/_img/partners/ratnagarba-e3608d1e-192.webp"
    ]
   ]
  },
  "/assets/partners/reunify.png": {
-  "width": 160,
-  "height": 64,
+  "width": 150,
+  "height": 58,
   "variants": [
    [
-    160,
-    "/_img/partners/reunify-47b89282-160.webp"
+    150,
+    "/_img/partners/reunify-3756ae90-150.webp"
    ]
   ]
  },
  "/assets/partners/reverie.png": {
-  "width": 96,
-  "height": 40,
+  "width": 95,
+  "height": 28,
   "variants": [
    [
-    96,
-    "/_img/partners/reverie-23b00dae-96.webp"
+    95,
+    "/_img/partners/reverie-73365dc4-95.webp"
    ]
   ]
  },
  "/assets/partners/tagbox.png": {
-  "width": 160,
-  "height": 72,
+  "width": 134,
+  "height": 57,
   "variants": [
    [
-    160,
-    "/_img/partners/tagbox-e71d83c3-160.webp"
+    134,
+    "/_img/partners/tagbox-af0793eb-134.webp"
    ]
   ]
  },
  "/assets/partners/vocera.png": {
-  "width": 600,
-  "height": 600,
+  "width": 540,
+  "height": 88,
   "variants": [
    [
     320,
-    "/_img/partners/vocera-2d6d0e15-320.webp"
+    "/_img/partners/vocera-9d094880-320.webp"
    ],
    [
     480,
-    "/_img/partners/vocera-2d6d0e15-480.webp"
+    "/_img/partners/vocera-9d094880-480.webp"
    ],
    [
-    600,
-    "/_img/partners/vocera-2d6d0e15-600.webp"
+    540,
+    "/_img/partners/vocera-9d094880-540.webp"
    ]
   ]
  },

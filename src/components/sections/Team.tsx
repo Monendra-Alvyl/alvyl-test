@@ -30,7 +30,7 @@ function Caption({ person }: { person: TeamMember }) {
           target="_blank"
           rel="noreferrer"
           aria-label={`${person.name} on LinkedIn`}
-          className="relative z-10 mb-[5px] shrink-0 text-white"
+          className="tap-target z-10 mb-[5px] shrink-0 text-white"
         >
           <Icon name="linkedin" size={28} />
         </a>
@@ -142,7 +142,7 @@ export function Team() {
   }
 
   const arrow =
-    'text-white opacity-60 transition-[opacity,transform] duration-200 hover:opacity-100 disabled:pointer-events-none disabled:opacity-25'
+    'tap-target text-white opacity-60 transition-[opacity,transform] duration-200 hover:opacity-100 disabled:pointer-events-none disabled:opacity-25'
 
   return (
     <Panel

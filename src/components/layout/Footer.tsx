@@ -12,7 +12,7 @@ export function Footer() {
         <p className="font-display text-h2 text-text-dark font-light">
           <RichHeading lines={footer.headline} accentWeight="italic" />
         </p>
-        <Link to="/" aria-label="Alvyl home" className="shrink-0">
+        <Link to="/" aria-label="Alvyl home" className="tap-target shrink-0">
           <img
             src={asset('/assets/brand/logo.svg')}
             alt="Alvyl"
@@ -23,10 +23,10 @@ export function Footer() {
 
       <div className="text-body-lg flex flex-col gap-10 font-sans font-medium md:gap-12 lg:grid lg:grid-cols-[320px_480px_1fr] lg:gap-0">
         <address className="flex flex-wrap gap-x-6 gap-y-6 not-italic lg:flex-col">
-          <a href={`mailto:${footer.email}`} className="text-alchemy">
+          <a href={`mailto:${footer.email}`} className="text-alchemy tap-target">
             {footer.email}
           </a>
-          <a href={`tel:${footer.phone.replace(/\s/g, '')}`} className="text-alchemy">
+          <a href={`tel:${footer.phone.replace(/\s/g, '')}`} className="text-alchemy tap-target">
             {footer.phone}
           </a>
         </address>
@@ -44,7 +44,9 @@ export function Footer() {
         <ul className="text-text-white flex gap-6">
           {footer.legal.map((link) => (
             <li key={link.label}>
-              <a href={link.href}>{link.label}</a>
+              <a href={link.href} className="tap-target">
+                {link.label}
+              </a>
             </li>
           ))}
         </ul>

@@ -23,7 +23,8 @@
   --lh-body: 20px;
   --fs-body-sm: 12px;
   --lh-body-sm: 20px;
-  --fs-caption: 10px;
+  /* 12px minimum on phones (the design has 10px, too small to read). */
+  --fs-caption: 12px;
   --lh-caption: 16px;
 
   --space-side: 16px;
@@ -198,6 +199,23 @@
 }
 
 /* Single-colour SVG icon tinted by `currentColor` (keeps the exported asset untouched). */
+/*
+ * Touch target of at least 44×44px, centred on the element, without changing its visual size or the
+ * layout: an invisible ::after box (clicks on it go to the element).
+ */
+@utility tap-target {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
 @utility mask-icon {
   display: inline-block;
   flex-shrink: 0;

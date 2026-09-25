@@ -34,6 +34,9 @@ export function Hero() {
             </span>
           ))}
         </h1>
+        <p className="text-body-lg text-text-light max-w-[34ch] font-sans md:max-w-none">
+          {hero.subheadline}
+        </p>
         <div className="flex flex-col items-start gap-3 md:flex-row md:flex-wrap md:items-center md:gap-4">
           {hero.actions.map((action) => (
             <Button

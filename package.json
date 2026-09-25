@@ -14,7 +14,8 @@
     "webflow:team": "node --env-file-if-exists=.env.local scripts/webflow-team.mjs",
     "predev": "npm run webflow:team && npm run images",
     "prebuild": "npm run webflow:team && npm run images",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "logos": "node scripts/normalize-logos.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

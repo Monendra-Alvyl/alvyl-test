@@ -45,7 +45,7 @@ export const offerNumbers = {
 export const ordinary = {
   headline: [
     [{ text: 'From ordinary' }],
-    [{ text: 'to ' }, { text: 'extraordinary', accent: true }],
+    [{ text: 'to extraordinary' }],
   ] satisfies HeadingSegment[][],
   body: 'Design that’s built to last and grow with your business',
   /* [top-left, bottom-right] in the desktop collage; a swipeable row below desktop. */
@@ -68,6 +68,7 @@ export const goals = {
     { text: 'our priority', accent: true },
   ] satisfies HeadingSegment[],
   body: 'From concept to launch, we’re committed to your success with rapid response times and personalized attention to detail.',
+  /* goal-rings.png is offer-sphere-small.png at full opacity (that file is exported at 50% for Home). */
   cards: [
     {
       /* Broken onto two lines on desktop only, as in the designs. */
@@ -78,12 +79,12 @@ export const goals = {
     {
       titleLines: ['Tailored tweaks', 'for perfection'],
       body: 'Get a complete branding toolkit, including logos, color schemes, and typography. Download assets or share with your team.',
-      image: asset('/assets/home/offer-sphere-small.png'),
+      image: asset('/assets/offerings/goal-rings.png'),
     },
     {
       titleLines: ['Brand kit at your', 'fingertips'],
       body: 'Request custom revisions at any time. We provide up to 5 minor revisions post-launch to keep things looking fresh.',
-      image: asset('/assets/home/offer-sphere-small.png'),
+      image: asset('/assets/offerings/goal-rings.png'),
     },
   ],
 } as const
