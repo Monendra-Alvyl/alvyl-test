@@ -1,8 +1,8 @@
 /*
  * Writes prerendered HTML for every page into dist (after `vite build` and the SSR build of
  * src/entry-server.tsx): dist/index.html, dist/about(/index).html, dist/offerings(/index).html.
- * Each page gets its own <title>, meta description and Open Graph tags. dist/404.html stays the
- * empty client shell, which the browser renders from scratch for unknown URLs.
+ * Each page gets its own <title>, meta description and Open Graph tags. dist/404.html gets the
+ * "Page not found" page (noindex), which GitHub Pages serves with status 404 for unknown URLs.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -10,7 +10,7 @@ import { pathToFileURL } from 'node:url'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(ROOT, 'dist')
-const { render, pageMeta } = await import(
+const { render, pageMeta, notFound } = await import(
   pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js')).href
 )
 
@@ -67,4 +67,14 @@ for (const page of Object.values(pageMeta)) {
   console.log(
     `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
   )
+}
+
+/* 404.html: every path missing from pageMeta renders the NotFound page on the client too. */
+{
+  const body = await render(notFound.path)
+  const html = withMeta(template, notFound)
+    .replace('</head>', '  <meta name="robots" content="noindex" />\n  </head>')
+    .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
+  fs.writeFileSync(path.join(DIST, '404.html'), html)
+  console.log(`[prerender] 404 → dist/404.html (${(body.length / 1024).toFixed(0)} KiB)`)
 }

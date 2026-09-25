@@ -144,8 +144,9 @@ retina screens — replace them with real exports **under the same filenames**:
 2. **Navigation / link targets** — Case Studies, Resources, Culture, Schedule a Call, proposal/discovery
    buttons, case-study/resource links, Terms and Privacy are `#` (`src/data/*.ts`). About and service links
    go to `/about` and `/offerings`.
-3. **Contact form submission** — no endpoint is defined, so submit does nothing yet. No validation or
-   success/error states are designed.
+3. **Contact form submission** — posted to FormSubmit, which emails it (with the attached document, 10 MB max)
+   to info@alvyl.com and redirects back with a success message. The first submission sends a one-time
+   activation email to info@alvyl.com; nothing is delivered until it is confirmed.
 4. **Team quotes** — the Webflow Teams collection has no quote field, so the design's single quote stands
    in on the back of every card. Roles (`job-role`) are fetched-ready but hidden for now.
 5. **Carousels** — swipe/scroll tracks with a progress indicator. Are autoplay or arrow controls intended?

@@ -122,7 +122,7 @@ test('contact form has every field from the design', async ({ page }, testInfo) 
   await page.goto('/')
   test.skip(testInfo.project.name === 'mobile', 'phones show a Contact Us button instead')
   const form = page.locator('section[aria-labelledby="contact-heading"] form')
-  for (const label of ['Name', 'Email', 'Contact No', 'Attachment Link', 'Message']) {
+  for (const label of ['Name', 'Email', 'Contact No', 'Attach document', 'Message']) {
     await expect(form.getByLabel(label, { exact: true })).toBeVisible()
   }
   await expect(form.getByRole('button', { name: 'Submit' })).toBeVisible()
@@ -146,7 +146,7 @@ test('Schedule a Call opens the contact page with the full form', async ({ page 
   await page.getByRole('link', { name: 'Schedule a Call' }).locator('visible=true').first().click()
   await expect(page).toHaveURL(/\/contact-us$/)
   await expect(page).toHaveTitle('Contact Us')
-  for (const label of ['Name', 'Email', 'Contact No', 'Attachment Link', 'Message']) {
+  for (const label of ['Name', 'Email', 'Contact No', 'Attach document', 'Message']) {
     await expect(page.getByLabel(label, { exact: true })).toBeVisible()
   }
   await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible()

@@ -15,7 +15,7 @@ export const pageMeta = {
     path: '/about',
     title: 'Alvyl - About',
     description:
-      'Founded in 2020 with 40+ employees, Alvyl innovates digital solutions for contract caterers. We prioritize customer satisfaction and sustainability.',
+      'Founded in 2018 with 40+ employees, Alvyl innovates digital solutions for contract caterers. We prioritize customer satisfaction and sustainability.',
   },
   offerings: {
     path: '/offerings',
@@ -30,3 +30,10 @@ export const pageMeta = {
       'Have a question, idea, or project? Contact Alvyl Consulting today. Reach us at hello@alvyl.com or +91 98278 28912 to discuss your unique success story.',
   },
 } satisfies Record<string, PageMeta>
+
+/* Unknown URLs — not in pageMeta, so it isn't prerendered as a regular page (see scripts/prerender.mjs). */
+export const notFound = {
+  path: '/404',
+  title: 'Page not found - Alvyl',
+  description: 'The page you’re looking for doesn’t exist or has moved.',
+} satisfies PageMeta

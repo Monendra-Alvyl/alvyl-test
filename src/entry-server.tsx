@@ -5,10 +5,10 @@
 import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { Router } from '@/lib/router'
-import { pageMeta } from './data/seo'
+import { notFound, pageMeta } from './data/seo'
 import { AppRoutes } from './routes'
 
-export { pageMeta }
+export { notFound, pageMeta }
 
 export function render(path: string): string {
   return renderToString(

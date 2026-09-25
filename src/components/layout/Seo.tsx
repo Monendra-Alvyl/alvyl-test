@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { asset } from '@/lib/asset'
 
-type SeoProps = { title: string; description: string }
+type SeoProps = { title: string; description: string; noindex?: boolean }
 
 /** Sets (or creates) a <meta> tag in <head>, keyed by its name/property attribute. */
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -18,7 +18,7 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
  * Per-page document metadata. index.html carries the site-wide defaults (for crawlers that don't
  * run JavaScript); each page updates the same tags so there are never duplicates.
  */
-export function Seo({ title, description }: SeoProps) {
+export function Seo({ title, description, noindex = false }: SeoProps) {
   useEffect(() => {
     document.title = title
     setMeta('name', 'description', description)
@@ -31,7 +31,10 @@ export function Seo({ title, description }: SeoProps) {
     )
     setMeta('name', 'twitter:title', title)
     setMeta('name', 'twitter:description', description)
-  }, [title, description])
+    /* Keep error pages (404) out of search results; remove the tag again on normal pages. */
+    if (noindex) setMeta('name', 'robots', 'noindex')
+    else document.head.querySelector('meta[name="robots"]')?.remove()
+  }, [title, description, noindex])
 
   return null
 }
