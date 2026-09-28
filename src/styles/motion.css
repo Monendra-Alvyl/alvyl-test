@@ -1,0 +1,201 @@
+/*
+ * Home hero motion (hero-section-design.md §4, §7, §9, §11): pinned story layout, screen changes,
+ * entrance animations, the sun pointer (.sun, animated by lib/sun.ts) and the scroll cue. The story
+ * rules only apply when index.html has set [data-story] (motion allowed and WebGL available);
+ * otherwise the hero is the static card.
+ */
+
+/* ------------------------------------------------------------ story layout */
+
+/* 6 screens over 400% of the viewport height; the card is pinned for (section − card). */
+[data-story] .hero-wrap {
+  --hero-card-h: max(520px, calc(100svh - 2 * var(--space-side)));
+  height: max(400svh, calc(var(--hero-card-h) + 300px));
+}
+
+[data-story] .hero-card {
+  position: sticky;
+  top: var(--space-side);
+  height: var(--hero-card-h);
+}
+
+/* Only story mode shows the other screens, the controls, the flock and the sun. */
+:root:not([data-story]) .hero-story-only,
+:root:not([data-story]) .hero-screen:not([data-first]) {
+  display: none;
+}
+
+/* ------------------------------------------------------------ screens */
+
+.hero-screen {
+  opacity: 0;
+  transform: translateY(-16px);
+  pointer-events: none;
+}
+
+/* Incoming text: after a 200ms pause, fades in and settles. */
+.hero-screen[data-state='active'] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition:
+    opacity 1.1s var(--ease-reveal) 0.2s,
+    transform 1.1s var(--ease-reveal) 0.2s;
+}
+
+/* Outgoing text: fades and lifts 16px. */
+.hero-screen[data-state='leaving'] {
+  opacity: 0;
+  transform: translateY(-16px);
+  transition:
+    opacity 0.3s var(--ease-reveal),
+    transform 0.3s var(--ease-reveal);
+}
+
+/* ------------------------------------------------------------ entrance */
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(0.35em);
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Only a transform, so the headline (the LCP element) is readable from the first frame. */
+  .hero-rise {
+    animation: hero-rise 1.1s var(--ease-reveal) both;
+  }
+  .hero-rise + .hero-rise {
+    animation-delay: 120ms;
+  }
+  .hero-fade-up {
+    animation: hero-fade-up 1.1s var(--ease-reveal) both;
+  }
+}
+
+/* ------------------------------------------------------------ sun pointer */
+
+/* Positioned on the mouse by Hero.tsx (transform); fades in and out. */
+.hero-sun {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 130px;
+  margin: -65px 0 0 -65px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.hero-sun[data-on] {
+  opacity: 1;
+}
+
+/*
+ * The halo: a white-hot centre warming into Alchemy orange, inside a soft orange-red glow, a little
+ * off-centre. lib/sun.ts drifts its outline (border-radius) and size (scale); it breathes here.
+ */
+.sun {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 48% 52%,
+    var(--color-text-white) 0 6%,
+    var(--color-alchemy-1) 14%,
+    rgb(206 29 30 / 0.35) 34%,
+    rgb(206 29 30 / 0.12) 52%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  animation: sun-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes sun-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.sun-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Rays: tapered orange-red light, softly blurred. */
+.sun-rays {
+  filter: blur(1.2px);
+}
+
+.sun-core {
+  filter: drop-shadow(0 0 3px rgb(255 255 255 / 0.8));
+}
+
+/* The sun replaces the cursor over the card (mouse only). */
+.hero-card[data-sun] {
+  cursor: none;
+}
+
+/* ------------------------------------------------------------ scroll cue */
+
+/* Layout (flex column, desktop only) comes from Tailwind classes in Hero.tsx. */
+.scroll-cue {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-ultra-light);
+  transition: opacity 0.5s ease;
+}
+
+.scroll-cue-track {
+  position: relative;
+  width: 1px;
+  height: 36px;
+  overflow: hidden;
+  background: var(--color-stroke-dark);
+}
+
+.scroll-cue-track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--alchemy-gradient);
+  transform: translateY(-100%);
+  animation: scroll-cue-draw 2s var(--ease-reveal) infinite;
+}
+
+@keyframes scroll-cue-draw {
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-screen,
+  .hero-screen[data-state] {
+    transition: none;
+  }
+  .sun,
+  .scroll-cue-track::after {
+    animation: none;
+  }
+}

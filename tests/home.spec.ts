@@ -184,8 +184,20 @@ test('each Home service card opens its own service page', async ({ page }) => {
     ['IoT & Machine Learning', '/services/iot-machine-learning'],
   ]) {
     await page.goto('/')
-    await page.getByRole('link', { name: title }).click()
+    /* The numbered card ("01 …"), not the hero story's service screen with the same name. */
+    await page.getByRole('link', { name: new RegExp(`^\\d+ ${title}$`) }).click()
     await expect(page).toHaveURL((url) => url.pathname === path)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(title.split(' ')[0])
   }
+})
+
+test('team cards show each person’s own quote, and cards without one do not flip', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: "Show Hari Krishna's quote" }).click()
+  await expect(
+    page.getByText('Culture is not a perk. It’s the operating system.').first(),
+  ).toBeVisible()
+  await expect(page.getByRole('button', { name: "Show Sanjay Munde's quote" })).toHaveCount(0)
 })

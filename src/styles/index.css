@@ -1,5 +1,12 @@
 @import 'tailwindcss';
 @import './fonts.css';
+@import './motion.css';
+
+/*
+ * `story:` applies when index.html has set the story flag (motion allowed and WebGL available) before
+ * first paint: the Home hero is then the pinned, scroll-driven murmuration (hero-section-design.md).
+ */
+@custom-variant story (&:where([data-story], [data-story] *));
 
 /*
  * Design tokens — mirrored 1:1 from the Figma variables (file ToZoELMITbcMeaB0kfUhjU).
@@ -101,6 +108,9 @@
 
   /* Backgrounds */
   --color-pitch-black: #000000;
+  /* Home hero night sky (a vertical gradient) */
+  --color-sky-top: #101010;
+  --color-sky-bottom: #000000;
   --color-dark-grey: #101010;
   --color-light-grey: #171717;
 
@@ -131,6 +141,9 @@
   /* Icons */
   --color-icon-white: #ffffff;
   --color-icon-black: #333333;
+
+  /* Hero entrance and screen changes */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Partner logo marquee */
   --animate-marquee: marquee 30s linear infinite;

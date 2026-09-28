@@ -78,12 +78,12 @@ export const goals = {
     },
     {
       titleLines: ['Tailored tweaks', 'for perfection'],
-      body: 'Get a complete branding toolkit, including logos, color schemes, and typography. Download assets or share with your team.',
+      body: 'Request custom revisions at any time. We provide up to 5 minor revisions post-launch to keep things looking fresh.',
       image: asset('/assets/offerings/goal-rings.png'),
     },
     {
       titleLines: ['Brand kit at your', 'fingertips'],
-      body: 'Request custom revisions at any time. We provide up to 5 minor revisions post-launch to keep things looking fresh.',
+      body: 'Get a complete branding toolkit, including logos, color schemes, and typography. Download assets or share with your team.',
       image: asset('/assets/offerings/goal-rings.png'),
     },
   ],
@@ -95,6 +95,6 @@ export const selectedWork = {
     [{ text: 'Proven ' }, { text: 'results', accent: true }, { text: ',' }],
     [{ text: 'stunning designs' }],
   ] satisfies HeadingSegment[][],
-  body: 'We move with the agility of a startup and the precision of an enterprise partner — designing, building, and scaling ideas that make a lasting mark.',
+  body: 'From Silk Worm, an IoT sensor product for print machines, to machine learning and IoT for PepsiCo — a look at what we’ve built with our clients.',
   image: asset('/assets/offerings/selected-work.png'),
 }

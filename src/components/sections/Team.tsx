@@ -55,9 +55,31 @@ function Face({
   )
 }
 
-/** Person card: photo on the front, quote on the back. Clicking the card flips it. */
+/**
+ * Person card: photo on the front, the person's own quote on the back. Clicking the card flips it.
+ * People without a quote get a photo-only card that doesn't flip.
+ */
 function FlipCard({ person }: { person: TeamMember }) {
   const [flipped, setFlipped] = useState(false)
+
+  if (!person.quote) {
+    return (
+      <article aria-label={person.name} className={cn(cardSize, 'hover-grow relative')}>
+        <Face hidden={false} className={cn('justify-end', !person.image && 'bg-dark-grey')}>
+          {person.image && (
+            <Img
+              src={person.image}
+              alt={person.imageAlt}
+              decoding="async"
+              className="absolute size-full max-w-none object-cover"
+              sizes="(min-width: 1033px) 416px, 334px"
+            />
+          )}
+          <Caption person={person} />
+        </Face>
+      </article>
+    )
+  }
 
   const flipButton = (
     <button

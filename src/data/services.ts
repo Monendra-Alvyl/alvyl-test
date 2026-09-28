@@ -1,9 +1,8 @@
 /*
  * Service pages (/services/<slug>) — one per Home "What we offer" card.
  * Copy is taken from the live site (www.alvyl.com): /design-service, /iot-and-cloud-service (SRE) and
- * /machine-learning-iot. The live site has no Agentic AI page, so its AI half of /machine-learning-iot
- * is used for Agentic AI and the IoT/cloud half for IoT & Machine Learning. Intros marked "new" are
- * written for this site and should be confirmed.
+ * /machine-learning-iot (all of it goes to IoT & Machine Learning). The live site has no Agentic AI page,
+ * so that service's copy is new, as are the intros marked "new"; both should be confirmed.
  * Only named testimonials are shown (the live site's anonymous quotes are left out).
  */
 import { asset } from '@/lib/asset'
@@ -160,32 +159,47 @@ export const services: Service[] = [
     number: '03',
     title: 'Agentic AI',
     titleLines: ['Agentic AI'],
+    /* new — the live site has no Agentic AI page; all copy for this service is new and should be confirmed */
     intro:
-      'With Alvyl by your side, innovation becomes an exhilarating journey. Our cutting-edge AI technologies, coupled with our unwavering expertise, pave the way for breakthroughs and ignite the spark of imagination.',
+      'AI agents that plan, use your tools and get real work done — from customer support to back-office workflows — with your people in control.',
     image: asset('/assets/home/service-agentic-ai.png'),
     seoTitle: 'Alvyl - Agentic AI',
     seoDescription:
-      'AI solutions from Alvyl: computer vision, neural networks, speech recognition and synthesis, recommendation systems and AI-driven insights.',
+      'AI agents and copilots that plan, use your tools and complete workflows: multi-agent orchestration, tool and API integration, knowledge assistants, guardrails and monitoring.',
     capabilities: [
-      'Computer Vision Solutions',
-      'Neural Networks',
-      'Speech Recognition and Synthesis',
-      'Recommendation Systems',
-      'Predictive Analytics',
-      'Anomaly Detection',
+      'AI Agents & Copilots',
+      'Multi-Agent Orchestration',
+      'Tool & API Integration',
+      'Workflow Automation',
+      'Knowledge Assistants (RAG)',
+      'Guardrails & Human-in-the-Loop',
+      'Agent Evaluation & Monitoring',
+      'Model Selection & Fine-Tuning',
     ],
     benefits: [
       {
-        title: 'Actionable Strategies',
-        body: 'Harness the full potential of your data with Alvyl’s AI-driven insights. Uncover the hidden intricacies of customer behavior, predict demand with uncanny accuracy, and optimize your supply chain with unparalleled precision.',
+        title: 'Work, Not Just Answers',
+        body: 'Our agents take action. They plan the steps, call your systems and finish the task, instead of stopping at a chat reply.',
       },
       {
-        title: 'Stay Ahead',
-        body: 'In a dynamic and fiercely competitive landscape, staying ahead is paramount. We equip you with the tools to surge forward, foreseeing trends, optimizing processes, and delivering unparalleled customer experiences.',
+        title: 'Built Into Your Systems',
+        body: 'We connect agents to the tools you already use — CRMs, ticketing, databases and internal APIs — through secure, permissioned integrations.',
       },
       {
-        title: 'Unlock Your Data',
-        body: 'Data isn’t just numbers; it’s a strategic tool. Our advanced analytics can unlock your data’s potential, helping you identify trends, drive innovation, and stay ahead.',
+        title: 'Grounded in Your Knowledge',
+        body: 'Agents answer from your own documents and data, and show their sources, so responses stay accurate and on-brand.',
+      },
+      {
+        title: 'People Stay in Control',
+        body: 'Approval steps, guardrails and clear limits on what each agent may do, so sensitive actions always get a human check.',
+      },
+      {
+        title: 'Measured and Monitored',
+        body: 'We test agents against real scenarios before launch, then track quality, cost and failures in production and keep improving them.',
+      },
+      {
+        title: 'Start Small, Scale Fast',
+        body: 'We begin with one high-value workflow, prove the result, then extend agents across your teams.',
       },
     ],
   },
@@ -194,14 +208,19 @@ export const services: Service[] = [
     number: '04',
     title: 'IoT & Machine Learning',
     titleLines: ['IoT & Machine', 'Learning'],
-    /* new, from the live page's IoT and cloud blocks */
     intro:
-      'Connected devices, edge computing and secure, scalable cloud infrastructure that grows at your pace.',
+      'With Alvyl by your side, innovation becomes an exhilarating journey. Our cutting-edge AI technologies, coupled with our unwavering expertise, pave the way for breakthroughs and ignite the spark of imagination.',
     image: asset('/assets/home/service-iot-ml.png'),
     seoTitle: 'Alvyl - IoT & Machine Learning',
     seoDescription:
-      'IoT device management, edge computing, data analytics and visualization, cloud application development, cloud management and serverless computing.',
+      'Machine learning and IoT: computer vision, predictive analytics, anomaly detection, IoT device management, edge computing and cloud services.',
     capabilities: [
+      'Computer Vision Solutions',
+      'Neural Networks',
+      'Speech Recognition and Synthesis',
+      'Predictive Analytics',
+      'Recommendation Systems',
+      'Anomaly Detection',
       'IoT Device Management',
       'Edge Computing Services',
       'Data Analytics & Visualization',
@@ -211,16 +230,24 @@ export const services: Service[] = [
     ],
     benefits: [
       {
+        title: 'Unlock Your Data',
+        body: 'Data isn’t just numbers; it’s a strategic tool. Our advanced analytics can unlock your data’s potential, helping you identify trends, drive innovation, and stay ahead.',
+      },
+      {
         title: 'Flexible Growth',
         body: 'Our Cloud services offer you the flexibility to grow at your pace. Secure, scalable infrastructure meets your needs, saving time and cost. You only pay for what you use.',
       },
       {
-        title: 'Security Comes First',
-        body: 'We prioritize your data’s safety. Our security measures protect your IoT devices and Cloud infrastructure. With Alvyl, focus on your core business; we’ve got your security covered.',
+        title: 'Actionable Strategies',
+        body: 'Harness the full potential of your data with Alvyl’s AI-driven insights. Uncover the hidden intricacies of customer behavior, predict demand with uncanny accuracy, and optimize your supply chain with unparalleled precision.',
       },
       {
-        title: 'Unlock Your Data',
-        body: 'Data isn’t just numbers; it’s a strategic tool. Our advanced analytics can unlock your data’s potential, helping you identify trends, drive innovation, and stay ahead.',
+        title: 'Stay Ahead',
+        body: 'In a dynamic and fiercely competitive landscape, staying ahead is paramount. We equip you with the tools to surge forward, foreseeing trends, optimizing processes, and delivering unparalleled customer experiences.',
+      },
+      {
+        title: 'Security Comes First',
+        body: 'We prioritize your data’s safety. Our security measures protect your IoT devices and Cloud infrastructure. With Alvyl, focus on your core business; we’ve got your security covered.',
       },
     ],
   },

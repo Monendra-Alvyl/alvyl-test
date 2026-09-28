@@ -13,14 +13,20 @@ export const hero = {
   /* One line on mobile; broken after "team" from the tablet breakpoint. */
   titleLines: ['We’re a team', 'of builders'],
   /* Says what Alvyl does, under the headline. */
-  subheadline: 'Product design, SRE, AI and IoT for startups and enterprises.',
-  /* Per-breakpoint art, cropped from the PNG exports (see README "Assets"). */
-  images: {
-    mobile: asset('/assets/home/hero-mobile.jpg'),
-    tablet: asset('/assets/home/hero-tablet.jpg'),
-    desktop: asset('/assets/home/hero-desktop.jpg'),
-  },
+  subheadline: 'Product design, SRE, agentic AI and IoT for startups and enterprises.',
   actions: [{ label: 'Schedule a discovery call', href: '/contact-us', variant: 'primary' }],
+  /* The murmuration story's service screens use whatWeOffer.services; this is its last screen. */
+  serviceEyebrow: 'What we offer',
+  finale: {
+    headline: 'Let’s build something together',
+    action: { label: 'Schedule a discovery call', href: '/contact-us' },
+  },
+  controls: {
+    scroll: 'Scroll',
+    skip: 'Skip intro',
+    pause: 'Pause background animation',
+    play: 'Play background animation',
+  },
 } as const
 
 export const whyWeExist = {
@@ -52,7 +58,7 @@ export const whatWeOffer = {
 }
 
 export const startupSpeed = {
-  eyebrow: 'what we offer',
+  eyebrow: 'Our approach',
   headline: [
     [{ text: 'Startup ' }, { text: 'Speed', accent: true }, { text: '.' }],
     [{ text: 'Enterprise ' }, { text: 'Impact', accent: true }, { text: '.' }],
@@ -80,12 +86,13 @@ export const stats = [
 ]
 
 export const techIntent = {
-  eyebrow: 'what we offer',
+  eyebrow: 'What drives us',
   headline: [
     [{ text: 'Tech', accent: true }, { text: ' is our language.' }],
     [{ text: 'Humanity', accent: true }, { text: ' is intent.' }],
   ] satisfies HeadingSegment[][],
-  body: 'We move with the agility of a startup and the precision of an enterprise partner by designing, building, and scaling ideas that make a lasting mark.',
+  /* "People first tech studio" is the tagline of the original site (www.alvyl.com). */
+  body: 'We’re a people first tech studio. Technology is how we build; people are why — so what we make feels simple, human and genuinely useful.',
   image: asset('/assets/home/offer-sphere-large.png'),
 }
 
@@ -97,8 +104,19 @@ export const techIntent = {
  * The CMS has no quote field and the design only has Raghava's quote, so it stands in on the back of
  * every card until real quotes are available (see README open questions).
  */
-const placeholderQuote =
-  "Success is often achieved by those who don't know that failure is inevitable."
+/*
+ * Personal quotes from the original site (www.alvyl.com), keyed by the name in the Webflow Teams
+ * collection. People without a quote here get a card that doesn't flip. The original site's "Sanjay"
+ * quote ("All you gotta do is chill out. Let go of control and chill.") is left out until we know which
+ * of the two Sanjays said it. Move these to a Webflow "quote" field when it exists.
+ */
+const teamQuotes: Record<string, string> = {
+  'Hari Krishna': 'Culture is not a perk. It’s the operating system.',
+  'Navya Ganduri': 'Success is often achieved by those who don’t know that failure is inevitable.',
+  Raghavan: 'Take things easy – don’t get stressed out.',
+  Pallavi:
+    'You cannot mandate productivity; you must provide the tools to let people become their best.',
+}
 
 /** Flip card: photo on the front, quote on the back. */
 export type TeamMember = {
@@ -109,15 +127,35 @@ export type TeamMember = {
   image: string | null
   imageAlt: string
   linkedin: string | null
-  quote: string
+  /** The person's own quote (back of the card); null when we don't have one. */
+  quote: string | null
 }
 
 export const teamHeading = 'Our People'
 
 export const team: TeamMember[] = teamMembers.map((member) => ({
   ...member,
-  quote: placeholderQuote,
+  quote: teamQuotes[member.name] ?? null,
 }))
+
+/*
+ * "How we work" (Home). Copy from the original site (www.alvyl.com): its "Great products need great
+ * builders" headline, "Amazing products…" intro and the "Why our builders?" culture line, with the
+ * founder's own quote.
+ */
+export const howWeWork = {
+  eyebrow: 'How we work',
+  headline: [
+    { text: 'Great products need ' },
+    { text: 'great builders', accent: true },
+    { text: '.' },
+  ] satisfies HeadingSegment[],
+  paragraphs: [
+    'Amazing products are coming up every day, but often they lack the right builders to make them functional and beautiful.',
+    'Our builders are friendly and passionate, ready to take up any challenge. People with whom you can code, talk football, go cycling, and watch House of the Dragon.',
+  ],
+  quote: { text: teamQuotes['Hari Krishna'], name: 'Hari Krishna', role: 'Founder' },
+}
 
 export const contact = {
   eyebrow: 'Get in touch',

@@ -101,9 +101,9 @@ and description.
 - **Content** comes from www.alvyl.com (`/design-service`, `/iot-and-cloud-service`,
   `/machine-learning-iot`). The design (tokens, fonts, components) follows Figma, not the live site.
 - **To confirm:**
-  - The live site has no Agentic AI page, so that page uses the AI half of `/machine-learning-iot`,
-    and IoT & Machine Learning uses the IoT/cloud half.
-  - Three hero intros are new copy (marked `/* new */` in `src/data/services.ts`).
+  - The live site has no Agentic AI page, so all Agentic AI copy (AI agents, orchestration, tool
+    integration, guardrails) is new. IoT & Machine Learning uses the whole `/machine-learning-iot` page.
+  - The Product Design and SRE hero intros are new copy (marked `/* new */` in `src/data/services.ts`).
   - The live site's anonymous testimonials are left out.
 
 To add a service, add an entry to `services`: the route, the Home card and the search text follow.
@@ -222,16 +222,16 @@ Edited images (keep these edits if the art is re-exported):
 
 ## Status
 
-| Area                                               | Status                                                                                                                            |
-| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Tokens, fonts, Button / Field / CTA / Chip         | Built from the Figma style guide (16:858)                                                                                         |
-| Home                                               | Built from `pg/Home *.png`, compared at desktop, tablet (800) and phone (390). The hero has a sub-headline saying what Alvyl does |
-| About (`/about`), Offerings (`/offerings`)         | Built from `pg/About *.png` and `pg/Offer *.png`; shared sections follow Home                                                     |
-| Contact us (`/contact-us`)                         | Webflow contact page with the Home form; sends email via FormSubmit                                                               |
-| Page not found                                     | Done; prerendered to `404.html` with `noindex`                                                                                    |
-| Case-study carousel                                | Removed from Home (not in the PNGs); component kept in `pages/home/sections/CaseStudies.tsx`                                      |
-| Service pages (`/services/*`)                      | Done; content from www.alvyl.com, design from Figma (see "Service pages")                                                         |
-| Terms, Privacy, case-study, careers pages          | Not started (see `feedback.md`)                                                                                                   |
+| Area                                       | Status                                                                                                                            |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Tokens, fonts, Button / Field / CTA / Chip | Built from the Figma style guide (16:858)                                                                                         |
+| Home                                       | Built from `pg/Home *.png`, compared at desktop, tablet (800) and phone (390). The hero has a sub-headline saying what Alvyl does |
+| About (`/about`), Offerings (`/offerings`) | Built from `pg/About *.png` and `pg/Offer *.png`; shared sections follow Home                                                     |
+| Contact us (`/contact-us`)                 | Webflow contact page with the Home form; sends email via FormSubmit                                                               |
+| Page not found                             | Done; prerendered to `404.html` with `noindex`                                                                                    |
+| Case-study carousel                        | Removed from Home (not in the PNGs); component kept in `pages/home/sections/CaseStudies.tsx`                                      |
+| Service pages (`/services/*`)              | Done; content from www.alvyl.com, design from Figma (see "Service pages")                                                         |
+| Terms, Privacy, case-study, careers pages  | Not started (see `feedback.md`)                                                                                                   |
 
 ## Open questions
 
@@ -242,10 +242,15 @@ Edited images (keep these edits if the art is re-exported):
 2. **Link targets.** Terms & Conditions, Privacy Policy and the "View Case Study" buttons are still `#`
    (`src/data/*.ts`). "Schedule a Call" and "Contact Us" go to `/contact-us`. Each service card goes to its
    own `/services/<slug>` page.
-3. **Team data.** The Webflow Teams collection has no quote field, so one stand-in quote is on the back
-   of every card. Only one person has a `job-role`.
+3. **Team data.**
+   - The Webflow Teams collection has no quote field. Quotes from the original site (www.alvyl.com) are kept
+     in `teamQuotes` in `src/data/home.ts` for the 4 people still on the team (Hari, Navya, Raghavan,
+     Pallavi). Everyone else gets a card that doesn't flip.
+   - The original site's "Sanjay" quote is left out until we know which of the two Sanjays said it.
+   - Only one person has a `job-role`.
 4. **Copy to confirm.**
    - The About promise card and search description still say "contract caterers".
    - About says 40+ employees; the team shows 32.
-   - The "agility of a startup" paragraph appears three times (see `feedback.md`).
+   - The "What drives us" (Tech is our language), "Selected work" and "How we work" copy is new or
+     edited, based on the original site.
 5. **Carousels.** Swipe/scroll tracks with a progress indicator and arrows. Is autoplay intended?

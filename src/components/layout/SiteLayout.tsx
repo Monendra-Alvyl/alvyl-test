@@ -21,7 +21,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <div className="px-side pt-side pb-side mx-auto w-full max-w-[1700px]">
+    /* pt-3 matches the header's sticky top-3, so it sits in the same place from the first frame. */
+    <div className="px-side pb-side mx-auto w-full max-w-[1700px] pt-3">
       <Header />
       <main className="gap-section-lg mt-8 flex flex-col">{children}</main>
       <div className="mt-section-lg">

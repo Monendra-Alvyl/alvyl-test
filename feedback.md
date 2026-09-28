@@ -29,7 +29,7 @@ The biggest gap is unchanged: **proof and depth.** There are still:
 This recheck also found 4 new issues:
 
 - The same paragraph is repeated 3 times.
-- Three Home sections share the "What we offer" label.
+- ✅ Three Home sections shared the "What we offer" label (fixed).
 - The Careers panel has no link.
 - Contact fields have small tap areas.
 
@@ -108,15 +108,15 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 
 ### Consistency
 
-| Element            | Issue                                                                                                                                                                                                                           | Recommendation                                                                                                |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Repeated paragraph | "We move with the agility of a startup and the precision of an enterprise partner…" appears in **Startup Speed** and **Tech is our language** on Home, and again in **Selected work** on Offerings. Visitors read it 2–3 times. | Give "Tech is our language" and "Selected work" their own copy (`src/data/home.ts`, `src/data/offerings.ts`). |
-| Section labels     | Three Home sections are all labelled "WHAT WE OFFER": What we offer, Startup Speed and Tech is our language.                                                                                                                    | Give each its own eyebrow, e.g. "How we work" and "What drives us".                                           |
-| About promise copy | "digital solutions for **contract caterers**" still appears in the "We Promise to…" card and in the About search description. It contradicts the services on every other page.                                                  | Rewrite both (`src/data/about.ts`, `src/data/seo.ts`).                                                        |
-| Employee count     | About says "40+ employees"; the team carousel shows 32 people.                                                                                                                                                                  | Confirm the number, or add the missing people to the Webflow Teams collection.                                |
-| Team cards         | Only 1 of 32 people has a role, and every card shows the same stand-in quote.                                                                                                                                                   | Fill `job-role` and add a `quote` field in Webflow.                                                           |
-| ✅ Founded year    | Fixed: 2018 on the About page and in its search description.                                                                                                                                                                    | —                                                                                                             |
-| ✅ Customer logos  | Fixed: cropped tight, one grey, sized by visual weight. Reverie's source file is only 95×28px and looks slightly soft.                                                                                                          | Replace with a larger export, then run `npm run logos`.                                                       |
+| Element               | Issue                                                                                                                                                                          | Recommendation                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| ✅ Repeated paragraph | Fixed. "We move with the agility of a startup…" now appears only in Startup Speed. "Tech is our language" and "Selected work" have their own copy.                             | —                                                                                                        |
+| ✅ Section labels     | Fixed. Home labels are now What we offer, Our approach (Startup Speed), How we work (new) and What drives us (Tech is our language).                                           | —                                                                                                        |
+| About promise copy    | "digital solutions for **contract caterers**" still appears in the "We Promise to…" card and in the About search description. It contradicts the services on every other page. | Rewrite both (`src/data/about.ts`, `src/data/seo.ts`).                                                   |
+| Employee count        | About says "40+ employees"; the team carousel shows 32 people.                                                                                                                 | Confirm the number, or add the missing people to the Webflow Teams collection.                           |
+| Team cards            | Real quotes from the original site are back for Hari, Navya, Raghavan and Pallavi; other cards no longer show a stand-in quote. Only 1 of 32 people has a role.                | Add a `quote` field in Webflow, confirm which Sanjay the original quote belongs to, and fill `job-role`. |
+| ✅ Founded year       | Fixed: 2018 on the About page and in its search description.                                                                                                                   | —                                                                                                        |
+| ✅ Customer logos     | Fixed: cropped tight, one grey, sized by visual weight. Reverie's source file is only 95×28px and looks slightly soft.                                                         | Replace with a larger export, then run `npm run logos`.                                                  |
 
 ### Accessibility
 
@@ -138,12 +138,12 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 | 5.2  | Terms & Privacy pages  | ❌ Open    | Links still go to `#`.                                                                                                                                                            |
 | 5.3  | Book a call (Calendly) | ❌ Open    | "Schedule a Call" still goes to `/contact-us`.                                                                                                                                    |
 | 5.4  | Content contradictions | ⚠️ Partly  | Year fixed (2018). "Contract caterers", 40+ vs. 32, and unsourced stats remain.                                                                                                   |
-| 5.5  | One page per service   | ✅ Done    | 4 pages with content from www.alvyl.com. Agentic AI copy and 3 hero intros to confirm; no named testimonials yet except Ratna Garba (design).                                     |
+| 5.5  | One page per service   | ✅ Done    | 4 pages with content from www.alvyl.com. Agentic AI copy is new (no live page) and, with 2 hero intros, needs confirming; no named testimonials yet except Ratna Garba (design).  |
 | 5.6  | Case studies           | ❌ Open    |                                                                                                                                                                                   |
 | 5.7  | Testimonials           | ❌ Open    |                                                                                                                                                                                   |
-| 5.8  | Team roles and quotes  | ❌ Open    | 1 of 32 roles filled; one shared stand-in quote.                                                                                                                                  |
+| 5.8  | Team roles and quotes  | ⚠️ Partly  | 4 real quotes from the original site; the rest have none (no stand-in). 1 of 32 roles filled.                                                                                     |
 | 5.9  | Social links           | ❌ Open    |                                                                                                                                                                                   |
-| 5.10 | Culture story          | ❌ Open    |                                                                                                                                                                                   |
+| 5.10 | Culture story          | ✅ Done    | New "How we work" section on Home: the original site's builders story with the founder's quote.                                                                                   |
 | 5.11 | Accessibility fixes    | ⚠️ Partly  | 12px minimum ✅, 44×44 tap areas ✅. Skip link, visible labels and field errors are open.                                                                                         |
 | 5.12 | SEO extras             | ⚠️ Partly  | 404 page with `noindex` ✅. Canonical links, `sitemap.xml`, JSON-LD and a 1200×630 share image are open.                                                                          |
 | 5.13 | Blog / insights        | — Optional |                                                                                                                                                                                   |
@@ -171,8 +171,8 @@ The site still reads as a premium studio site: dark canvas, IvyMode headlines wi
 2. **Activate the form**: send one test from the deployed site and confirm FormSubmit's activation email to info@alvyl.com.
 3. **Fix the copy**:
    - replace "contract caterers"
-   - rewrite the repeated "agility of a startup" paragraph in two of its three places
-   - give each Home section its own label
+   - ✅ repeated paragraph rewritten
+   - ✅ each Home section has its own label
    - confirm 40+ employees
 
 **Next sprint**

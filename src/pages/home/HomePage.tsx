@@ -3,6 +3,7 @@ import { pageMeta } from '@/data/seo'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { CustomersStrip } from '@/components/sections/CustomersStrip'
 import { Hero } from './sections/Hero'
+import { HowWeWork } from './sections/HowWeWork'
 import { StartupSpeed } from './sections/StartupSpeed'
 import { Team } from '@/components/sections/Team'
 import { TechIntent } from '@/components/sections/TechIntent'
@@ -21,6 +22,7 @@ export function HomePage() {
         <StartupSpeed />
         <CustomersStrip />
       </div>
+      <HowWeWork />
       <div className="flex flex-col gap-4">
         <TechIntent />
         <Team />
