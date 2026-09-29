@@ -1,4 +1,5 @@
 import teamMembers from './team.generated.json'
+import cmsContent from './cms.generated.json'
 import { asset } from '@/lib/asset'
 import { servicePath, services } from './services'
 
@@ -97,8 +98,10 @@ export const techIntent = {
 }
 
 /*
- * Team members come from the Webflow "Teams" CMS collection, fetched at build time by
- * scripts/webflow-team.mjs (npm run webflow:team). Roles show when the CMS has one.
+ * Team members are JSON files in the CMS content repo (team/), edited in Sveltia CMS (/admin/hr) and
+ * read at build time by scripts/cms-content.mjs, in their sort order. People switched off with "Show
+ * in the carousel" are left out here (they can still be blog authors). If there are none, the
+ * Webflow "Teams" snapshot (scripts/webflow-team.mjs) is used. Roles show when the CMS has one.
  */
 /*
  * The CMS has no quote field and the design only has Raghava's quote, so it stands in on the back of
@@ -108,7 +111,7 @@ export const techIntent = {
  * Personal quotes from the original site (www.alvyl.com), keyed by the name in the Webflow Teams
  * collection. People without a quote here get a card that doesn't flip. The original site's "Sanjay"
  * quote ("All you gotta do is chill out. Let go of control and chill.") is left out until we know which
- * of the two Sanjays said it. Move these to a Webflow "quote" field when it exists.
+ * of the two Sanjays said it. A quote filled in the CMS (`quote` field) takes precedence.
  */
 const teamQuotes: Record<string, string> = {
   'Hari Krishna': 'Culture is not a perk. It’s the operating system.',
@@ -133,10 +136,36 @@ export type TeamMember = {
 
 export const teamHeading = 'Our People'
 
-export const team: TeamMember[] = teamMembers.map((member) => ({
-  ...member,
-  quote: teamQuotes[member.name] ?? null,
-}))
+/** A team member as scripts/cms-content.mjs writes it. */
+type CmsTeamMember = {
+  id: string
+  name: string
+  role: string | null
+  photo: string | null
+  photoAlt: string | null
+  quote: string | null
+  linkedin: string | null
+  showOnWebsite: boolean
+}
+
+const cmsTeam = cmsContent.team as unknown as CmsTeamMember[]
+
+export const team: TeamMember[] = cmsTeam.length
+  ? cmsTeam
+      .filter((member) => member.showOnWebsite)
+      .map((member) => ({
+        id: member.id,
+        name: member.name,
+        role: member.role,
+        image: member.photo ? asset(member.photo) : null,
+        imageAlt: member.photoAlt || member.name,
+        linkedin: member.linkedin,
+        quote: member.quote || teamQuotes[member.name] || null,
+      }))
+  : teamMembers.map((member) => ({
+      ...member,
+      quote: teamQuotes[member.name] ?? null,
+    }))
 
 /*
  * "How we work" (Home). Copy from the original site (www.alvyl.com): its "Great products need great

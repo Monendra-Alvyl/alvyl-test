@@ -9,3 +9,8 @@ playwright-report
 .DS_Store
 # Generated responsive WebP variants (npm run images)
 public/_img
+# CMS content comes from the content repo (scripts/cms-dir.mjs): its CI checkout, copied images and
+# the generated data
+.cms/
+public/assets/cms/
+src/data/cms.generated.json

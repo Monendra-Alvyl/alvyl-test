@@ -117,6 +117,9 @@
     transparent 70%
   );
   mix-blend-mode: screen;
+  /* A touch dimmer overall (glow and rays). On this element, not its wrapper, so the screen blend
+     still reaches the page behind it. */
+  filter: brightness(0.92);
   animation: sun-breathe 3.2s ease-in-out infinite;
 }
 

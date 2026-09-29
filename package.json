@@ -12,8 +12,11 @@
     "test:e2e": "playwright test",
     "webflow:inspect": "node --env-file-if-exists=.env.local scripts/webflow-inspect.mjs",
     "webflow:team": "node --env-file-if-exists=.env.local scripts/webflow-team.mjs",
-    "predev": "npm run webflow:team && npm run images",
-    "prebuild": "npm run webflow:team && npm run images",
+    "cms:media": "node scripts/cms-media.mjs",
+    "cms:content": "node scripts/cms-content.mjs",
+    "admin": "vite public/admin --port 5180 --strictPort",
+    "predev": "npm run webflow:team && npm run cms:media && npm run images && npm run cms:content",
+    "prebuild": "npm run webflow:team && npm run cms:media && npm run images && npm run cms:content",
     "images": "node scripts/optimize-images.mjs",
     "logos": "node scripts/normalize-logos.mjs"
   },
@@ -33,12 +36,14 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.12.0",
+    "marked": "^18.0.14",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "yaml": "^2.9.1"
   }
 }

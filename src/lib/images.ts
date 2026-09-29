@@ -14,6 +14,6 @@ export function imageEntry(src: string): ImageEntry | undefined {
 /** `srcset` of WebP variants for a /public image, for <img> and <source> elements. */
 export function webpSrcSet(src: string): string | undefined {
   return imageEntry(src)
-    ?.variants.map(([w, url]) => `${asset(url)} ${w}w`)
+    ?.variants.map(([w, url]) => `${encodeURI(asset(url))} ${w}w`)
     .join(', ')
 }

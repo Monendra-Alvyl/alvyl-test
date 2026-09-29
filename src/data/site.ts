@@ -11,6 +11,7 @@ export type NavLink = {
 export const primaryNav: NavLink[] = [
   { label: 'Offerings', href: '/offerings' },
   { label: 'About Us', href: '/about' },
+  { label: 'Blog', href: '/blog' },
 ]
 
 export const headerCta = { label: 'Schedule a Call', href: '/contact-us' }

@@ -77,6 +77,538 @@
    ]
   ]
  },
+ "/assets/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends.png": {
+  "width": 2334,
+  "height": 1384,
+  "variants": [
+   [
+    320,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-320.webp"
+   ],
+   [
+    480,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-480.webp"
+   ],
+   [
+    640,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-640.webp"
+   ],
+   [
+    960,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-960.webp"
+   ],
+   [
+    1280,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-1280.webp"
+   ],
+   [
+    1600,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-1600.webp"
+   ],
+   [
+    1920,
+    "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-1920.webp"
+   ]
+  ]
+ },
+ "/assets/cms/blog/Untitled design (4).png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/cms/blog/Untitled design (4)-6f54eec0-240.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/abhiram-g.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/abhiram-g-b206707e-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/abhiram-g-b206707e-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/akash-ng.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/akash-ng-0ea86887-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/akash-ng-0ea86887-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/aman-sharma.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/aman-sharma-7518c092-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/aman-sharma-7518c092-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/anand-jekka.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/anand-jekka-33dc9131-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/anand-jekka-33dc9131-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/anudeep-mergu.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/anudeep-mergu-fc2e3d13-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/anudeep-mergu-fc2e3d13-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/archiman-sarkar.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/archiman-sarkar-c606d9d5-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/archiman-sarkar-c606d9d5-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/bhanesh-sai-reddy.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/bhanesh-sai-reddy-c1d5aed0-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/bhanesh-sai-reddy-c1d5aed0-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/bhoomika-n.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/bhoomika-n-cdc23af6-320.webp"
+   ],
+   [
+    414,
+    "/_img/cms/team/bhoomika-n-cdc23af6-414.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/d-satya-reddy.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/d-satya-reddy-88f6ff03-320.webp"
+   ],
+   [
+    414,
+    "/_img/cms/team/d-satya-reddy-88f6ff03-414.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/hari-krishna.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/hari-krishna-4f0fac88-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/hari-krishna-4f0fac88-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/hymanvathi-eemane.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/hymanvathi-eemane-aa593f12-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/hymanvathi-eemane-aa593f12-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/kaushal.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/kaushal-0bcdae2b-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/kaushal-0bcdae2b-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/kowshik-chemikela.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/kowshik-chemikela-9d92b44d-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/kowshik-chemikela-9d92b44d-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/lakshmi-narashima.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/lakshmi-narashima-183d3184-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/lakshmi-narashima-183d3184-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/laxman-s.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/laxman-s-dbd942c9-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/laxman-s-dbd942c9-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/manish-kunder.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/manish-kunder-02b0cfad-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/manish-kunder-02b0cfad-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/n-monendra.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/n-monendra-289d783a-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/n-monendra-289d783a-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/navya-ganduri.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/navya-ganduri-33d31bec-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/navya-ganduri-33d31bec-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/pallavi.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/pallavi-1e6ed499-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/pallavi-1e6ed499-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/pranay-m.jpg": {
+  "width": 4319,
+  "height": 5856,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/pranay-m-849e23e5-320.webp"
+   ],
+   [
+    480,
+    "/_img/cms/team/pranay-m-849e23e5-480.webp"
+   ],
+   [
+    640,
+    "/_img/cms/team/pranay-m-849e23e5-640.webp"
+   ],
+   [
+    960,
+    "/_img/cms/team/pranay-m-849e23e5-960.webp"
+   ],
+   [
+    1280,
+    "/_img/cms/team/pranay-m-849e23e5-1280.webp"
+   ],
+   [
+    1600,
+    "/_img/cms/team/pranay-m-849e23e5-1600.webp"
+   ],
+   [
+    1920,
+    "/_img/cms/team/pranay-m-849e23e5-1920.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/priyanka-murahari.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/priyanka-murahari-3c72cb40-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/priyanka-murahari-3c72cb40-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/raghavan.jpg": {
+  "width": 4319,
+  "height": 5516,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/raghavan-d43cb436-320.webp"
+   ],
+   [
+    480,
+    "/_img/cms/team/raghavan-d43cb436-480.webp"
+   ],
+   [
+    640,
+    "/_img/cms/team/raghavan-d43cb436-640.webp"
+   ],
+   [
+    960,
+    "/_img/cms/team/raghavan-d43cb436-960.webp"
+   ],
+   [
+    1280,
+    "/_img/cms/team/raghavan-d43cb436-1280.webp"
+   ],
+   [
+    1600,
+    "/_img/cms/team/raghavan-d43cb436-1600.webp"
+   ],
+   [
+    1920,
+    "/_img/cms/team/raghavan-d43cb436-1920.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/sahithi-m.jpg": {
+  "width": 414,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/sahithi-m-84ae63fb-320.webp"
+   ],
+   [
+    414,
+    "/_img/cms/team/sahithi-m-84ae63fb-414.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/sanjay-k.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/sanjay-k-84d9f296-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/sanjay-k-84d9f296-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/sanjay-munde.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/sanjay-munde-4e971a6a-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/sanjay-munde-4e971a6a-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/santosh-h.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/santosh-h-798511a3-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/santosh-h-798511a3-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/sasank-chintham.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/sasank-chintham-b29396eb-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/sasank-chintham-b29396eb-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/shaik-riyaz.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/shaik-riyaz-40dad1a3-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/shaik-riyaz-40dad1a3-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/sneha-k.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/sneha-k-8ff2258f-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/sneha-k-8ff2258f-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/srikanth.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/srikanth-31b996c9-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/srikanth-31b996c9-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/srinivasa-rao-adari.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/srinivasa-rao-adari-e54442c2-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/srinivasa-rao-adari-e54442c2-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/suraj-kumar.jpg": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/suraj-kumar-e3573d62-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/suraj-kumar-e3573d62-416.webp"
+   ]
+  ]
+ },
  "/assets/home/case-pepsico.png": {
   "width": 1024,
   "height": 1024,

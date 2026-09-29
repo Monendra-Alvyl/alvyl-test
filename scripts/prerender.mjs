@@ -3,6 +3,8 @@
  * src/entry-server.tsx): dist/index.html, dist/about(/index).html, dist/offerings(/index).html.
  * Each page gets its own <title>, meta description and Open Graph tags. dist/404.html gets the
  * "Page not found" page (noindex), which GitHub Pages serves with status 404 for unknown URLs.
+ * The blog (/blog and /blog/<slug>, from the CMS) also gets a canonical link, og:url, a share image,
+ * article:* tags on posts, and JSON-LD (Blog / BlogPosting and BreadcrumbList).
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -10,7 +12,7 @@ import { pathToFileURL } from 'node:url'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(ROOT, 'dist')
-const { render, pageMeta, notFound } = await import(
+const { render, pageMeta, notFound, blogPages, absoluteUrl, DEFAULT_SHARE_IMAGE } = await import(
   pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js')).href
 )
 
@@ -64,6 +66,56 @@ for (const page of Object.values(pageMeta)) {
   fs.writeFileSync(out, html)
   /* Also /about.html, so hosts serve the page for /about without a trailing-slash redirect. */
   if (page.path !== '/') fs.writeFileSync(path.join(DIST, `${page.path.slice(1)}.html`), html)
+  console.log(
+    `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
+  )
+}
+
+/* "<" is escaped so the JSON can't close the <script> element. */
+const jsonLd = (data) =>
+  `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
+
+/* Blog pages: the head above, plus canonical, og:url, share image, article tags and JSON-LD. */
+function withBlogMeta(html, { path: pagePath, image, imageAlt, article, jsonLd: data, ...page }) {
+  const tag = (attr, key, content) => `    <meta ${attr}="${key}" content="${escape(content)}" />\n`
+  const url = absoluteUrl(pagePath)
+  const shareImage = image ?? absoluteUrl(DEFAULT_SHARE_IMAGE)
+  const head =
+    `    <link rel="canonical" href="${escape(url)}" />\n` +
+    tag('property', 'og:url', url) +
+    tag('property', 'og:image', shareImage) +
+    (imageAlt
+      ? tag('property', 'og:image:alt', imageAlt) + tag('name', 'twitter:image:alt', imageAlt)
+      : '') +
+    (article
+      ? tag('property', 'article:published_time', article.publishedTime) +
+        tag('property', 'article:modified_time', article.modifiedTime) +
+        (article.author ? tag('property', 'article:author', article.author) : '') +
+        (article.section ? tag('property', 'article:section', article.section) : '') +
+        article.tags.map((topic) => tag('property', 'article:tag', topic)).join('')
+      : '') +
+    tag('name', 'twitter:title', page.title) +
+    tag('name', 'twitter:description', page.description) +
+    tag('name', 'twitter:image', shareImage) +
+    `    ${jsonLd(data)}\n`
+  return withMeta(html, page)
+    .replace(
+      '<meta property="og:type" content="website" />',
+      `<meta property="og:type" content="${article ? 'article' : 'website'}" />`,
+    )
+    .replace('</head>', `${head}  </head>`)
+}
+
+for (const page of blogPages) {
+  const body = await render(page.path)
+  const html = withBlogMeta(template, page).replace(
+    '<div id="root"></div>',
+    `<div id="root">${body}</div>`,
+  )
+  const out = path.join(DIST, page.path, 'index.html')
+  fs.mkdirSync(path.dirname(out), { recursive: true })
+  fs.writeFileSync(out, html)
+  fs.writeFileSync(path.join(DIST, `${page.path.slice(1)}.html`), html)
   console.log(
     `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
   )

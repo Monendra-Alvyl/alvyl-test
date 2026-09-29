@@ -1,13 +1,23 @@
 # Builds the site with the /alvyl-test/ base path and deploys it to GitHub Pages.
 # Repo settings → Pages → Source must be "GitHub Actions".
 # Optional secret WEBFLOW_API_TOKEN refreshes the team from Webflow; without it the committed
-# src/data/team.generated.json is used.
+# src/data/team.generated.json is used (only when the CMS content repo has no team files).
+# Blog posts and team cards live in the content-only repository (vars.CMS_REPO, default
+# Monendra-Alvyl/alvyl-test-blog), edited in Sveltia CMS (public/admin: /admin, or hosted on its own);
+# each build checks it out. A save in the CMS is a commit there, not here: it reaches the site on the
+# daily run, a manual run, or a "cms-content" repository_dispatch sent from the content repo
+# (public/admin/notify-website.yml).
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
+    types: [cms-content]
+  # Daily, so CMS changes and posts with a future publish date go live without a push here.
+  schedule:
+    - cron: '30 0 * * *'
 
 permissions:
   contents: read
@@ -23,15 +33,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CMS_REPO || 'Monendra-Alvyl/alvyl-test-blog' }}
+          # Only needed if the content repository is private.
+          token: ${{ secrets.CMS_REPO_TOKEN || github.token }}
+          path: .cms
+          # Full history, so each post's dateModified is its last commit (scripts/cms-content.mjs).
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Blog canonical links, og:url and JSON-LD use this address (src/lib/siteUrl.ts): the SITE_URL
+      # variable if set, otherwise the github.io Pages URL.
+      - id: site
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          url="${SITE_URL:-$(echo "$PAGES_URL" | tr '[:upper:]' '[:lower:]')}"
+          echo "url=${url%/}" >> "$GITHUB_OUTPUT"
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_SITE_URL: ${{ steps.site.outputs.url }}
           WEBFLOW_API_TOKEN: ${{ secrets.WEBFLOW_API_TOKEN }}
+          CMS_CONTENT_DIR: .cms
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

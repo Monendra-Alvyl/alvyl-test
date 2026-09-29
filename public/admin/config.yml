@@ -1,0 +1,214 @@
+# Sveltia CMS: blog posts, categories and team cards (https://sveltiacms.app/en/docs).
+# Content is saved in the content-only repo (backend.repo below): blog/, categories/, team/ and images/.
+# hr/config.yml is the team-only copy for HR: keep its team collection in sync.
+# This folder is the whole admin: the website serves it at /admin, and it can also be hosted on its
+# own, privately (README.md here).
+
+backend:
+  name: github
+  # The content-only repository (blog, categories, team, images); the site repo reads it at build time.
+  repo: Monendra-Alvyl/alvyl-test-blog
+  branch: main
+  # Uncomment once the OAuth worker is deployed, to add "Sign in with GitHub" (README.md here).
+  # base_url: https://sveltia-cms-auth.<account>.workers.dev
+  commit_messages:
+    create: 'content: create {{collection}} “{{slug}}”'
+    update: 'content: update {{collection}} “{{slug}}”'
+    delete: 'content: delete {{collection}} “{{slug}}”'
+    uploadMedia: 'content: upload “{{path}}”'
+    deleteMedia: 'content: delete “{{path}}”'
+
+# The website these edits publish to (the "view site" link in the admin). Saves reach it on its next
+# build (README.md here, "How it connects to the website").
+site_url: https://monendra-alvyl.github.io/alvyl-test/
+display_url: https://monendra-alvyl.github.io/alvyl-test/
+
+media_folder: images/uploads
+public_folder: /assets/cms/uploads
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+# Uploaded images get safe file names ("Untitled design (4).png" → "untitled-design-4.png").
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    description: Posts on /blog. The file name is the post's URL (/blog/<file name>).
+    folder: blog
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    slug: '{{title}}'
+    summary: '{{title}}'
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+      - { label: Published, field: draft, pattern: false }
+    sortable_fields:
+      fields: [publishedAt, title]
+      default: { field: publishedAt, direction: descending }
+    media_folder: /images/blog
+    public_folder: /assets/cms/blog
+    fields:
+      - { label: Title, name: title, widget: string }
+      - label: Excerpt
+        name: excerpt
+        widget: text
+        required: false
+        hint: One or two sentences under the title, on the blog and in search results (up to 200 characters). Leave empty to use the start of the post.
+        pattern: ['^[\s\S]{0,200}$', 'Keep the excerpt to 200 characters or fewer.']
+      - label: Publish date
+        name: publishedAt
+        widget: datetime
+        default: '{{now}}'
+        hint: A future date keeps the post off the site until a build after that date.
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+        hint: Drafts are saved to the repo but not published on the site.
+      - label: Cover image
+        name: cover
+        widget: image
+        required: false
+        hint: Landscape, at least 1600 × 900. Shown on the blog and in WhatsApp / LinkedIn previews (without one, the Alvyl share image is used).
+      - label: Cover image alt text
+        name: coverAlt
+        widget: string
+        required: false
+        hint: What the image shows, for screen readers and search. Leave empty to use the post title.
+      - label: Author
+        name: author
+        widget: relation
+        collection: team
+        value_field: '{{slug}}'
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+        hint: Without an author, the post is credited to Alvyl.
+      - label: Categories
+        name: categories
+        widget: relation
+        collection: categories
+        value_field: '{{slug}}'
+        search_fields: [title]
+        display_fields: [title]
+        multiple: true
+        required: false
+      - label: SEO (optional)
+        name: seo
+        widget: object
+        collapsed: true
+        required: false
+        hint: Generated automatically from the title and excerpt, and kept unique. Fill in only to override.
+        fields:
+          - label: SEO title
+            name: title
+            widget: string
+            required: false
+            hint: Up to 55 characters; the site adds " | Alvyl". Leave empty to use the post title.
+            pattern: ['^.{0,55}$', 'Keep it to 55 characters or fewer (the site adds " | Alvyl").']
+          - label: SEO description
+            name: description
+            widget: text
+            required: false
+            hint: Up to 160 characters. Leave empty to use the excerpt.
+            pattern: ['^[\s\S]{0,160}$', 'Keep it to 160 characters or fewer.']
+      - label: Body
+        name: body
+        widget: markdown
+        buttons:
+          [
+            bold,
+            italic,
+            code,
+            link,
+            heading-two,
+            heading-three,
+            quote,
+            bulleted-list,
+            numbered-list,
+          ]
+        editor_components: [image]
+
+  - name: categories
+    label: Blog categories
+    label_singular: Category
+    folder: categories
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: '{{title}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+
+  # ── Keep in sync with public/admin/hr/config.yml ──
+  - name: team
+    label: Team (Our People)
+    label_singular: Team member
+    description: The "Our People" cards on Home, About and Offerings, and the blog authors.
+    folder: team
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: name
+    slug: '{{name}}'
+    summary: '{{name}}'
+    # Plain name only: Sveltia prints booleans as "true"/"false" in list labels. Hidden people are
+    # found with the filter menu instead.
+    view_filters:
+      - { label: Shown in the carousel, field: showOnWebsite, pattern: true }
+      - { label: Hidden from the carousel, field: showOnWebsite, pattern: false }
+    sortable_fields:
+      fields: [order, name]
+      default: { field: order, direction: ascending }
+    media_folder: /images/team
+    public_folder: /assets/cms/team
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Job role, name: role, widget: string, required: false }
+      - label: Photo
+        name: photo
+        widget: image
+        required: false
+        hint: Portrait, 416 × 600 or larger at the same shape (JPEG or PNG).
+      - label: Photo alt text
+        name: photoAlt
+        widget: string
+        required: false
+        hint: Defaults to the person's name.
+      - label: Quote
+        name: quote
+        widget: text
+        required: false
+        hint: Shown on the back of the card. Up to 160 characters.
+        pattern: ['^[\s\S]{0,160}$', 'Keep the quote to 160 characters or fewer.']
+      - label: LinkedIn URL
+        name: linkedin
+        widget: string
+        required: false
+        pattern: ['^https://', 'Use the full https:// address.']
+      - label: Sort order
+        name: order
+        widget: number
+        value_type: int
+        default: 999
+        hint: Lower numbers come first in the carousel (10, 20, 30… leaves room to insert).
+      - label: Show in the carousel
+        name: showOnWebsite
+        widget: boolean
+        default: true
+        required: false
+        hint: Turn off to hide the card. Hidden people can still be blog authors.

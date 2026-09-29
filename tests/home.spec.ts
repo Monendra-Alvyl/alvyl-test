@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { expect, test } from '@playwright/test'
 
 for (const [name, path] of [
@@ -9,6 +11,8 @@ for (const [name, path] of [
   ['service-sre', '/services/site-reliability-engineering'],
   ['service-agentic-ai', '/services/agentic-ai'],
   ['service-iot-ml', '/services/iot-machine-learning'],
+  ['blog', '/blog'],
+  ['blog-post', '/blog/react-vs-angular-react-trumps-angular-in-google-trends'],
 ]) {
   test(`${name} renders without horizontal overflow or broken images`, async ({
     page,
@@ -54,6 +58,10 @@ test('header links navigate between pages', async ({ page }, testInfo) => {
   await nav('Offerings').click()
   await expect(page).toHaveURL(/\/offerings$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Digital')
+  if (mobile) await page.getByRole('button', { name: 'Open menu' }).click()
+  await nav('Blog').click()
+  await expect(page).toHaveURL(/\/blog$/)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Alvyl Blog')
 })
 
 test('team carousel arrow scrolls and moves the indicator', async ({ page }) => {
@@ -200,4 +208,75 @@ test('team cards show each person’s own quote, and cards without one do not fl
     page.getByText('Culture is not a perk. It’s the operating system.').first(),
   ).toBeVisible()
   await expect(page.getByRole('button', { name: "Show Sanjay Munde's quote" })).toHaveCount(0)
+})
+
+test('blog lists the newest post as the hero and the proposal card third in the grid', async ({
+  page,
+}) => {
+  await page.goto('/blog')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Alvyl Blog: notes from the team',
+  )
+  const hero = page.getByRole('region', { name: 'Latest post' })
+  await expect(hero.getByRole('link', { name: 'Read Blog' })).toBeVisible()
+  const items = page.locator('section[aria-labelledby="posts-heading"] > ul > li')
+  await expect(items.nth(Math.min(2, (await items.count()) - 1))).toContainText(
+    'Send us a proposal',
+  )
+  await expect(page.getByRole('group', { name: 'Filter posts by topic' })).toBeVisible()
+})
+
+test('a blog post has its title as the h1, a breadcrumb, share links and SEO tags', async ({
+  page,
+}) => {
+  await page.goto('/blog/react-vs-angular-react-trumps-angular-in-google-trends')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('React')
+  await expect(
+    page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Blog' }),
+  ).toBeVisible()
+  for (const name of ['Share on LinkedIn', 'Share on X', 'Share on WhatsApp', 'Copy link'])
+    await expect(page.getByLabel(name)).toBeVisible()
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/blog\/react-vs/)
+  expect(await page.locator('script[type="application/ld+json"]').textContent()).toContain(
+    'BlogPosting',
+  )
+})
+
+test('pages other than the blog have no canonical link or article tags', async ({ page }) => {
+  await page.goto('/blog/react-vs-angular-react-trumps-angular-in-google-trends')
+  await page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link').click()
+  await expect(page).toHaveURL(/\/blog$/)
+  await page.goto('/about')
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0)
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website')
+})
+
+test('admin is reachable only by URL: never linked and kept out of search', async ({
+  page,
+  request,
+}) => {
+  for (const path of ['/', '/about', '/offerings', '/blog', '/contact-us']) {
+    await page.goto(path)
+    expect(await page.locator('a[href*="admin"]').count(), `link to admin on ${path}`).toBe(0)
+  }
+  /* The site also serves the admin at /admin (the full admin and the team-only HR view). */
+  for (const path of ['/admin/index.html', '/admin/hr/index.html']) {
+    const admin = await request.get(path)
+    expect(admin.ok(), path).toBe(true)
+    expect(await admin.text()).toContain('<meta name="robots" content="noindex, nofollow" />')
+  }
+  expect(await (await request.get('/admin/hr/config.yml')).text()).not.toContain('folder: blog')
+})
+
+test('the admin folder works on its own: full admin and the team-only HR admin', () => {
+  const read = (file: string) =>
+    fs.readFileSync(path.join(import.meta.dirname, '../public/admin', file), 'utf8')
+  for (const file of ['index.html', 'hr/index.html']) {
+    expect(read(file)).toContain('<meta name="robots" content="noindex, nofollow" />')
+    expect(read(file)).toContain('sveltia-cms.js')
+  }
+  expect(read('config.yml')).toContain('folder: blog')
+  expect(read('hr/config.yml')).toContain('folder: team')
+  expect(read('hr/config.yml')).not.toContain('folder: blog')
 })

@@ -15,6 +15,22 @@
     <meta property="og:site_name" content="Alvyl" />
     <meta name="twitter:card" content="summary_large_image" />
     <!--
+      Admin URLs that have no file of their own (/admin without the slash, or the dev server's
+      /admin/): go to the CMS page itself (public/admin, Sveltia CMS) before the site renders;
+      main.tsx checks the flag and stays out of the way.
+    -->
+    <script>
+      ;(function () {
+        var admin = '%BASE_URL%admin/'
+        var path = location.pathname
+        if (path.indexOf(admin) !== 0 && path !== admin.slice(0, -1)) return
+        if (/\/index\.html$/.test(path)) return // the file itself is missing: show the 404
+        window.__alvylAdmin = true
+        var hr = path.indexOf(admin + 'hr') === 0
+        location.replace(admin + (hr ? 'hr/' : '') + 'index.html' + location.hash)
+      })()
+    </script>
+    <!--
       Home hero: story mode (pinned murmuration) when motion is allowed and WebGL exists. Set before
       first paint so the layout never shifts; the hero removes it again if the flock can't start.
     -->

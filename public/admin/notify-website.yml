@@ -1,0 +1,21 @@
+# Copy this file (public/admin/notify-website.yml in the website repo) into the CONTENT repo (Monendra-Alvyl/alvyl-test-blog) as
+# .github/workflows/notify-website.yml. Every CMS save is a commit there; this tells the website repo
+# to rebuild, so the change is live a few minutes later (instead of on the daily build).
+#
+# Needs one secret in the content repo: SITE_REPO_TOKEN, a fine-grained GitHub token for the website
+# repo (Monendra-Alvyl/alvyl-test) with "Contents: Read and write".
+name: Rebuild the website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send cms-content to the website repo
+        env:
+          GH_TOKEN: ${{ secrets.SITE_REPO_TOKEN }}
+        run: gh api repos/Monendra-Alvyl/alvyl-test/dispatches -f event_type=cms-content

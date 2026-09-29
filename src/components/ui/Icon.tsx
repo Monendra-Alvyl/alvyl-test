@@ -7,6 +7,9 @@ const icons = {
   arrowCircle: asset('/assets/icons/arrow-circle.svg'),
   send: asset('/assets/icons/send.svg'),
   linkedin: asset('/assets/icons/linkedin.svg'),
+  x: asset('/assets/icons/x.svg'),
+  whatsapp: asset('/assets/icons/whatsapp.svg'),
+  link: asset('/assets/icons/link.svg'),
 } as const
 
 type IconProps = {

@@ -83,6 +83,13 @@ export function useLocation(): Location {
   return router.location
 }
 
+/** Client-side navigation to an app path ("/about"), for links the router doesn't render itself. */
+export function useNavigate(): (to: string) => void {
+  const router = useContext(RouterContext)
+  if (!router) throw new Error('useNavigate must be used inside <Router>')
+  return router.navigate
+}
+
 type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & { to: string }
 
 /** In-app link: a real <a href> (base-prefixed) that navigates without a page reload. */
