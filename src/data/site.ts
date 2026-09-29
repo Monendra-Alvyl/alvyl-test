@@ -23,8 +23,9 @@ export const footer = {
   /* Column headings only — the Home footer design shows no links under them. */
   columns: ['Services', 'Company'],
   copyright: '2026 Alvyl Consulting',
-  legal: [
-    { label: 'Terms & Conditions', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
-  ],
+  /*
+   * Legal links, shown in the footer's bottom row. Empty until the pages exist (no href="#"):
+   * add { label: 'Privacy Policy', href: '/privacy-policy' } and { label: 'Terms & Conditions', … }.
+   */
+  legal: [] as { label: string; href: string }[],
 }

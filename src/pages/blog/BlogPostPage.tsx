@@ -26,7 +26,7 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
 
   return (
     <>
-      <Seo canonicalPath={post.path} {...post.seo} image={postShareImage(post)} article />
+      <Seo path={post.path} {...post.seo} image={postShareImage(post)} article />
       <ReadingProgress target="post-body" />
 
       <article aria-labelledby="post-heading" className="flex flex-col gap-4">

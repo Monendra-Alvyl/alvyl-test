@@ -51,7 +51,7 @@ export const services: Service[] = [
     intro:
       'Clarity, empathy, and rhythm — from brand and UX research to UI, motion and the design systems that keep it all consistent.',
     image: asset('/assets/home/service-product-design.png'),
-    seoTitle: 'Alvyl - Product Design',
+    seoTitle: 'Product Design Services: UX, UI & Branding | Alvyl',
     seoDescription:
       'Strategic, human-centered product design: UX and UI design, brand identity, mobile apps, design systems, motion and e-commerce design.',
     capabilities: [
@@ -110,7 +110,7 @@ export const services: Service[] = [
     intro:
       'Service disruption is the antithesis of customer trust. Our expertly managed SRE services prioritize your uptime.',
     image: asset('/assets/home/service-sre.png'),
-    seoTitle: 'Alvyl - Site Reliability Engineering',
+    seoTitle: 'Site Reliability Engineering (SRE) Services | Alvyl',
     seoDescription:
       'Managed Site Reliability Engineering: incident prevention, SLI/SLO management, observability, chaos engineering, disaster recovery and postmortem analysis.',
     capabilities: [
@@ -163,9 +163,9 @@ export const services: Service[] = [
     intro:
       'AI agents that plan, use your tools and get real work done — from customer support to back-office workflows — with your people in control.',
     image: asset('/assets/home/service-agentic-ai.png'),
-    seoTitle: 'Alvyl - Agentic AI',
+    seoTitle: 'Agentic AI Development: AI Agents & Copilots | Alvyl',
     seoDescription:
-      'AI agents and copilots that plan, use your tools and complete workflows: multi-agent orchestration, tool and API integration, knowledge assistants, guardrails and monitoring.',
+      'AI agents and copilots that plan, use your tools and finish workflows: multi-agent orchestration, API integration, knowledge assistants and guardrails.',
     capabilities: [
       'AI Agents & Copilots',
       'Multi-Agent Orchestration',
@@ -211,7 +211,7 @@ export const services: Service[] = [
     intro:
       'With Alvyl by your side, innovation becomes an exhilarating journey. Our cutting-edge AI technologies, coupled with our unwavering expertise, pave the way for breakthroughs and ignite the spark of imagination.',
     image: asset('/assets/home/service-iot-ml.png'),
-    seoTitle: 'Alvyl - IoT & Machine Learning',
+    seoTitle: 'IoT & Machine Learning Development | Alvyl',
     seoDescription:
       'Machine learning and IoT: computer vision, predictive analytics, anomaly detection, IoT device management, edge computing and cloud services.',
     capabilities: [

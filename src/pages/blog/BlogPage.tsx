@@ -21,7 +21,7 @@ export function BlogPage() {
 
   return (
     <>
-      <Seo {...blogMeta} canonicalPath={blogMeta.path} />
+      <Seo {...blogMeta} />
       <h1 className="sr-only">{blogHeading.pageTitle}</h1>
 
       {!featured ? (

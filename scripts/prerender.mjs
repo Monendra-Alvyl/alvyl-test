@@ -1,10 +1,11 @@
 /*
  * Writes prerendered HTML for every page into dist (after `vite build` and the SSR build of
- * src/entry-server.tsx): dist/index.html, dist/about(/index).html, dist/offerings(/index).html.
- * Each page gets its own <title>, meta description and Open Graph tags. dist/404.html gets the
+ * src/entry-server.tsx): dist/index.html, dist/about(/index).html, dist/blog/<slug>(/index).html…
+ * Each page (sitePages in src/data/seo.ts) gets its own <title>, meta description, robots, canonical
+ * link, Open Graph and Twitter tags (article:* on blog posts) and JSON-LD. dist/404.html gets the
  * "Page not found" page (noindex), which GitHub Pages serves with status 404 for unknown URLs.
- * The blog (/blog and /blog/<slug>, from the CMS) also gets a canonical link, og:url, a share image,
- * article:* tags on posts, and JSON-LD (Blog / BlogPosting and BreadcrumbList).
+ * Also writes the old /post/<slug> addresses as redirects, and dist/sitemap.xml.
+ * GOOGLE_SITE_VERIFICATION (build env) adds Search Console's verification tag to every page.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -12,9 +13,10 @@ import { pathToFileURL } from 'node:url'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(ROOT, 'dist')
-const { render, pageMeta, notFound, blogPages, absoluteUrl, DEFAULT_SHARE_IMAGE } = await import(
-  pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js')).href
-)
+/* The deploy base, as in vite.config.ts ("/" locally, "/alvyl-test/" on GitHub Pages). */
+const BASE = (process.env.BASE_PATH || '/').replace(/\/?$/, '/')
+const { render, notFound, sitePages, legacyRedirects, absoluteUrl, DEFAULT_SHARE_IMAGE } =
+  await import(pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js')).href)
 
 /*
  * Inline the (small) stylesheet so first paint doesn't wait for a second request; 404.html keeps the
@@ -43,50 +45,43 @@ if (!template.includes('fetchpriority="low"')) throw new Error('prerender: modul
 if (!template.includes('<style>')) throw new Error('prerender: stylesheet link not found to inline')
 const escape = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 
+/* "<" is escaped so the JSON can't close the <script> element. */
+const jsonLd = (data) =>
+  `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
+const tag = (attr, key, content) => `    <meta ${attr}="${key}" content="${escape(content)}" />\n`
+const verification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
+
+/* Title, description and the Open Graph basics, for every page including the 404. */
 function withMeta(html, { title, description }) {
   return html
     .replace(/<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`)
     .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escape(description)}$2`)
     .replace(
       '</head>',
-      `  <meta property="og:title" content="${escape(title)}" />\n` +
-        `    <meta property="og:description" content="${escape(description)}" />\n  </head>`,
+      tag('property', 'og:title', title) +
+        tag('property', 'og:description', description) +
+        tag('property', 'og:locale', 'en_IN') +
+        (verification ? tag('name', 'google-site-verification', verification) : '') +
+        '  </head>',
     )
 }
 
-for (const page of Object.values(pageMeta)) {
-  const body = await render(page.path)
-  const html = withMeta(template, page).replace(
-    '<div id="root"></div>',
-    `<div id="root">${body}</div>`,
-  )
-  const out =
-    page.path === '/' ? path.join(DIST, 'index.html') : path.join(DIST, page.path, 'index.html')
-  fs.mkdirSync(path.dirname(out), { recursive: true })
-  fs.writeFileSync(out, html)
-  /* Also /about.html, so hosts serve the page for /about without a trailing-slash redirect. */
-  if (page.path !== '/') fs.writeFileSync(path.join(DIST, `${page.path.slice(1)}.html`), html)
-  console.log(
-    `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
-  )
-}
-
-/* "<" is escaped so the JSON can't close the <script> element. */
-const jsonLd = (data) =>
-  `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
-
-/* Blog pages: the head above, plus canonical, og:url, share image, article tags and JSON-LD. */
-function withBlogMeta(html, { path: pagePath, image, imageAlt, article, jsonLd: data, ...page }) {
-  const tag = (attr, key, content) => `    <meta ${attr}="${key}" content="${escape(content)}" />\n`
+/* An indexable page: the above plus robots, canonical, og:url, share image, article tags, JSON-LD. */
+function withSeo(html, { path: pagePath, image, imageAlt, article, jsonLd: data, ...page }) {
   const url = absoluteUrl(pagePath)
   const shareImage = image ?? absoluteUrl(DEFAULT_SHARE_IMAGE)
+  const alt = imageAlt ?? page.title
   const head =
+    /* Large image previews and full snippets in search results and Discover. */
+    tag(
+      'name',
+      'robots',
+      'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    ) +
     `    <link rel="canonical" href="${escape(url)}" />\n` +
     tag('property', 'og:url', url) +
     tag('property', 'og:image', shareImage) +
-    (imageAlt
-      ? tag('property', 'og:image:alt', imageAlt) + tag('name', 'twitter:image:alt', imageAlt)
-      : '') +
+    tag('property', 'og:image:alt', alt) +
     (article
       ? tag('property', 'article:published_time', article.publishedTime) +
         tag('property', 'article:modified_time', article.modifiedTime) +
@@ -97,6 +92,7 @@ function withBlogMeta(html, { path: pagePath, image, imageAlt, article, jsonLd: 
     tag('name', 'twitter:title', page.title) +
     tag('name', 'twitter:description', page.description) +
     tag('name', 'twitter:image', shareImage) +
+    tag('name', 'twitter:image:alt', alt) +
     `    ${jsonLd(data)}\n`
   return withMeta(html, page)
     .replace(
@@ -106,22 +102,51 @@ function withBlogMeta(html, { path: pagePath, image, imageAlt, article, jsonLd: 
     .replace('</head>', `${head}  </head>`)
 }
 
-for (const page of blogPages) {
-  const body = await render(page.path)
-  const html = withBlogMeta(template, page).replace(
-    '<div id="root"></div>',
-    `<div id="root">${body}</div>`,
-  )
-  const out = path.join(DIST, page.path, 'index.html')
+/** Writes dist/<path>/index.html, and dist/<path>.html so hosts serve /about without a redirect. */
+function write(pagePath, html) {
+  const out =
+    pagePath === '/' ? path.join(DIST, 'index.html') : path.join(DIST, pagePath, 'index.html')
   fs.mkdirSync(path.dirname(out), { recursive: true })
   fs.writeFileSync(out, html)
-  fs.writeFileSync(path.join(DIST, `${page.path.slice(1)}.html`), html)
+  if (pagePath !== '/') fs.writeFileSync(path.join(DIST, `${pagePath.slice(1)}.html`), html)
+  return out
+}
+
+for (const page of sitePages) {
+  const body = await render(page.path)
+  const out = write(
+    page.path,
+    withSeo(template, page).replace('<div id="root"></div>', `<div id="root">${body}</div>`),
+  )
   console.log(
     `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
   )
 }
 
-/* 404.html: every path missing from pageMeta renders the NotFound page on the client too. */
+/*
+ * Old post addresses (www.alvyl.com/post/<slug>) → /blog/<slug>. GitHub Pages can't send a 301, so
+ * each is a tiny page with an instant meta refresh and a canonical to the new address, which search
+ * engines treat as a permanent redirect.
+ */
+for (const { from, to } of legacyRedirects) {
+  /* Canonical: the absolute address. Redirect: the same site's path (base-prefixed), so it works on
+     any host the build is served from. */
+  const url = absoluteUrl(to)
+  const target = BASE + to.slice(1)
+  write(
+    from,
+    '<!doctype html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n' +
+      '    <title>Moved</title>\n' +
+      `    <link rel="canonical" href="${escape(url)}" />\n` +
+      `    <meta http-equiv="refresh" content="0; url=${escape(target)}" />\n` +
+      '    <meta name="robots" content="noindex, follow" />\n' +
+      `    <script>location.replace(${JSON.stringify(target)} + location.hash)</script>\n` +
+      `  </head>\n  <body><a href="${escape(target)}">This post has moved.</a></body>\n</html>\n`,
+  )
+}
+if (legacyRedirects.length) console.log(`[prerender] ${legacyRedirects.length} /post/* redirects`)
+
+/* 404.html: every path missing from sitePages renders the NotFound page on the client too. */
 {
   const body = await render(notFound.path)
   const html = withMeta(template, notFound)
@@ -137,10 +162,10 @@ for (const page of blogPages) {
  * Search Console.
  */
 {
-  const pages = [
-    ...Object.values(pageMeta).map((page) => ({ path: page.path })),
-    ...blogPages.map((page) => ({ path: page.path, lastmod: page.article?.modifiedTime })),
-  ]
+  const pages = sitePages.map((page) => ({
+    path: page.path,
+    lastmod: page.article?.modifiedTime,
+  }))
   const urls = pages
     .map(({ path: pagePath, lastmod }) => {
       const date = lastmod ? `<lastmod>${lastmod.slice(0, 10)}</lastmod>` : ''

@@ -41,15 +41,17 @@ export function Footer() {
 
       <div className="border-stroke-very-light text-body-lg flex flex-col-reverse gap-6 border-t pt-6 font-sans font-medium min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between">
         <p className="text-text-ultra-light">{footer.copyright}</p>
-        <ul className="text-text-white flex gap-6">
-          {footer.legal.map((link) => (
-            <li key={link.label}>
-              <a href={link.href} className="tap-target">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        {footer.legal.length > 0 && (
+          <ul className="text-text-white flex gap-6">
+            {footer.legal.map((link) => (
+              <li key={link.label}>
+                <a href={link.href} className="tap-target">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Panel>
   )

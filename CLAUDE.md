@@ -19,8 +19,9 @@ Commands, folder structure and tokens are in [README.md](README.md). Build rules
   (`scripts/webflow-team.mjs`, token only in `.env.local`, never `VITE_`) is the fallback when the
   content repo has no team files. Team quotes: CMS `quote`, else `teamQuotes` in `home.ts`; no quote =
   a card that doesn't flip.
-- Blog-only SEO (canonical, article tags, JSON-LD) goes through `<Seo canonicalPath>` and `blogPages`
-  in `src/data/seo.ts`; other pages don't pass `canonicalPath`.
+- **SEO, every page:** `sitePages` in `src/data/seo.ts` (titles ≤ 60 chars, keyword first + "| Alvyl";
+  descriptions ≤ 160; JSON-LD) → `scripts/prerender.mjs` (canonical, robots, OG/Twitter, sitemap.xml,
+  `/post/<slug>` redirects). `<Seo path>` mirrors it on client navigation. A test enforces the limits.
 - Fonts: IvyMode and Forma DJR Micro are licensed and self-hosted from `public/fonts`.
 
 ## Design sources, in priority order

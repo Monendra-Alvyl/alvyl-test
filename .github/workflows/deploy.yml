@@ -61,6 +61,8 @@ jobs:
           VITE_SITE_URL: ${{ steps.site.outputs.url }}
           WEBFLOW_API_TOKEN: ${{ secrets.WEBFLOW_API_TOKEN }}
           CMS_CONTENT_DIR: .cms
+          # Google Search Console "HTML tag" verification: the content="…" value, as an Actions variable.
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

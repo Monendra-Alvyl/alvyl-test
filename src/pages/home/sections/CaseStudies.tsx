@@ -49,7 +49,7 @@ function Slide({ slide }: { slide: CaseStudySlide }) {
           </p>
           <p className="text-h4 max-w-[485px] font-sans font-medium text-white">{slide.summary}</p>
         </div>
-        <Button href={slide.cta.href}>{slide.cta.label}</Button>
+        {slide.cta && <Button href={slide.cta.href}>{slide.cta.label}</Button>}
       </div>
     </article>
   )

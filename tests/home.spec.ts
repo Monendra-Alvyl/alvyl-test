@@ -157,7 +157,7 @@ test('Schedule a Call opens the contact page with the full form', async ({ page 
     await page.getByRole('button', { name: 'Open menu' }).click()
   await page.getByRole('link', { name: 'Schedule a Call' }).locator('visible=true').first().click()
   await expect(page).toHaveURL(/\/contact-us$/)
-  await expect(page).toHaveTitle('Contact Us')
+  await expect(page).toHaveTitle('Contact Alvyl | Start Your Project With Us')
   for (const label of ['Name', 'Email', 'Contact No', 'Attach document', 'Message']) {
     await expect(page.getByLabel(label, { exact: true })).toBeVisible()
   }
@@ -243,13 +243,49 @@ test('a blog post has its title as the h1, a breadcrumb, share links and SEO tag
   )
 })
 
-test('pages other than the blog have no canonical link or article tags', async ({ page }) => {
+test('every page ships its own SEO in the prerendered HTML', async ({ request }) => {
+  const pages: [string, string][] = [
+    ['/', 'Organization'],
+    ['/about', 'AboutPage'],
+    ['/offerings', 'BreadcrumbList'],
+    ['/contact-us', 'ContactPage'],
+    ['/services/agentic-ai', 'Service'],
+    ['/blog', 'Blog'],
+    ['/blog/react-vs-angular-react-trumps-angular-in-google-trends', 'BlogPosting'],
+  ]
+  const titles = new Set<string>()
+  for (const [path, schema] of pages) {
+    const html = await (await request.get(path)).text()
+    const title = /<title>([^<]*)<\/title>/.exec(html)![1]
+    const description = /name="description"\s+content="([^"]*)"/.exec(html)![1]
+    expect(title.length, `${path} title`).toBeLessThanOrEqual(60)
+    expect(description.length, `${path} description`).toBeLessThanOrEqual(160)
+    expect(titles.has(title), `${path} title is unique`).toBe(false)
+    titles.add(title)
+    expect(html).toMatch(
+      new RegExp(`<link rel="canonical" href="[^"]*${path === '/' ? '/' : path}"`),
+    )
+    expect(html).toContain('max-image-preview:large')
+    expect(html).toContain('property="og:image"')
+    expect(html).toContain(`"@type":"${schema}"`)
+  }
+  const notFound = await (await request.get('/404.html')).text()
+  expect(notFound).toContain('<meta name="robots" content="noindex" />')
+  expect(notFound).not.toContain('rel="canonical"')
+})
+
+test('client-side navigation updates the canonical link and og:type', async ({ page }) => {
   await page.goto('/blog/react-vs-angular-react-trumps-angular-in-google-trends')
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article')
   await page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link').click()
   await expect(page).toHaveURL(/\/blog$/)
-  await page.goto('/about')
-  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/blog$/)
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website')
+})
+
+test('the old /post/<slug> address redirects to the blog post', async ({ page }) => {
+  await page.goto('/post/react-vs-angular-react-trumps-angular-in-google-trends')
+  await expect(page).toHaveURL(/\/blog\/react-vs-angular-react-trumps-angular-in-google-trends$/)
 })
 
 test('admin is reachable only by URL: never linked and kept out of search', async ({
@@ -290,4 +326,62 @@ test('sitemap.xml lists every page and each blog post', async ({ request }) => {
   ])
     expect(sitemap).toContain(`${path}</loc>`)
   expect(sitemap).not.toContain('admin')
+})
+
+test.describe('contact form validation', () => {
+  test.skip(({ viewport }) => (viewport?.width ?? 0) < 450, 'phones show a Contact Us button')
+
+  test('an empty submit shows a message under every field and focuses the first', async ({
+    page,
+  }) => {
+    let posted = false
+    await page.route('**/formsubmit.co/**', (route) => {
+      posted = true
+      return route.abort()
+    })
+    await page.goto('/contact-us')
+    const form = page.locator('main form')
+    await form.getByRole('button', { name: 'Submit' }).click()
+    for (const text of [
+      'Please enter your name.',
+      'Please enter your email address.',
+      'Please enter your phone number.',
+      'Please enter a message.',
+    ])
+      await expect(form.getByText(text)).toBeVisible()
+    await expect(form.getByLabel('Name', { exact: true })).toBeFocused()
+    await expect(form.getByLabel('Name', { exact: true })).toHaveAttribute('aria-invalid', 'true')
+    expect(posted).toBe(false)
+  })
+
+  test('wrong email and phone get their own messages, which clear once fixed', async ({ page }) => {
+    await page.goto('/contact-us')
+    const form = page.locator('main form')
+    const email = form.getByLabel('Email', { exact: true })
+    await email.fill('hello@')
+    await email.blur()
+    await expect(form.getByText(/valid email address/)).toBeVisible()
+    await email.fill('hello@alvyl.com')
+    await expect(form.getByText(/valid email address/)).toHaveCount(0)
+    const phone = form.getByLabel('Contact No', { exact: true })
+    await phone.fill('12ab')
+    await phone.blur()
+    await expect(form.getByText(/valid phone number/)).toBeVisible()
+  })
+
+  test('submissions go to hello@alvyl.com', async ({ page }) => {
+    await page.goto('/contact-us')
+    await expect(page.locator('main form')).toHaveAttribute('action', /hello@alvyl\.com$/)
+  })
+})
+
+test('no link on any page goes nowhere (href="#"), and Selected work is hidden', async ({
+  page,
+}) => {
+  for (const path of ['/', '/about', '/offerings', '/blog', '/contact-us']) {
+    await page.goto(path)
+    expect(await page.locator('a[href="#"]').count(), `href="#" on ${path}`).toBe(0)
+  }
+  await page.goto('/offerings')
+  await expect(page.getByText('Selected work', { exact: true })).toHaveCount(0)
 })

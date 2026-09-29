@@ -206,7 +206,8 @@ export type CaseStudySlide =
       focus: string
       summary: string
       image: string
-      cta: { label: string; href: string }
+      /** "View Case Study" button; left out until the case study page exists (no dead links). */
+      cta?: { label: string; href: string }
     }
   | { kind: 'image'; image: string; alt: string }
 
@@ -218,7 +219,7 @@ export const caseStudies: CaseStudySlide[] = [
     focus: 'Machine Learning & IoT',
     summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
     image: asset('/assets/home/case-silkworm.png'),
-    cta: { label: 'View Case Study', href: '#' },
+    /* cta: { label: 'View Case Study', href: '/case-studies/silk-worm' } once that page exists. */
   },
   {
     kind: 'case-study',
@@ -228,7 +229,7 @@ export const caseStudies: CaseStudySlide[] = [
     /* Duplicated from Silk Worm in the design — see README open questions. */
     summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
     image: asset('/assets/home/case-pepsico.png'),
-    cta: { label: 'View Case Studies', href: '#' },
+    /* cta: { label: 'View Case Study', href: '/case-studies/pepsico' } once that page exists. */
   },
   { kind: 'image', image: asset('/assets/home/team-1.png'), alt: 'The Alvyl team' },
 ]

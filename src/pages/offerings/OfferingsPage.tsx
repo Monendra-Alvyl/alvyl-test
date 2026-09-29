@@ -8,7 +8,6 @@ import { Goals } from './sections/Goals'
 import { OfferHero } from './sections/OfferHero'
 import { OfferNumbers } from './sections/OfferNumbers'
 import { Ordinary } from './sections/Ordinary'
-import { SelectedWork } from './sections/SelectedWork'
 
 /*
  * Offerings — built from pg/Offer *.png. Shared sections (partners, Tech, team, contact form,
@@ -22,10 +21,8 @@ export function OfferingsPage() {
       <OfferNumbers />
       <Ordinary />
       <Goals />
-      <div className="flex flex-col gap-4">
-        <SelectedWork />
-        <CustomersStrip />
-      </div>
+      {/* "Selected work" (./sections/SelectedWork) is hidden until the case studies are ready. */}
+      <CustomersStrip />
       <div className="flex flex-col gap-4">
         <TechIntent />
         <Team />

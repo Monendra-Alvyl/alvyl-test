@@ -6,11 +6,11 @@
 import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { Router } from '@/lib/router'
-import { blogPages, notFound, pageMeta } from './data/seo'
+import { legacyRedirects, notFound, pageMeta, sitePages } from './data/seo'
 import { absoluteUrl, DEFAULT_SHARE_IMAGE } from './lib/siteUrl'
 import { AppRoutes } from './routes'
 
-export { absoluteUrl, blogPages, DEFAULT_SHARE_IMAGE, notFound, pageMeta }
+export { absoluteUrl, DEFAULT_SHARE_IMAGE, legacyRedirects, notFound, pageMeta, sitePages }
 
 export function render(path: string): string {
   return renderToString(
