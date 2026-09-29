@@ -130,3 +130,27 @@ for (const page of blogPages) {
   fs.writeFileSync(path.join(DIST, '404.html'), html)
   console.log(`[prerender] 404 → dist/404.html (${(body.length / 1024).toFixed(0)} KiB)`)
 }
+
+/*
+ * sitemap.xml: every prerendered page, so search engines find new blog posts without waiting for a
+ * link to them (posts carry their last edit as <lastmod>). Submit <site>/sitemap.xml in Google
+ * Search Console.
+ */
+{
+  const pages = [
+    ...Object.values(pageMeta).map((page) => ({ path: page.path })),
+    ...blogPages.map((page) => ({ path: page.path, lastmod: page.article?.modifiedTime })),
+  ]
+  const urls = pages
+    .map(({ path: pagePath, lastmod }) => {
+      const date = lastmod ? `<lastmod>${lastmod.slice(0, 10)}</lastmod>` : ''
+      return `  <url><loc>${escape(absoluteUrl(pagePath))}</loc>${date}</url>\n`
+    })
+    .join('')
+  fs.writeFileSync(
+    path.join(DIST, 'sitemap.xml'),
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}</urlset>\n`,
+  )
+  console.log(`[prerender] sitemap.xml (${pages.length} URLs)`)
+}

@@ -280,3 +280,14 @@ test('the admin folder works on its own: full admin and the team-only HR admin',
   expect(read('hr/config.yml')).toContain('folder: team')
   expect(read('hr/config.yml')).not.toContain('folder: blog')
 })
+
+test('sitemap.xml lists every page and each blog post', async ({ request }) => {
+  const sitemap = await (await request.get('/sitemap.xml')).text()
+  for (const path of [
+    '/about',
+    '/blog',
+    '/blog/react-vs-angular-react-trumps-angular-in-google-trends',
+  ])
+    expect(sitemap).toContain(`${path}</loc>`)
+  expect(sitemap).not.toContain('admin')
+})
