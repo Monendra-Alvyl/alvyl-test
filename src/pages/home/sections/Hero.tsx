@@ -45,16 +45,36 @@ const leaveStory = () => document.documentElement.removeAttribute('data-story')
 /* ------------------------------------------------------------ scroll → screen + flight style */
 
 /**
- * §9.2: q (0 … 1 through the pinned range) → s = q × 5. Within each step the flock holds its style for
- * the first and last 30% and blends through the middle 40% (smoothstep); the text rounds to the
- * nearest screen, so it switches halfway through the blend.
+ * §9.2: q (0 … 1 through the pinned range) → s = q × 5. The story is continuous: the flock's flight
+ * style follows s directly (it eases toward it per frame, so it never snaps), and each screen's text
+ * is scrubbed by its distance from s (textStyle). The current screen (links, eyebrow, inert) is the
+ * nearest one.
  */
 function mapScroll(q: number) {
   const s = q * (SCREENS - 1)
-  const i = Math.min(Math.floor(s), SCREENS - 2)
-  const f = Math.min(1, Math.max(0, (s - i - 0.3) / 0.4))
-  return { screen: Math.round(s), stage: i + f * f * (3 - 2 * f) }
+  return { s, screen: Math.round(s), stage: s }
 }
+
+/*
+ * A screen's text at distance d = s − i from the scroll position: fully shown while |d| ≤ 0.2 (the
+ * middle 40% of its step), then fading out by |d| = 0.56. Neighbours overlap only faintly (≈ 6% each
+ * at the midpoint, 56px apart), so the text never blinks out. It always drifts upward as the page
+ * scrolls: it rises in from below and lifts away above. The first screen is fully shown at the very
+ * top, and the last at the very end.
+ */
+const HOLD = 0.2
+const FADE = 0.56
+const DRIFT = 56 // px of travel across one screen change
+
+function textStyle(d: number, first: boolean, last: boolean) {
+  const edge = (first && d < 0) || (last && d > 0) ? 0 : Math.abs(d)
+  const t = Math.min(1, Math.max(0, (edge - HOLD) / (FADE - HOLD)))
+  const eased = t * t * (3 - 2 * t)
+  return { opacity: 1 - eased, y: first && d < 0 ? 0 : -d * DRIFT }
+}
+
+/* Where the sun gives way to the normal cursor: text, links and buttons in the card. */
+const SUN_YIELDS_TO = 'a, button, h1, h2, p, [role="button"]'
 
 const token = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim()
@@ -139,10 +159,11 @@ export function Hero() {
   const screenRef = useRef(0)
   const pausedRef = useRef(false)
 
+  const screensRef = useRef<HTMLDivElement>(null)
+
   const [ready, setReady] = useState(false)
   const [paused, setPaused] = useState(false)
   const [screen, setScreen] = useState(0)
-  const [leaving, setLeaving] = useState<number | null>(null)
   const [progress, setProgress] = useState(0)
 
   /* Start the flock and the sun (story mode only). The flock adds its own canvas and tracks the
@@ -184,11 +205,10 @@ export function Hero() {
     flockRef.current?.setPaused(paused)
   }, [paused])
 
-  /* Scroll position → current screen, progress bar and flight style. */
+  /* Scroll position → text of every screen, current screen, progress bar and flight style. */
   useEffect(() => {
     if (!story) return
     let frame = 0
-    let leaveTimer = 0
     const update = () => {
       frame = 0
       const wrap = wrapRef.current!
@@ -201,13 +221,17 @@ export function Hero() {
       const q = end > start ? Math.min(1, Math.max(0, (window.scrollY - start) / (end - start))) : 0
       const m = mapScroll(q)
       setProgress(q)
+      /* Written straight to the elements (custom properties), so scrolling never re-renders React. */
+      const screens = screensRef.current?.children ?? []
+      for (let i = 0; i < screens.length; i++) {
+        const { opacity, y } = textStyle(m.s - i, i === 0, i === screens.length - 1)
+        const el = screens[i] as HTMLElement
+        el.style.setProperty('--screen-o', opacity.toFixed(3))
+        el.style.setProperty('--screen-y', `${y.toFixed(1)}px`)
+      }
       if (m.screen !== screenRef.current) {
-        const previous = screenRef.current
         screenRef.current = m.screen
         setScreen(m.screen)
-        setLeaving(previous)
-        clearTimeout(leaveTimer)
-        leaveTimer = window.setTimeout(() => setLeaving(null), 300)
       }
       flockRef.current?.setProgress(m.stage)
     }
@@ -219,7 +243,6 @@ export function Hero() {
     window.addEventListener('resize', schedule)
     return () => {
       cancelAnimationFrame(frame)
-      clearTimeout(leaveTimer)
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
     }
@@ -229,17 +252,27 @@ export function Hero() {
 
   const hideSun = () => {
     sunRef.current?.removeAttribute('data-on')
+    sunRef.current?.removeAttribute('data-over')
     cardRef.current?.removeAttribute('data-sun')
+    cardRef.current?.removeAttribute('data-over')
     sunAnimRef.current?.pause()
   }
 
-  /* The sun follows the mouse exactly, over the card only (touch and pen get no sun). */
+  /*
+   * The sun follows the mouse exactly, over the card only (touch and pen get no sun). Over text,
+   * links and buttons it shrinks into the pointer and the normal cursor takes over (a hand on links,
+   * the text cursor on copy), so everything there reads and clicks as usual; back on the sky, the sun
+   * grows out of the pointer again.
+   */
   const onPointerMove = (event: PointerEvent<HTMLElement>) => {
     if (!story || event.pointerType !== 'mouse') return
     const card = cardRef.current!
     const rect = card.getBoundingClientRect()
     const sun = sunRef.current!
     sun.style.transform = `translate(${event.clientX - rect.left}px, ${event.clientY - rect.top}px)`
+    const over = !!(event.target as Element).closest(SUN_YIELDS_TO)
+    sun.toggleAttribute('data-over', over)
+    card.toggleAttribute('data-over', over)
     if (!sun.hasAttribute('data-on')) {
       sun.setAttribute('data-on', '')
       card.setAttribute('data-sun', '')
@@ -265,9 +298,8 @@ export function Hero() {
 
   /* ---------------------------------------------------------- screens */
 
-  const stateOf = (i: number) => (i === screen ? 'active' : i === leaving ? 'leaving' : undefined)
   const screenProps = (i: number) => ({
-    'data-state': stateOf(i),
+    'data-state': i === screen ? 'active' : undefined,
     inert: i !== screen,
     className: 'hero-screen flex flex-col items-start gap-6 [grid-area:1/1] md:gap-7',
   })
@@ -305,7 +337,7 @@ export function Hero() {
             pad,
           )}
         >
-          <div className="grid">
+          <div ref={screensRef} className="grid">
             {/* 1 — headline */}
             <div {...screenProps(0)} data-first>
               <h1 className={cn(bigType, 'md:leading-[1.32]')}>

@@ -308,8 +308,10 @@ The hero adds no new colours.
   - It animates only while the sun is showing.
 - **The hole it makes in the flock** is random too: see `hero-motion-patterns.md` §2.3.
 - **When it shows:**
-  - it replaces the cursor over the card (`cursor: none`) for **mouse** pointers only;
+  - it replaces the cursor over the sky of the card (`cursor: none`) for **mouse** pointers only;
+  - over text, links and buttons it shrinks into the pointer (scale 0.15, fading, 200 ms) and the normal cursor takes over: a hand on links and buttons, the text cursor on copy. Back on the sky it grows out of the pointer again;
   - it fades out in 300 ms when the mouse leaves the card, and the normal cursor returns everywhere else.
+- **Brightness:** the whole sun is drawn at 85% (`filter: brightness(0.85)` on `.sun`).
 
 ---
 
@@ -383,10 +385,12 @@ Between two screens every parameter blends smoothly, and the flock eases toward 
 ### 9.2 Mapping from scroll to screen
 1. `q` = how far through the pinned range the visitor is (0 … 1). This drives the **progress bar** directly.
 2. `s = q × 5` (0 … 5 across the six screens).
-3. Within each step, `s` goes through a smoothstep between 30% and 70%. The flock **holds** its style for the first and last 30% of each step and blends through the middle 40%.
-4. The **text switches** at the midpoint of the blend (rounding to the nearest screen).
+3. The story is **continuous**: the flock's flight style follows `s` directly (no holds), easing toward it per frame so it never snaps.
+4. The **text is scrubbed by scroll.** For screen `i`, `d = s − i`: fully shown while |d| ≤ 0.2, fading out (smoothstep) by |d| = 0.56, and always drifting upward by 56 px per screen change, so it rises in from below and lifts away above as the visitor scrolls. At each midpoint the two neighbours overlap faintly (about 6% each). The current screen (links, eyebrow decode, `inert`) is the nearest one, `round(s)`.
 
 ### 9.3 Timeline at 1440 × 900 (page scroll position, px)
+
+> Since the story became continuous (§9.2), the flock no longer holds: read "Holds" and "Blends" below as where each style is strongest and where it hands over. Each screen's text is fully shown in the middle 40% of its step and centred on its screen position (0, 553, 1,106 … 2,764).
 
 The hero **starts already pinned**. The section is pulled up by the header's height plus the gap below it (110 px, `story:-mt-[110px]`), so from the first frame the card sits at the side padding with the floating header over its top. Scrolling never moves the card until the story ends. The pinned range runs from 0 to 2,764.
 
@@ -402,8 +406,7 @@ The hero **starts already pinned**. The section is pulled up by the header's hei
 After 2,764 px the card un-pins and the "Why we exist" section scrolls up. The static reduced-motion card is not pulled up; it sits in its normal place below the header.
 
 ### 9.4 Text transitions
-- **Outgoing screen:** fades out and lifts 16 px in 300 ms, and becomes `inert` (not focusable, not read).
-- **Incoming screen:** after a 200 ms pause, fades in and settles in 1.1 s on the reveal easing.
+- **Scroll-driven:** opacity and position come from the scroll position (§9.2), with an 180 ms linear smoothing so mouse-wheel steps glide. Screens other than the current one are `inert` (not focusable, not read).
 - **Eyebrows:** they decode each time their screen appears.
 
 ---
@@ -457,10 +460,10 @@ Distances are given in flock units and in **px at 1440 × 900**, where 1 unit �
 | 2 | Subheadline | opacity, transform | 0, translateY(24px) → 1, 0 | 1.1 s | reveal | 350 ms | page load |
 | 3 | CTA | opacity, transform | 0, translateY(24px) → 1, 0 | 1.1 s | reveal | 500 ms | page load |
 | 4 | Flock | opacity | 0 → 1 | 1.5 s | ease | — | first frame drawn |
-| 5 | Screen out | opacity, transform | 1, 0 → 0, −16 px | 300 ms | reveal | — | scroll |
-| 6 | Screen in | opacity, transform | 0, −16 px → 1, 0 | 1.1 s | reveal | 200 ms | scroll |
+| 5 | Screen out | opacity, transform | 1, 0 → 0, −31 px | follows scroll (180 ms smoothing) | smoothstep | — | scroll |
+| 6 | Screen in | opacity, transform | 0, +31 px → 1, 0 | follows scroll (180 ms smoothing) | smoothstep | — | scroll |
 | 7 | Eyebrow decode | text | random glyphs → label, left to right | 700 ms | linear | — | screen appears |
-| 8 | Flight style | flock parameters | blend between neighbouring styles | follows scroll, eased per frame | smoothstep + easing | — | scroll |
+| 8 | Flight style | flock parameters | blend between neighbouring styles | follows scroll continuously, eased per frame | easing | — | scroll |
 | 9 | Scroll cue line | transform | −100% → 100% | 2 s loop (moves in the first 60%) | reveal | — | continuous |
 | 10 | Scroll cue exit | opacity | 1 → 0 | 500 ms | ease | — | leaving screen 1 |
 | 11 | Sun follow | position | follows the mouse directly | — | — | — | mouse move |
