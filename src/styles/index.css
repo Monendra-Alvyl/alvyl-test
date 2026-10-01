@@ -245,6 +245,13 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* The page still scrolls (wheel, trackpad, keyboard, drag-selection); only the bar itself is
+       hidden, so nothing sits next to the rounded, inset panels on the page's edge. */
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {

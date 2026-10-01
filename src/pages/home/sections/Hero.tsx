@@ -56,21 +56,27 @@ function mapScroll(q: number) {
 }
 
 /*
- * A screen's text at distance d = s − i from the scroll position: fully shown while |d| ≤ 0.2 (the
- * middle 40% of its step), then fading out by |d| = 0.56. Neighbours overlap only faintly (≈ 6% each
- * at the midpoint, 56px apart), so the text never blinks out. It always drifts upward as the page
- * scrolls: it rises in from below and lifts away above. The first screen is fully shown at the very
- * top, and the last at the very end.
+ * A screen's text at distance d = s − i from the scroll position: fully shown while |d| ≤ 0.2, then
+ * fading out. It zooms, not slides: a screen approaching (d < 0) starts a little larger and settles to
+ * its true size as it arrives; once passed (d > 0) it keeps shrinking slightly as it fades, as if the
+ * camera were pushing on through the story. The first screen is fully shown and at its true size at
+ * the very top, and the last at the very end.
+ *
+ * Not every screen carries the same weight: the headline (arrival) and the invitation (return) are the
+ * story's two emotional beats, so they get the full, slower zoom; the four service names in between
+ * are information, not drama, so they resolve sooner and barely zoom at all — one bold gesture, held
+ * at the ends, rather than the same flourish repeated six times.
  */
 const HOLD = 0.2
-const FADE = 0.56
-const DRIFT = 56 // px of travel across one screen change
 
 function textStyle(d: number, first: boolean, last: boolean) {
+  const bold = first || last
+  const zoom = bold ? 0.12 : 0.045
+  const fade = bold ? 0.56 : 0.46
   const edge = (first && d < 0) || (last && d > 0) ? 0 : Math.abs(d)
-  const t = Math.min(1, Math.max(0, (edge - HOLD) / (FADE - HOLD)))
+  const t = Math.min(1, Math.max(0, (edge - HOLD) / (fade - HOLD)))
   const eased = t * t * (3 - 2 * t)
-  return { opacity: 1 - eased, y: first && d < 0 ? 0 : -d * DRIFT }
+  return { opacity: 1 - eased, scale: 1 + (d < 0 ? zoom : -zoom) * eased }
 }
 
 /* Where the sun gives way to the normal cursor: text, links and buttons in the card. */
@@ -165,6 +171,17 @@ export function Hero() {
   const [paused, setPaused] = useState(false)
   const [screen, setScreen] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [tapped, setTapped] = useState(false)
+  const [hintVisible, setHintVisible] = useState(false)
+
+  /* A one-time invitation to tap the flock, so the regroup (scatter, then come back together) isn't
+     found by accident. It appears a couple of seconds after the flock starts and is dismissed for
+     good at the first tap. */
+  useEffect(() => {
+    if (!ready || tapped) return
+    const timer = window.setTimeout(() => setHintVisible(true), 1800)
+    return () => window.clearTimeout(timer)
+  }, [ready, tapped])
 
   /* Start the flock and the sun (story mode only). The flock adds its own canvas and tracks the
      pointer itself (the falcon); it stops while the tab is hidden or Pause is pressed. */
@@ -172,7 +189,10 @@ export function Hero() {
     if (!story) return
     const flock = createMurmuration({
       container: hostRef.current!,
-      colors: [token('--color-alchemy-1'), token('--color-alchemy-2'), token('--color-text-light')],
+      /* The third colour is what a bird glows toward near the sun or a tap: a warm gold rather than
+         --color-text-light's cool grey (used for body copy elsewhere), so being caught in the light
+         feels like warmth, not going pale. A one-off artistic choice, not a shared design token. */
+      colors: [token('--color-alchemy-1'), token('--color-alchemy-2'), '#f5d9a6'],
       glow: 1.6,
       green: token('--color-positive'),
       layout: 'hero',
@@ -224,10 +244,10 @@ export function Hero() {
       /* Written straight to the elements (custom properties), so scrolling never re-renders React. */
       const screens = screensRef.current?.children ?? []
       for (let i = 0; i < screens.length; i++) {
-        const { opacity, y } = textStyle(m.s - i, i === 0, i === screens.length - 1)
+        const { opacity, scale } = textStyle(m.s - i, i === 0, i === screens.length - 1)
         const el = screens[i] as HTMLElement
         el.style.setProperty('--screen-o', opacity.toFixed(3))
-        el.style.setProperty('--screen-y', `${y.toFixed(1)}px`)
+        el.style.setProperty('--screen-scale', scale.toFixed(3))
       }
       if (m.screen !== screenRef.current) {
         screenRef.current = m.screen
@@ -284,6 +304,7 @@ export function Hero() {
   const onClick = (event: MouseEvent<HTMLElement>) => {
     if (!story || pausedRef.current || (event.target as Element).closest('a, button')) return
     flockRef.current?.burst(event.clientX, event.clientY)
+    setTapped(true)
   }
 
   /* Glide past the whole story to the next section ("Why we exist"). */
@@ -315,6 +336,17 @@ export function Hero() {
         onClick={onClick}
         className="hero-card from-sky-top to-sky-bottom relative h-[634px] overflow-clip rounded-[24px] bg-linear-to-b md:h-[772px]"
       >
+        {/* A faint warm ambient glow behind the flock, so the sky never reads as a cold void — even
+            in the gap before the flock fades in. A little brighter on the headline and the invitation,
+            the story's two warm, human beats. */}
+        <div
+          aria-hidden
+          className={cn(
+            'hero-story-only pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_25%_65%,rgb(206_82_29/0.16),transparent_70%)] transition-opacity duration-[1200ms]',
+            screen === 0 || screen === SCREENS - 1 ? 'opacity-100' : 'opacity-60',
+          )}
+        />
+
         {/* The flock (its canvas is added on the client), fading in once its first frame is drawn. */}
         <div
           ref={hostRef}
@@ -369,6 +401,17 @@ export function Hero() {
                   </Button>
                 ))}
               </div>
+              {story && (
+                <p
+                  aria-hidden
+                  className={cn(
+                    'text-text-ultra-light font-sans text-[13px] transition-opacity duration-500',
+                    hintVisible && !tapped ? 'opacity-100' : 'opacity-0',
+                  )}
+                >
+                  Tap the sky to scatter the flock, then watch it come back together.
+                </p>
+              )}
             </div>
 
             {/* 2–5 — services */}

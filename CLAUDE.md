@@ -65,9 +65,15 @@ Rules that follow from these:
 - Specs: [hero-section-design.md](hero-section-design.md) (layout, type, motion, states) and
   [hero-motion-patterns.md](hero-motion-patterns.md) (flock, sun, scatter). Reference screenshots are in
   `hero-design/`. Build to these values.
-- `src/lib/murmuration.ts`, `src/lib/murmuration.worker.ts` and `src/lib/sun.ts` are the user's
-  complete, as-built files. **Do not rewrite or restyle them**; adapt the code that calls them
-  (`src/pages/home/sections/Hero.tsx`, `src/styles/motion.css`) instead.
+- `src/lib/murmuration.ts`, `src/lib/murmuration.worker.ts` and `src/lib/sun.ts` were the user's
+  complete, as-built files; the default is still to **adapt the calling code**
+  (`src/pages/home/sections/Hero.tsx`, `src/styles/motion.css`) rather than touch them. The user has
+  since approved scoped edits inside `murmuration.ts` for specific, named improvements (the falcon
+  easing warmth toward it past the flee radius, ~1% of birds as larger/brighter "leads", the finale's
+  own gathering flight style, a small overshoot on the post-scatter regroup) — each confirmed with a
+  before/after screenshot and a passing build. Treat a request to rework the engine's look or feel as
+  needing the same kind of explicit, scoped sign-off again; don't take this history as a standing
+  license to rewrite the file freely.
 - API: `createMurmuration({ container, colors, glow, green, layout, onReady, onError })` returns
   `setProgress(0…5)`, `setActive`, `setPaused`, `burst(clientX, clientY)`, `destroy`, or null without
   WebGL. The flock tracks the pointer (falcon) itself. `animateSun(el)` draws into the `.sun` element

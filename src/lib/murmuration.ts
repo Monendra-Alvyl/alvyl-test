@@ -19,7 +19,7 @@ const STAGES = [
   [12, 0.65, 5.0, 1, 0, 1.1], // two flocks
   [6, 0.75, 4.0, 0, 1, 0.7], // dense, swirling ball
   [22, 0.5, 3.0, 0, 0, 1.3], // long stream
-  [14, 0.8, 5.0, 0, 0, 0.9], // ribbon again
+  [9, 0.55, 6.0, 0, 0.32, 0.7], // gathering — warmer and closer together, not the opening ribbon again
 ] as const
 
 export const STAGE_COUNT = STAGES.length
@@ -122,12 +122,15 @@ void main() {
   float depth = aSeed.z * 2.0 - 1.0;
   float r = aSeed.w;
   float t = uFlight;
+  // About 1% of birds are leads: a touch larger, a touch brighter, pacing fractionally ahead of the
+  // body — the flock reads as individuals finding the same shape, not one anonymous mass.
+  float lead = step(0.99, hash(r + 20.0));
 
   // Three flocks fly at once, far apart along the same wandering path, so the whole card is alive;
   // on the split stage each of them divides again.
   float flockId = floor(hash(r + 5.0) * 3.0);
   float phase = flockId * 9.0 + step(0.5, r) * uSplit * 6.0;
-  float tp = t - along * uLag + phase;
+  float tp = t - along * uLag + phase + lead * 0.15;
   vec3 c = leader(tp);
   vec3 T = normalize(leader(tp + 0.05) - c);
   vec3 N = normalize(cross(T, vec3(0.0, 1.0, 0.0)) + vec3(0.0, 0.0, 1e-4));
@@ -173,7 +176,10 @@ void main() {
   vec2 fromBurst = pos.xy - uBurst;
   float bd = length(fromBurst) / uBurstSize; // in desktop-card units, so a tap feels the same on a phone
   float ba = max(uBurstAge - bd / 8.0, 0.0) / 0.28;
-  float burst = ba * exp(1.0 - ba) * exp(-bd * bd / 18.0) * (0.6 + 0.8 * hash(r + 11.0));
+  // A small settle, after the main burst has mostly faded: birds dip slightly past their place before
+  // coming to rest, rather than decaying straight back — the overshoot of a real return, not a reset.
+  float settle = -0.12 * sin(max(ba - 1.1, 0.0) * 2.2) * exp(-max(ba - 1.1, 0.0) * 1.4);
+  float burst = (ba * exp(1.0 - ba) + settle) * exp(-bd * bd / 18.0) * (0.6 + 0.8 * hash(r + 11.0));
   vec2 bdir = normalize(fromBurst + 1e-4);
   pos.xy += (bdir + vec2(-bdir.y, bdir.x) * (hash(r + 12.0) - 0.5) * 1.2) * burst * 2.2 * uBurstSize;
   pos.z += burst * (hash(r + 13.0) - 0.3) * 1.6 * uBurstSize;
@@ -197,11 +203,20 @@ void main() {
   float fear = exp(-max(near - wake, 0.0) / reach) * uMouseStrength;
   pos.xy += normalize(away + 1e-4) * fear * 0.8;
   pos.z += fear * 0.3;
-  float lit = (exp(-near / (4.0 * wobble)) * uMouseStrength + burst * 0.6) * (1.0 - uInk);
+
+  // Just past where fear fades out, birds ease a little toward the light instead of fleeing it — a
+  // loose, wandering ring of welcome around the sun, not a predator's reach. It fades in only once
+  // fear has mostly faded, and fades out again before it would ever pull a bird in too close.
+  float ringIn = smoothstep(reach * 0.9, reach * 2.0, near);
+  float ringOut = 1.0 - smoothstep(reach * 2.5, reach * 7.0, near);
+  float warmth = ringIn * ringOut * uMouseStrength * (0.5 + 0.5 * hash(r + 15.0)) * (1.0 - uInk);
+  pos.xy -= heading * warmth * 0.35;
+
+  float lit = (exp(-near / (4.0 * wobble)) * uMouseStrength + burst * 0.6) * (1.0 - uInk) + warmth * 0.5;
 
   float dist = CAMERA_Z - pos.z;
   gl_Position = vec4(pos.x * uFocal / uAspect, pos.y * uFocal, 0.0, dist);
-  gl_PointSize = uPointSize * (0.6 + hash(r + 7.0) * 0.8) * (CAMERA_Z / dist);
+  gl_PointSize = uPointSize * (0.6 + hash(r + 7.0) * 0.8 + lead * 0.9) * (CAMERA_Z / dist);
 
   // The Alchemy gradient laid across the screen: Alchemy 1 at top left, Alchemy 2 at bottom right.
   vec2 screen = pos.xy * uFocal / dist;
@@ -220,7 +235,8 @@ void main() {
   float verdant = smoothstep(0.92, 1.12, corner) * uGreenAmount;
   vec3 hue = mix(mix(mix(uColorA, uColorB, tint), uColorA, warm), uColorGreen, verdant);
   vColor = mix(mix(hue, uColorLight, lit * 0.7), uColorInk, uInk);
-  vAlpha = clamp(0.42 + pos.z / uScale * 0.12, 0.25, 0.6) * (1.0 + uInk * 0.5) * uGlow * (1.0 + lit);
+  vColor = mix(vColor, uColorLight, lead * 0.5 * (1.0 - uInk)); // leads carry a little of the light always
+  vAlpha = clamp(0.42 + pos.z / uScale * 0.12, 0.25, 0.6) * (1.0 + uInk * 0.5) * uGlow * (1.0 + lit) * (1.0 + lead * 0.35);
 }
 `
 
