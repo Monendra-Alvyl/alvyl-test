@@ -1,237 +1,234 @@
-# Home hero — how the birds and the cursor move
+# Home hero — how the flock and the orb move
 
-**Scope:** the Home hero only. This explains, first in plain words and then in exact values, how the flock of birds flies and how the cursor (the glowing sun) moves and affects it.
+**Scope:** the Home hero only: what moves, why each motion exists, its exact values, and the quality
+bar it is held to.
 **Source:**
-- `src/lib/murmuration.ts`: the flock, the falcon hole, the tap scatter;
-- `src/lib/sun.ts`: the sun's random core and rays;
-- `src/styles/motion.css`: the sun's halo;
-- `src/pages/home/sections/Hero.tsx`: scroll, pointer and clicks.
+- `src/lib/murmuration.ts`: the flock, the influence and the pulse;
+- `src/lib/sun.ts`: the orb's drifting core;
+- `src/styles/motion.css`: the orb's halo and breathing;
+- `src/pages/home/sections/Hero.tsx`: scroll, cursor, taps, pause and calm mode;
+- `index.html`: chooses story mode or calm mode before first paint.
 
-As built on 28 Sep 2026.
-**Pictures:** frame sequences captured from the production build at 1440 × 900, in [`hero-motion/`](hero-motion/).
-**Units:** the flock is measured in *flock units*; on a 1440 × 900 screen, **1 unit ≈ 133 px**.
+As built on 1 Oct 2026. Pixel values are for a 1440 × 900 screen, where the hero card is
+1376 × 836 px.
 
 ---
 
-## Part 1 — The bird movement pattern
+## The idea
 
-### 1.1 In one paragraph
+Alvyl is short for **Alchemy Village**. The village is people: individuals who become something
+greater together. Alchemy is the craft of energy, the force that makes the synergy happen. The hero
+shows exactly that, with **four parts and nothing else**:
 
-The birds fly like a real starling murmuration. There's no pre-drawn animation and no fixed shape. An invisible **leader** wanders around the sky on a smooth, never-repeating path, and every bird follows the exact route the leader took a few seconds earlier, each at its own delay. Because the whole flock traces the leader's recent path, every turn the leader makes sweeps through the body of the flock like a wave. That's what makes it look like one living thing made of thousands of individuals.
+| Part | Stands for | What it does |
+|---|---|---|
+| **1 The flock** | the village | thousands of birds, each with its own place and its own small wandering, flying as one body |
+| **2 The orb** | the alchemy | a quiet point of energy that is the visitor's cursor |
+| **3 Influence** | the synergy | near the orb, birds warm in colour and fly more in step; nobody is steered |
+| **4 The pulse** | the village answering | a tap sends a soft wave; the birds lean toward it together, then settle |
 
-![The flock over 5 seconds, no cursor](hero-motion/1-flight-over-time.png)
+**Minimalism** is why there are only four parts. Everything that didn't serve the idea was removed:
+three separate flocks, the brighter "lead" birds, stragglers, drawn-on density waves, the twisting
+sheets, the split, the ball, the green corner and the six named formations.
+**Mastery** is the quality bar in Part 6: every target is written down, met in the build and checked.
 
-*One second apart, with no cursor on the card. The flock drifts, stretches and folds on its own.*
+---
 
-### 1.2 The layers of the pattern
+## Part 1 — The flock: the village
 
-The movement is built from eight layers, each added on top of the one before:
+### Why it exists
+The village is many people, not one mass. Every bird keeps its own place and its own slow wandering,
+yet the whole flock flies one course together. Scrolling tells the village's story: individuals at
+the headline, one close-knit body by the invitation.
 
-| # | Layer | What you see | How it works |
+### What you see
+One flock covering the card. Its outline is never a clean shape: it bulges, pinches and frays as it
+flies. Where its course slows into a turn it bunches up, and where the course speeds up it thins out.
+When the course turns, the turn sweeps through the body like a wave. The flock wanders past the
+headline, around the card and back, and never repeats during a visit.
+
+### How it works
+1. **Its course.** An invisible point wanders on five slow sine waves whose periods never line up:
+   ```
+   x(t) = sin(0.23 t) × 0.85 + sin(0.37 t + 1.3) × 0.30      ±617 px   periods ≈ 27 s and 17 s
+   y(t) = sin(0.29 t + 0.7) × 0.36 + sin(0.53 t) × 0.14      ±268 px   periods ≈ 22 s and 12 s
+   z(t) = sin(0.19 t + 2.1) × 0.60                            depth     period  ≈ 33 s
+   ```
+   It answers to nothing, not the scroll and not the orb, so the village always has a life of its own.
+   The flock starts 20 s into this course, already mid-flight.
+2. **Its body.** Each bird has a fixed home: a place from head (0) to tail (1), and a spot in a soft,
+   round cross-section, denser toward the middle. It sits where the course was *place × body length*
+   seconds ago. The cross-section tapers at the head and the tail.
+3. **Its outline.** Two scales of slow noise push the cross-section in and out along the body and
+   over time. The outline swells to about 1.6× in places and pinches to about ¼ in others: knots and
+   necks, never an ellipse.
+4. **Each bird's own wandering.** Every bird strays from its home on its own slow, smooth course. It
+   strays a lot when the flock is loose and hardly at all once it has gathered.
+5. **Depth.** Nearer birds are larger and brighter. Far birds sink into the dark, down to 15% of a
+   near bird's brightness.
+6. **Colour.** It depends on where a bird is on screen: orange (#CE521D) at the top left, shading to
+   red (#CE1D1E) at the bottom right. Orange and red only, everywhere.
+7. **Wings.** Each bird flaps 1.3–2 times a second at its own pace and banks slightly into the
+   flock's turns.
+
+### The story: scroll changes the mood, not the shape
+| | Loose (screen 1, the headline) | Gathered (screen 6, the invitation) |
+|---|---|---|
+| Body length | 26 s of its course | 18 s |
+| Body radius | ≈ 300 px | ≈ 225 px |
+| Each bird strays | up to ≈ ±134 px | up to ≈ ±21 px |
+| Speed along the course | 0.8× | 0.6× |
+
+The mood follows the scroll position continuously, from 0 to 1 across the six screens. Nothing is
+held and nothing switches formation; the flock simply keeps drawing closer together. It also eases
+toward the scroll position over about 0.2 s, so a fast scroll or Skip intro never snaps it.
+
+At 1440 × 900 the story takes the first **2,764 px** of scrolling, about 553 px per screen:
+
+| Screen | Text on screen (px) | Mood |
+|---|---|---|
+| 1 Headline | 0 → 276 | loose |
+| 2 Product Design | 276 → 829 | drawing in |
+| 3 SRE | 829 → 1,382 | closer |
+| 4 Agentic AI | 1,382 → 1,935 | closer still |
+| 5 IoT & ML | 1,935 → 2,488 | nearly gathered |
+| 6 Invitation | 2,488 → 2,764 | gathered |
+
+### Start and stop
+- **Start:** the page opens already pinned. Once the first frame is drawn (on a background thread,
+  so the page stays responsive), the flock fades in over 1.5 s, already mid-flight.
+- **Stop:** it stops while the hero is off screen or the tab is hidden, and freezes in place when
+  Pause is pressed.
+
+---
+
+## Part 2 — The orb: the alchemy
+
+### Why it exists
+Alchemy is energy: the force that makes the village more than its people. The orb is that energy,
+held deliberately small and quiet. It's felt the way afternoon sun is felt, not watched like a
+spotlight. It is the visitor's cursor, so the visitor carries the energy into the village.
+
+### What you see
+Over the card, the mouse pointer becomes a small, uneven, glowing core with a very faint warmth
+around it. It follows the mouse exactly and **never moves on its own**.
+
+| | Value |
+|---|---|
+| Core | A soft, uneven blob about 10–14 px across: 9 edge points, each easing toward new random radii (4.8–7.2 px), never a perfect circle |
+| Colour | Orange and red only: a warm orange centre through Alchemy orange to Alchemy red at the rim; never white, gold or pale |
+| Close glow | A restrained halo inside its 130 px box, breathing between 1× and 1.03× every 7 s; it never flares |
+| Far halo | About 900 px across, at 3–6% opacity, fading to nothing well before its edge: light that reaches far without making a bright spot |
+| Follows | The mouse, exactly, with no lag (measured: 0 px from the pointer) |
+| Appears | Fades in where the pointer is (0.3 s) when the mouse moves over the card, so it never jumps in from somewhere else |
+| Over text, links, buttons | Shrinks into the pointer and fades, so the normal cursor (hand, text cursor) works there |
+| Leaves | Fades out where it was (0.3 s), and its light fades from the flock |
+| Touch and pen | No orb: there is no cursor to become it |
+
+---
+
+## Part 3 — Influence: the synergy
+
+### Why it exists
+Synergy is not control. The energy doesn't steer anyone; near it, people simply move more as one and
+warm toward each other. So the orb **never moves a bird**: no pull, no orbit, no pushing, no fleeing.
+
+### What it does
+| Near the orb | Effect |
+|---|---|
+| **Light** (within ≈ 66–115 px, a little different for every bird) | The bird deepens toward red and brightens a little: richer, never paler. The lit area has a soft, uneven edge. |
+| **In step** (within ≈ 145 px) | Each bird's own wandering settles by up to 60%, so the birds near the orb fly visibly more in unison. |
+| **Everywhere** | No change of course or position. Every bird stays exactly where its home and its own wandering put it. |
+
+Earlier versions tried a falcon the flock fled from, a drag toward the cursor, a local lean, and a
+pull-and-orbit. All of them read as the orb controlling the flock, and all were turned down. Only
+light and unison survived.
+
+---
+
+## Part 4 — The pulse: the village answers
+
+### Why it exists
+When someone in a village calls, everyone turns toward them together, then carries on. A tap is that
+call. The village answers; it doesn't scatter.
+
+### What you see
+A tap or click on the sky sends a soft wave out from that point. As it reaches them, the birds lean
+toward the tap together and brighten. Then they ease back into place.
+
+| | Value (1440 × 900) |
+|---|---|
+| Wave speed | ≈ 1,060 px/s, so near birds answer first |
+| Strength | Rises, peaks 0.55 s after the wave reaches a bird, then fades out by about 2 s |
+| Reach | Strongest at the tap, fading out by about 560 px |
+| Movement | A lean toward the tap of up to ≈ 30 px; each bird answers in its own measure (0.6–1.4×) |
+| Light | Answering birds deepen and brighten, the same light the orb gives |
+| Several taps | Up to three waves run at once, so a new tap never cuts an earlier one off |
+
+**Rules:**
+- Taps on links and buttons do their normal job.
+- A click, not a touch-down, triggers it, so starting a scroll on a phone never does.
+- On phones the reach scales with the card, so it feels the same as on desktop.
+- Nothing happens while paused.
+- **No hint is offered.** It's there to be found, not announced.
+
+---
+
+## Part 5 — Calm mode: reduced motion
+
+### Why it exists
+Visitors who ask their device for reduced motion still belong in the village. They see the flock,
+gently, without the parts of the hero that move a lot.
+
+### What they see
+The plain hero card (headline, sub-headline and button, no pinned story) with the same flock behind
+it. The flock holds one mood (part-way gathered, so it reads as one body) and flies at **30% speed**,
+wings included. There is no orb, no pulse and no scroll story. Pause is shown and stops it. Without
+WebGL, every visitor gets the plain card without the flock.
+
+---
+
+## Part 6 — Mastery: the quality targets
+
+| Target | How it's met | How it was checked (1 Oct 2026) |
+|---|---|---|
+| **Steady 60 fps, including on mid-range phones** | 5,000 birds on phones and tablets, 10,000 on desktop, half that on 4-core machines. Resolution is capped (1.5× on phones, 2× on desktop). Drawing runs off the main thread. A **frame-rate guard** watches the average frame time: past the first 3 s, if frames average over ~18.5 ms, a tenth of the flock fades out over about a second. It acts at most once every 2 s, never goes below 55% of the flock, and never adds birds back, so it can't flicker. | In headless Chromium, which renders on the CPU, the guard thinned the flock exactly as designed. **Not yet checked on a real mid-range phone.** That needs a check on a real device. |
+| **No white in dense spots** | Each bird's light is capped, so overlapping birds add up to a richer red, never white. Light near the orb deepens toward red instead of lightening. | A pixel scan of the flock alone at 1440, 800 and 390 px wide: **0 white, 0 pale and 0 green pixels**. The brightest pixel was saturated orange, rgb(255, 135, 61). |
+| **Distance fades into the dark** | Far birds drop to 15% of a near bird's brightness, and they're smaller. | Screenshots: the far side of the body visibly sinks into the sky. |
+| **Nothing pops or jumps** | The orb fades in at the pointer and fades out where it left, never sliding in from somewhere else. A new tap never cuts off a running wave (three run at once). After a resize or a phone rotation, the flock's size and position ease to the new layout over about 0.5 s. The mood eases with scroll. The flock fades in on start. The frame-rate guard fades birds out instead of dropping them. The flock's clock never jumps after a hidden tab or a pause. | Orb measured at 0 px from the pointer, absent and still with no mouse, gone after the mouse leaves. Screenshots at every stage. |
+| **The one deliberate instant** | Pause freezes the flock and the orb's breathing at once. That's the visitor's control (WCAG 2.2.2), so it must not ease. | — |
+| **Reduced motion respected** | Calm mode (Part 5). | Checked with reduced motion turned on, desktop and phone: flock present, no orb, no story, Pause shown. |
+| **Minimal** | Four parts only (see The idea). | Every line of the shader belongs to one of them. |
+| **No errors** | — | No console errors at 1440, 800 and 390 px wide, or in calm mode. |
+
+---
+
+## Part 7 — How the parts combine
+
+Every frame, for every bird, in this order:
+
+```
+1. Flock      → its home on the body (course, cross-section, outline noise)
+3. Influence  → how near that home is to the orb: settles the bird's own wandering
+1. Flock      → the bird's own wandering, scaled by the mood (loose → gathered) and that unison
+4. Pulse      → a lean toward each running wave's source
+3. Influence  → light near the orb, or from a passing wave: deeper red, never a move
+   Draw       → size and brightness from depth, colour from its place on screen, wingbeat, light cap
+```
+
+Because the orb never moves a bird, and a wave's lean is small and always fades, the flock is always,
+at every moment, almost exactly where its own flight puts it. There's nothing to recover from.
+
+---
+
+## Part 8 — Quick reference
+
+| Motion | Trigger | Feels like | Values |
 |---|---|---|---|
-| 1 | **Leader path** | The flock wanders smoothly around the whole card, sometimes past its edges | An invisible point moves along a path made of five slow sine waves (below). Their periods don't line up, so the path never repeats during a visit. |
-| 2 | **Body along the path** | A long ribbon of birds following one route | Each bird has a fixed place along the body, from head to tail. It sits where the leader was *place × body length* seconds ago. |
-| 3 | **Three flocks** | Several groups at once, so the whole card is alive | Every bird belongs to one of three flocks, which fly the same path 9 s apart. |
-| 4 | **Cross-section** | The ribbon has width and depth, not a single line | Birds spread across and into the body. It tapers at both ends and slowly breathes wider and narrower. |
-| 5 | **Twist** | The ribbon folds into curling sheets | The cross-section rotates along the body's length and slowly over time. |
-| 6 | **Density waves** | Ripples of bunching that run down the flock | A small back-and-forth shift along the body, travelling from head to tail. |
-| 7 | **Stragglers** | A few lone birds drift across the sky | 6% of birds ignore the flock and wander slowly over the whole card. |
-| 8 | **Flutter and wingbeat** | Each bird twitches and flaps on its own | A small personal jitter, plus a wingbeat of about 1.3–2 flaps per second, different for every bird. |
-
-Colour, size and brightness sit on top of the movement:
-- **Colour:** it depends on where a bird is *on the screen*, orange (#CE521D) at the top-left shading to red (#CE1D1E) at the bottom-right. The flock changes colour as it travels.
-- **Green corner:** in the far bottom-right, as in the design's original hero art, birds warm back to orange, pass through a golden step, and turn green (`--color-positive` #85C786, up to 90%). The flock carries a touch of green whenever it flies through that corner. This is on the Home hero only; the service pages' flocks stay orange and red.
-- **Size and brightness:** nearer birds are drawn larger and brighter, farther birds smaller and fainter.
-- **Glow:** where birds overlap, their light adds up, so dense parts glow.
-- **Banking:** birds tilt slightly in the direction the flock is turning.
-
-### 1.3 The leader's path
-
-```
-x(t) = sin(0.23 t) × 1.00 + sin(0.37 t + 1.3) × 0.45      periods ≈ 27 s and 17 s
-y(t) = sin(0.29 t + 0.7) × 0.45 + sin(0.53 t) × 0.20      periods ≈ 22 s and 12 s
-z(t) = sin(0.19 t + 2.1) × 0.80                            period  ≈ 33 s   (depth, toward/away from you)
-```
-
-- **Horizontal:** the path swings across ±1.45 units. It's slightly wider than the card on desktop, so parts of the flock sweep in from and out past the edges.
-- **Vertical:** ±0.65 units.
-- **Depth:** ±0.8 units, which is why birds grow and shrink as the flock comes toward you and goes away.
-- **Starting point:** the flock starts mid-flight (20 s into its path), so it's already moving naturally on the first frame.
-
-### 1.4 How the body follows the leader
-
-```
-      leader now ●
-                  ╲___
-    birds near the head  ●●●●●╲
-                               ●●●●●●●●●╲___            each bird = where the leader was
-                                            ●●●●●●●●●●●  "its place × body length" seconds ago
-                                              birds near the tail
-```
-
-- **Placement:** a bird's place runs from 0 (head) to 1 (tail), and most birds sit in the middle. The body is densest in the middle and along its centre line, and thins out at the ends.
-- **Body length** is measured in seconds of the leader's path. A long body (22 s) is a long thin stream; a short one (6 s) is a compact cloud.
-- **Turns:** when the leader turns, the head turns first and the turn travels back through the body. This is the signature "wave" of a murmuration.
-
-### 1.5 Scrolling changes how the flock flies
-
-Each of the six hero screens has its own **flight style**. As you scroll, the flock blends smoothly from one style to the next; it never jumps.
-
-![The six flight styles](hero-motion/4-flight-styles.png)
-
-| Screen | Style | Body length | Width | Twist | Special | Speed | Looks like |
-|---|---|---|---|---|---|---|---|
-| 1 Headline | Long ribbon | 16 s | 0.75 | 5 | — | 1.0× | a flowing ribbon crossing the sky |
-| 2 Product Design | Wide folding sheet | 10 s | 1.2 | 9 | — | 0.8× | a broad sheet curling over on itself |
-| 3 SRE | Two flocks | 12 s | 0.65 | 5 | split | 1.1× | each flock divides into two groups flying apart |
-| 4 Agentic AI | Swirling ball | 6 s | 0.75 | 4 | ball | 0.7× | birds gather into a dense, rotating sphere |
-| 5 IoT & ML | Long stream | 22 s | 0.5 | 3 | — | 1.3× | a long, thin, fast stream |
-| 6 Invitation | Ribbon again | 14 s | 0.8 | 5 | — | 0.9× | back to a calm ribbon |
-
-What each setting does:
-- **Split:** half the birds of each flock fly 6 s behind the other half on the path, so each flock becomes two.
-- **Ball:** birds are pulled into a sphere around a point on the leader's path. Each bird circles inside the sphere at its own angle, about 0.9 radians per second.
-- **Speed:** how fast the flock moves along its path.
-
-**How the blend works:**
-- Each screen **holds** its style for the first and last 30% of its scroll distance and blends in the middle 40%.
-- The flock also eases toward the new style over about 0.16 s, so even a fast scroll produces a smooth change.
-
-**Where each style happens.** The hero **starts already pinned**: from the first frame the card fills the screen with the header floating over it, and scrolling doesn't move the card until the story ends. At 1440 × 900 the story takes the first **2,764 px** of scrolling, about **553 px per screen**:
-
-| Screen | Flock holds its style | Flock blends to the next | Text on screen |
-|---|---|---|---|
-| 1 Headline — long ribbon | 0 → 166 px | 166 → 387 | 0 → 276 |
-| 2 Product Design — folding sheet | 387 → 719 | 719 → 940 | 276 → 829 |
-| 3 SRE — two flocks | 940 → 1,272 | 1,272 → 1,493 | 829 → 1,382 |
-| 4 Agentic AI — swirling ball | 1,493 → 1,825 | 1,825 → 2,046 | 1,382 → 1,935 |
-| 5 IoT & ML — long stream | 2,046 → 2,378 | 2,378 → 2,599 | 1,935 → 2,488 |
-| 6 Invitation — ribbon again | 2,599 → 2,764 | — | 2,488 → 2,764 |
-
-The text switches halfway through each blend, so new words arrive while the flock is changing formation. After 2,764 px the card un-pins and the next section scrolls up.
-
-### 1.6 When the birds start and stop
-
-- **Start:** the page opens already pinned, on the night sky with the headline. As soon as the flock's first frame has been drawn (it's drawn on a background thread, so the page stays responsive), it **fades in over 1.5 s**, already mid-flight.
-
-The flock only moves while it can be seen:
-- **Hero off screen:** it stops, using no power.
-- **Browser tab hidden:** it stops.
-- **Pause pressed:** it freezes exactly where it is.
-
----
-
-## Part 2 — The cursor movement pattern
-
-### 2.1 In one paragraph
-
-Over the hero, the mouse pointer becomes a small **glowing sun**: a white-hot centre with a lumpy, shifting core and rays of light that flare up and die away at random, so it never looks the same twice. The sun follows the mouse exactly, with no delay. The flock treats that point as a **falcon**: birds close to it flee outward and leave a hole with a random, ever-changing outline, and birds a little farther away catch the sun's light and turn pale. The flock's sense of where the falcon is lags about a tenth of a second behind the sun. So when you move the mouse, the hole trails just behind the sun like a wake, and it closes up again after the sun has passed.
-
-![Cursor sweeping across the sky](hero-motion/2-cursor-sweep.png)
-
-*Moving right: the hole and the ring of lit birds trail slightly behind the sun. When the cursor stops, the hole catches up and settles around it, though never into a perfect circle.*
-
-### 2.2 The two parts of the cursor
-
-| | **The sun** (what you see) | **The falcon** (what the birds feel) |
-|---|---|---|
-| What it is | A 130 × 130 px glow, drawn by the page | An invisible point inside the flock |
-| Follows the mouse | **Exactly**, every pointer move | **Smoothly**, catching up in about 0.1 s |
-| Shown for | Mouse only (not touch or pen) | Any pointer moving over the card |
-| Appears / disappears | Fades in when the mouse moves over the card; fades out in 0.3 s when it leaves | Its strength fades in and out over about 0.15 s |
-| Shape | **Random, never repeating** (drawn live by `src/lib/sun.ts`). The white-hot centre glow is from the original sun. On top of it is a blob core: 9 edge points, each drifting toward new random radii, with the whole core wandering up to 1.6 px off-centre. 10 rays of light are each born at a random angle, length (14–50), width and strength; each flares up, fades out over 0.7–2.8 s and is replaced by a new random ray. The halo's outline and the sun's size (0.94–1.1×) also drift toward new random targets. | The hole's outline is random too (below) |
-| Runs | Only while the sun is showing (mouse over the hero) | — |
-
-Having two parts is deliberate:
-- **The sun has no lag,** so it feels precise, like a real cursor.
-- **The falcon's small lag** makes the birds look as if they're reacting to it, not glued to it.
-
-### 2.3 What the falcon does to the birds
-
-| Zone (distance from the falcon) | Effect | Size at 1440 × 900 |
-|---|---|---|
-| **Close:** fades out by about 0.7 units | Birds are pushed straight away from the falcon, up to 0.8 units, and a little toward you | a clear hole about **100–150 px** across its radius |
-| **Around it:** fades out by about 2 units | Birds catch the light: colour shifts up to 70% toward pale grey (#D6D6D6), and they become up to twice as bright | a pale glowing ring about **265 px** out |
-| **Far** | No effect; the flock flies normally | — |
-
-Both effects fade smoothly with distance, so there's no hard edge. As the falcon moves on, birds return to their places in the flock and the hole closes behind it.
-
-**The hole has no regular shape.** Four things make it random:
-
-| Irregularity | What you see | How |
-|---|---|---|
-| **Random outline** | Lumps and bays that form, drift and dissolve, never repeating | The hole's size in each direction is read from a smooth random-noise field (two layers, fine and coarse) that keeps drifting over time. The size varies between about 40% and 125%, and the light ring follows the same shape. |
-| **Wandering centre** | The hole isn't exactly centred on the sun | Its centre drifts randomly up to about ±0.2 units (~27 px) around the cursor |
-| **Ragged edge** | Some birds hold their ground close to the sun while others flee early | Each bird has its own nerve: its fleeing distance is scaled by a random 0.35–1.65 |
-| **Teardrop wake** | When the cursor moves, the hole stretches out behind it | The falcon's speed is measured each frame. Birds *behind* it (opposite its direction of travel) flee from farther away, and more so the faster it moves (up to 75% more), so the hole trails like a wake and rounds up again when the cursor stops. |
-
-### 2.4 The cursor's style on the page
-- **Over the hero card:** the system cursor is hidden and the sun is the cursor (mouse users only).
-- **Everywhere else on the site:** the normal system cursor.
-- **Over the CTA and controls:** the normal pointer appears as well (known issue).
-- **Touch screens:** there's no sun; a tap scatters the flock instead (next section).
-
----
-
-## Part 3 — Tap or click: scattering the flock
-
-### 3.1 In one paragraph
-
-A **tap or click on the sky** sends a shockwave through the flock from that point. Birds nearest the tap burst outward first, farther birds a split second later as the wave reaches them. Each bird flies out with a little sideways swirl and some depth, flashing pale as it goes. Then the push fades, and the birds fly back into the flock by themselves within about two seconds.
-
-![Tap-to-scatter over 2.2 seconds](hero-motion/3-tap-scatter.png)
-
-### 3.2 Timing and size
-
-| Property | Value | At 1440 × 900 |
-|---|---|---|
-| Wave speed | 8 units per second | ≈ **1,060 px/s**, so it crosses the card in under a second |
-| Strength over time | Rises quickly, peaks at **0.28 s**, then fades | back in the flock by ~**2 s** |
-| Reach | Strongest at the tap, fading out by about 4.2 units | ≈ **560 px** radius |
-| Push | Up to 2.2 units outward, with a random sideways swirl and a push toward or away from you | up to ≈ **290 px** |
-| Variety | Each bird's push is scaled by a random 0.6–1.4 | — |
-| Light | Scattered birds flash toward pale grey | — |
-
-### 3.3 Rules
-- **Taps on links or buttons** (the CTA, service names, Skip, Pause) do their normal job and don't scatter.
-- **It uses a click, not a touch-down,** so starting a scroll on a phone never triggers it.
-- **On phones,** the reach and push shrink with the card's width, so a tap feels the same as on desktop.
-- **A new tap** restarts the burst from the new point.
-- **While paused,** tapping does nothing.
-
----
-
-## Part 4 — How the three motions combine
-
-Every frame, for every bird, the motions are applied in this order:
-
-```
-1. Flight        → the bird's place in the flock (leader path, body, three flocks, twist, waves,
-                   current flight style, stragglers, flutter)
-2. Scatter       → pushed out by the last tap's shockwave, if one is still running
-3. Falcon        → pushed away from the cursor, and lit by the sun
-4. Draw          → size and brightness from depth, colour from screen position, wingbeat
-```
-
-The layers simply add together:
-- Moving the cursor during a scatter makes a hole inside the burst.
-- Scrolling during either changes the flight style underneath.
-
-When every push has faded, each bird is back exactly where the flight pattern puts it. That's why the flock always "heals".
-
----
-
-## Part 5 — Quick reference
-
-| Motion | Trigger | Feels like | Duration / speed |
-|---|---|---|---|
-| Flight | always | a living murmuration | continuous; path periods 12–33 s |
-| Start | page load | the flock appears, mid-flight | page opens pinned; flock fades in over 1.5 s once drawn |
-| Style change | scroll | the flock changes formation | story runs 0 → 2,764 px at 1440 × 900; blends over 40% of each 553 px step, eases over ~0.16 s |
-| Sun | mouse move over the card | a glowing cursor with a white-hot centre | follows instantly; random core, rays and size, never repeating |
-| Falcon hole | mouse move over the card | birds fleeing a predator | follows with ~0.1 s lag; hole ~100–150 px with a random, ever-changing outline; stretches into a wake when moving |
-| Sun light | mouse move over the card | birds catching the light | ring ~265 px |
-| Scatter | tap / click on the sky | a clap sending birds flying | peak 0.28 s, regroups by ~2 s, wave 1,060 px/s |
-| Stop | hero off screen, tab hidden, or Pause | — | instant |
-
-**Reduced motion:** none of this runs. Visitors see a still night-sky card with the headline.
+| Flock | always | a living village: one body, never a clean shape | course periods 12–33 s; covers the card |
+| Mood | scroll | individuals drawing together into one body | loose → gathered over 2,764 px at 1440 × 900; continuous |
+| Orb | mouse over the card | a quiet point of energy carried by the visitor | follows exactly; fades in and out in 0.3 s; breathes every 7 s |
+| Influence | being near the orb | catching the light, moving in step | light ≈ 66–115 px; unison ≈ 145 px; no position change |
+| Pulse | tap or click on the sky | the village answering, together | ≈ 1,060 px/s; peak 0.55 s; gone by ~2 s; lean ≤ 30 px |
+| Calm | reduced motion | the same village, gently | 30% speed; no orb, pulse or story |
+| Stop | hero off screen, tab hidden, Pause | — | instant |

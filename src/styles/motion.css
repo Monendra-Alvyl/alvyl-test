@@ -19,9 +19,14 @@
   height: var(--hero-card-h);
 }
 
-/* Only story mode shows the other screens, the controls, the flock and the sun. */
+/* Only story mode shows the other screens, the orb and the story's own controls. */
 :root:not([data-story]) .hero-story-only,
 :root:not([data-story]) .hero-screen:not([data-first]) {
+  display: none;
+}
+
+/* The flock, its scrim and Pause show in story mode and in calm mode (reduced motion, see index.html). */
+:root:not([data-story]):not([data-calm]) .hero-motion-only {
   display: none;
 }
 
@@ -120,8 +125,9 @@
 }
 
 /*
- * The halo: a white-hot centre warming into Alchemy orange, inside a soft orange-red glow, a little
- * off-centre. lib/sun.ts drifts its outline (border-radius) and size (scale); it breathes here.
+ * The halo: a quiet, restrained glow in shades of orange and red only — nothing in it ever goes
+ * white. lib/sun.ts drifts the orb's outline (border-radius) and size (scale); it breathes here, but
+ * gently, like steady afternoon light rather than a bright, attention-seeking source.
  */
 .sun {
   position: absolute;
@@ -129,29 +135,50 @@
   border-radius: 50%;
   background: radial-gradient(
     circle at 48% 52%,
-    var(--color-text-white) 0 6%,
-    var(--color-alchemy-1) 14%,
-    rgb(206 29 30 / 0.35) 34%,
-    rgb(206 29 30 / 0.12) 52%,
-    transparent 70%
+    #ffb066 0 5%,
+    var(--color-alchemy-1) 11%,
+    rgb(206 29 30 / 0.28) 26%,
+    rgb(206 29 30 / 0.08) 40%,
+    transparent 55%
   );
   mix-blend-mode: screen;
-  /* A touch dimmer overall (glow and rays). On this element, not its wrapper, so the screen blend
-     still reaches the page behind it. */
-  filter: brightness(0.85);
-  animation: sun-breathe 3.2s ease-in-out infinite;
+  /* Restrained overall, so it never competes with the text for attention. */
+  filter: brightness(0.75);
+  animation: sun-breathe 7s ease-in-out infinite;
 }
 
 @keyframes sun-breathe {
   0%,
   100% {
     transform: scale(1);
-    opacity: 0.9;
+    opacity: 0.92;
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.03);
     opacity: 1;
   }
+}
+
+/*
+ * The orb's light reaches far beyond its small core — afternoon sun on a wall, not a spotlight — but
+ * stays extremely faint so it's felt rather than seen. Independent of .sun's tighter breathing glow.
+ */
+.sun-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  margin: -450px 0 0 -450px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(206 29 30 / 0.06) 0%,
+    rgb(206 29 30 / 0.03) 40%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .sun-art {
@@ -162,13 +189,13 @@
   overflow: visible;
 }
 
-/* Rays: tapered orange-red light, softly blurred. */
-.sun-rays {
-  filter: blur(1.2px);
+.sun-core {
+  filter: drop-shadow(0 0 3px rgb(255 176 102 / 0.8));
 }
 
-.sun-core {
-  filter: drop-shadow(0 0 3px rgb(255 255 255 / 0.8));
+/* Pause stops the orb's breathing along with the flock (WCAG 2.2.2). */
+.hero-card[data-paused] .sun {
+  animation-play-state: paused;
 }
 
 /* The sun replaces the cursor over the sky (mouse only); over text, links and buttons the normal

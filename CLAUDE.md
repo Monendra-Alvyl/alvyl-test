@@ -62,24 +62,61 @@ Rules that follow from these:
 
 ## Home hero (murmuration)
 
-- Specs: [hero-section-design.md](hero-section-design.md) (layout, type, motion, states) and
-  [hero-motion-patterns.md](hero-motion-patterns.md) (flock, sun, scatter). Reference screenshots are in
-  `hero-design/`. Build to these values.
+- Specs: [hero-section-design.md](hero-section-design.md) (layout, type, motion, states — **not yet
+  updated for the orb/pulse rework below**) and [hero-motion-patterns.md](hero-motion-patterns.md)
+  (flock and orb, current as of 1 Oct 2026). Reference screenshots in `hero-design/` show the old
+  falcon/scatter look and are stale.
+- **The philosophy (the user's own framing, load-bearing for any future hero work):** Alvyl = Alchemy
+  Village — individuals (the flock, the village) plus energy (the orb, the alchemy) make something
+  greater (synergy). **Four parts only: flock, orb, influence, pulse** — every motion must say why it
+  exists in those terms (the spec does, per part). Removed for minimalism and not to come back without
+  asking: three flocks, the 1% "lead" birds, stragglers, drawn-on density waves, twist/folding sheets,
+  split, ball, the six named formations, the green corner.
+  - **Flock:** one body that **covers the card**, following one wandering course; organic outline from
+    two-scale noise (knots and necks, never an ellipse); each bird strays on its own slow course.
+    Scroll only eases the mood, loose (headline) → gathered (finale); both moods still span the card.
+  - **Orb:** **the mouse cursor only** — follows it exactly, fades in where the pointer is and out where
+    it leaves, **never moves on its own** (an always-present idle-wandering orb was built and the user
+    rejected it); no orb on touch. Restrained, "minimalism and mystery": orange/red only, faint far halo.
+  - **Influence:** near the orb birds deepen toward red and stray less (fly in step). **No positional
+    effect on the flock at all** — a drag, a local lean and a pull-and-orbit were all tried and turned
+    down; only light + unison survived.
+  - **Pulse:** a tap sends a soft wave; birds lean toward its source together and ease back (~2 s);
+    three waves can run at once. Never an outward scatter. No on-screen hint.
+  - **Colour:** orange and red only; per-bird brightness capped so dense overlaps stay a rich red, never
+    white; light near the orb deepens, never lightens.
+- **Mastery = written quality targets, met and checked** (Part 6 of the spec): 60 fps target with a
+  frame-rate guard that fades birds out gradually (never below 55%, never back up); no white (pixel
+  scan); far birds fade to 15%; nothing pops (orb fades at the pointer, three pulse slots, resize eases,
+  flock clock never jumps); Pause is the one deliberate instant stop. Real-phone frame rate is still
+  unverified — headless Chromium renders on the CPU, so the guard always trips there; judge the full
+  flock from the first ~3 s of a headless run.
+- **Calm mode (reduced motion):** the user wants animation, not a still frame, for these visitors.
+  `index.html` sets `data-calm` (instead of `data-story`) when reduced motion is asked for and WebGL
+  exists: the plain card keeps the flock at 30% speed, one held mood, no orb, no pulse, no story, with
+  Pause shown. `.hero-motion-only` shows in story or calm mode; `.hero-story-only` only in story mode.
+- A full boids-style rearchitecture (real per-bird separation/alignment/cohesion, needing neighbour
+  awareness the current vertex-shader-only pipeline doesn't have) was proposed and explicitly declined
+  in favour of keeping the existing shared-leader-path architecture with noise-driven organic
+  approximation — lower risk, same performance profile. Treat a future ask for "real" flocking physics
+  as needing the same scoped sign-off, since it implies a genuine rendering-pipeline rewrite (CPU
+  neighbour search or a GPU position-texture pass), not a shader tweak.
 - `src/lib/murmuration.ts`, `src/lib/murmuration.worker.ts` and `src/lib/sun.ts` were the user's
   complete, as-built files; the default is still to **adapt the calling code**
   (`src/pages/home/sections/Hero.tsx`, `src/styles/motion.css`) rather than touch them. The user has
-  since approved scoped edits inside `murmuration.ts` for specific, named improvements (the falcon
-  easing warmth toward it past the flee radius, ~1% of birds as larger/brighter "leads", the finale's
-  own gathering flight style, a small overshoot on the post-scatter regroup) — each confirmed with a
-  before/after screenshot and a passing build. Treat a request to rework the engine's look or feel as
-  needing the same kind of explicit, scoped sign-off again; don't take this history as a standing
-  license to rewrite the file freely.
-- API: `createMurmuration({ container, colors, glow, green, layout, onReady, onError })` returns
-  `setProgress(0…5)`, `setActive`, `setPaused`, `burst(clientX, clientY)`, `destroy`, or null without
-  WebGL. The flock tracks the pointer (falcon) itself. `animateSun(el)` draws into the `.sun` element
-  and returns `play / pause / destroy`.
+  since approved scoped edits inside `murmuration.ts`/`sun.ts` for named improvements, confirmed with
+  before/after screenshots and a passing build each time. Treat a request to rework the engine's look
+  or feel as needing the same kind of explicit, scoped sign-off again — don't take this history as a
+  standing license to rewrite the file freely, and don't reintroduce a positional pointer-to-flock
+  force without re-confirming; it's been tried and explicitly turned down three times already.
+- API: `createMurmuration({ container, colors: [alchemy1, alchemy2], glow, layout, calm, stage,
+  onReady, onError })` returns `setProgress(0…5)`, `setPointer(x, y)` / `clearPointer()` (−1…1; Hero's
+  mouse handler is the only source — the engine has no pointer listeners of its own), `setActive`,
+  `setPaused`, `burst(clientX, clientY)`, `destroy`, or null without WebGL. `animateSun(el)` draws into
+  the `.sun` element and returns `play / pause / destroy`.
 - Story mode is flagged by `data-story` on `<html>`, set in `index.html` before first paint when motion
-  is allowed and WebGL exists; Tailwind variant `story:`. Without it the hero is the static card.
+  is allowed and WebGL exists; Tailwind variant `story:`. Calm mode is `data-calm` (above). Without
+  either the hero is the static card.
 
 ## Workflow
 

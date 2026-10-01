@@ -1,28 +1,28 @@
 /*
- * Starling murmuration (after "Flight of the Starlings", Jan van IJken / National Geographic):
- * thousands of specks in three flocks that fill the card, each flying as one body, coloured
- * with the Alchemy gradient (or solid ink over a light sky) — a ribbon that stretches, folds into
- * twisting sheets, ripples with density waves, splits and rejoins. No fixed shapes: the flock's
- * form comes from following a wandering leader through time. The pointer is a falcon the flock
- * parts around, and birds near it catch its light. Scrolling the pinned Home hero changes how the
- * flock flies (see STAGES).
+ * Starling murmuration (after "Flight of the Starlings", Jan van IJken / National Geographic), built
+ * around Alvyl's own idea: Alchemy Village. Four parts, and nothing else:
+ *   1. The flock — the village. One body of thousands of individuals, each with its own place and its
+ *      own small wandering, together tracing one wandering course across the whole card. Its outline
+ *      is never a clean shape. Scrolling the pinned Home hero tells its story: loose and scattered at
+ *      the headline, one close-knit body by the finale (LOOSE → GATHERED).
+ *   2. The orb — the alchemy. The visitor's cursor, as a quiet point of energy (drawn by lib/sun; its
+ *      position arrives here through setPointer / clearPointer). It never moves a bird.
+ *   3. Influence — the synergy. Near the orb, birds deepen toward red and stray less from their place:
+ *      the energy doesn't steer anyone, it helps them move as one.
+ *   4. The pulse — the village answering. A tap sends a soft wave out; birds lean toward its source
+ *      together as it passes, then ease back.
  *
- * Fully procedural in the vertex shader (one draw call, no library, no per-frame CPU work beyond
- * a few uniforms): each bird has a fixed place in the flock's body (along / across / depth), and the
- * body is laid along the leader's recent path, so every turn of the leader sweeps through the flock.
+ * Fully procedural in the vertex shader (one draw call, no library, no per-frame CPU work beyond a few
+ * uniforms): each bird has a fixed home in the flock's body (along / radius / angle), and the body is
+ * laid along the leader's recent path, so every turn of the leader sweeps through the flock as a wave.
  */
 
-/** Flight styles, one per story stage: [lag, width, twist, split, ball, speed]. */
-const STAGES = [
-  [16, 0.75, 5.0, 0, 0, 1.0], // long ribbon (the headline)
-  [10, 1.2, 9.0, 0, 0, 0.8], // wide folding sheet
-  [12, 0.65, 5.0, 1, 0, 1.1], // two flocks
-  [6, 0.75, 4.0, 0, 1, 0.7], // dense, swirling ball
-  [22, 0.5, 3.0, 0, 0, 1.3], // long stream
-  [9, 0.55, 6.0, 0, 0.32, 0.7], // gathering — warmer and closer together, not the opening ribbon again
-] as const
+/** The flock's two moods, eased between by scroll progress: [lag, width, rough, speed]. Both span
+    the card: the story is the flock drawing together, not shrinking away. */
+const LOOSE = [26, 0.56, 0.5, 0.8] as const // the headline: individuals, loose and scattered
+const GATHERED = [18, 0.42, 0.08, 0.6] as const // the finale: one close-knit body, the village
 
-export const STAGE_COUNT = STAGES.length
+export const STAGE_COUNT = 6
 
 type Options = {
   /** The flock adds its own canvas here, filling it. */
@@ -31,61 +31,60 @@ type Options = {
   onReady?: () => void
   /** WebGL turned out to be unavailable in the worker (keep the static card). */
   onError?: () => void
-  /** [alchemy-1, alchemy-2, light text] as CSS colours (read from the design tokens). */
-  colors: [string, string, string]
+  /** [alchemy-1, alchemy-2] as CSS colours (read from the design tokens). */
+  colors: [string, string]
   /** 'hero': beside/above the Home headline. 'center': centred in its panel (service pages). */
   layout?: 'hero' | 'center'
-  /** Hold this flight style instead of following setProgress. */
+  /** Hold this mood (0 … STAGE_COUNT - 1) instead of following setProgress. */
   stage?: number
   /** Draw solid birds in this CSS colour over a light sky, instead of glowing Alchemy on dark. */
   ink?: string
   /** Brightness of the glowing birds (default 1); the Home story, whose card they light, uses more. */
   glow?: number
-  /** A CSS colour the birds shade into in the sky's far bottom-right corner (the Home hero). */
-  green?: string
+  /** Visitors who asked for reduced motion: the same flock, flying at a third of the pace. */
+  calm?: boolean
 }
 
 export type Murmuration = {
-  /** Continuous stage position, 0 … STAGE_COUNT - 1. The flight style eases toward it. */
+  /** Continuous story position, 0 … STAGE_COUNT - 1. The flock's mood eases toward it. */
   setProgress(progress: number): void
   /** Pauses rendering while off screen. */
   setActive(active: boolean): void
   /** The visitor's pause control (WCAG 2.2.2): freezes the flock where it is. */
   setPaused(paused: boolean): void
-  /** Scatters the flock from this point on screen (a tap or click); it regroups by itself. */
+  /** Sends a soft pulse through the flock from this point (a tap or click). */
   burst(clientX: number, clientY: number): void
+  /** Where the orb (the cursor) is, −1 … 1 across the canvas. The only way the flock learns of it. */
+  setPointer(x: number, y: number): void
+  /** The orb has gone (the cursor left the card): its light fades from the flock. */
+  clearPointer(): void
   destroy(): void
 }
 
 const VERTEX = /* glsl */ `
-attribute vec4 aSeed; // along, across, depth, random
+attribute vec4 aSeed; // along (0 head … 1 tail), radius, angle, rank (0 … 1, unique per bird)
 
-uniform float uTime;      // wall clock, for flutter
-uniform float uFlight;    // flock clock (advances at the stage's speed)
-uniform float uLag;       // body length, in seconds of the leader's path
-uniform float uWidth;
-uniform float uTwist;
-uniform float uSplit;
-uniform float uBall;
+uniform float uTime;        // the flock's own clock, for wingbeats (never jumps, slows when calm)
+uniform float uFlight;      // the flock's clock along its course (advances at the mood's speed)
+uniform float uLag;         // body length, in seconds of the leader's course
+uniform float uWidth;       // body radius
+uniform float uRough;       // how far each bird strays from its home: far when loose, little together
+uniform float uKeep;        // share of birds drawn (the frame-rate guard lowers it, fading, not cutting)
 uniform float uScale;
 uniform vec2 uOffset;
-uniform vec2 uMouse;      // world units on the z = 0 plane
+uniform vec2 uMouse;        // the orb, world units on the z = 0 plane
 uniform float uMouseStrength;
-uniform vec2 uMouseVel;   // how fast the falcon is moving (world units per second)
-uniform vec3 uColorGreen; // the green of the sky's far corner…
-uniform float uGreenAmount; // …and how far birds there shade into it (0 = no green)
-uniform vec2 uBurst;      // where the last tap/click landed (world units)
-uniform float uBurstAge;  // seconds since then
-uniform float uBurstSize; // the card's size relative to a desktop card (the burst scales with it)
+uniform vec2 uBurst[3];     // the last three taps (world units)…
+uniform float uBurstAge[3]; // …and seconds since each, so a new tap never cuts an earlier one off
+uniform float uBurstSize;   // the card's size relative to a desktop card (the pulse scales with it)
 uniform float uAspect;
 uniform float uFocal;
 uniform float uPointSize;
 uniform vec3 uColorA;
 uniform vec3 uColorB;
-uniform vec3 uColorLight;
 uniform vec3 uColorInk;
-uniform float uInk;       // 1: solid ink birds on a light sky
-uniform float uGlow;      // brightness of the glowing birds
+uniform float uInk;         // 1: solid ink birds on a light sky
+uniform float uGlow;        // brightness of the glowing birds
 
 varying vec3 vColor;
 varying float vAlpha;
@@ -107,136 +106,98 @@ float noise2(vec2 p) {
              mix(hash2(i + vec2(0.0, 1.0)), hash2(i + vec2(1.0, 1.0)), u.x), u.y);
 }
 
-// The leader's wandering path (object units, roughly x ±1.45, y ±0.65, z ±0.8).
+// The flock's own course (object units, x ±1.15, y ±0.5, z ±0.6): five slow sines whose periods
+// never line up, sweeping the one body across the whole card. It answers to nothing — not the
+// scroll, not the orb — so the village always has a life of its own. Where the course slows into a
+// turn the body bunches up, and where it speeds up the body thins: density waves, for free.
 vec3 leader(float t) {
   return vec3(
-    sin(t * 0.23) * 1.0 + sin(t * 0.37 + 1.3) * 0.45,
-    sin(t * 0.29 + 0.7) * 0.45 + sin(t * 0.53) * 0.2,
-    sin(t * 0.19 + 2.1) * 0.8
+    sin(t * 0.23) * 0.85 + sin(t * 0.37 + 1.3) * 0.3,
+    sin(t * 0.29 + 0.7) * 0.36 + sin(t * 0.53) * 0.14,
+    sin(t * 0.19 + 2.1) * 0.6
   );
 }
 
 void main() {
   float along = aSeed.x;
-  float across = aSeed.y * 2.0 - 1.0;
-  float depth = aSeed.z * 2.0 - 1.0;
-  float r = aSeed.w;
+  float radius = aSeed.y;
+  float angle = aSeed.z * 6.2831853;
+  float rank = aSeed.w;
   float t = uFlight;
-  // About 1% of birds are leads: a touch larger, a touch brighter, pacing fractionally ahead of the
-  // body — the flock reads as individuals finding the same shape, not one anonymous mass.
-  float lead = step(0.99, hash(r + 20.0));
 
-  // Three flocks fly at once, far apart along the same wandering path, so the whole card is alive;
-  // on the split stage each of them divides again.
-  float flockId = floor(hash(r + 5.0) * 3.0);
-  float phase = flockId * 9.0 + step(0.5, r) * uSplit * 6.0;
-  float tp = t - along * uLag + phase + lead * 0.15;
+  // 1 · The flock. Each bird's home: where the course was "its place × body length" ago, set out
+  // from the centre line in a soft, round volume (never a flat sheet). The volume's outline is pushed
+  // in and out by slow noise at two scales, so it bulges, thins and frays unevenly as it flies.
+  float tp = t - along * uLag;
   vec3 c = leader(tp);
   vec3 T = normalize(leader(tp + 0.05) - c);
   vec3 N = normalize(cross(T, vec3(0.0, 1.0, 0.0)) + vec3(0.0, 0.0, 1e-4));
   vec3 B = cross(N, T);
+  vec2 dir = vec2(cos(angle), sin(angle));
+  float taper = 0.35 + 0.65 * pow(sin(3.14159 * along), 0.6);
+  float lump = 0.25 + 1.05 * noise2(dir * 1.3 + vec2(along * 3.0 - t * 0.06, t * 0.05))
+                    + 0.35 * noise2(dir * 3.1 + vec2(along * 6.0, -t * 0.11));
+  float reach = radius * uWidth * taper * lump;
+  vec3 pos = c + N * (dir.x * reach) + B * (dir.y * reach * 0.7);
 
-  // Cross-section: tapered at both ends, breathing, and twisting along the body into folded sheets.
-  // (never fully thin, so the ends feather out instead of drawing hard streaks)
-  float env = 0.3 + 0.7 * pow(sin(3.14159 * along), 0.6);
-  float width = uWidth * (0.6 + 0.4 * sin(along * 5.0 - t * 0.7)) * env;
-  float a = along * uTwist + t * 0.3;
-  float cs = cos(a), sn = sin(a);
-  float qw = across * width;
-  float hh = depth * width * 0.22;
-  vec3 pos = c + N * (cs * qw - sn * hh) + B * (sn * qw + cs * hh);
+  // 3 · Influence, part one: how close this bird's home is to the orb.
+  vec2 home = pos.xy * uScale + uOffset;
+  vec2 toOrbHome = home - uMouse;
+  float unison = exp(-dot(toOrbHome, toOrbHome) / 1.2) * uMouseStrength;
 
-  // Density waves running through the flock.
-  pos += T * 0.06 * sin(along * 40.0 - t * 4.0);
-
-  // Ball: the flock bunches around the middle of its path and swirls.
-  vec3 dir = normalize(vec3(across, depth, sin(r * 43.7)) + 1e-4);
-  float spin = t * 0.9 + r * 6.2831;
-  vec3 swirl = vec3(dir.x * cos(spin) - dir.z * sin(spin), dir.y, dir.x * sin(spin) + dir.z * cos(spin));
-  vec3 ball = leader(t - uLag * 0.5 + flockId * 9.0) + swirl * 0.62 * pow(r, 0.5);
-  pos = mix(pos, ball, uBall);
-
-  // Stragglers: a few birds drift loose across the whole card.
-  float loose = step(hash(r + 1.0), 0.06);
-  vec3 drift = vec3(
-    sin(hash(r + 2.0) * 6.2831 + t * 0.07) * 1.5,
-    sin(hash(r + 3.0) * 6.2831 + t * 0.05) * 0.95,
-    sin(hash(r + 4.0) * 6.2831 + t * 0.03) * 0.6
-  );
-  pos = mix(pos, drift, loose);
-
-  // Each bird flutters a little on its own.
-  pos += 0.018 * vec3(sin(uTime * 2.1 + r * 60.0), sin(uTime * 2.7 + r * 91.0), sin(uTime * 1.9 + r * 37.0));
+  // Each bird strays from its home on its own slow course — far while the flock is loose, barely once
+  // it has gathered, and less near the orb, where the flock moves as one.
+  vec3 stray = vec3(
+    noise2(vec2(hash(rank + 21.0) * 50.0, t * 0.09)),
+    noise2(vec2(hash(rank + 22.0) * 50.0, t * 0.07)),
+    noise2(vec2(hash(rank + 23.0) * 50.0, t * 0.05))
+  ) - 0.5;
+  pos += stray * uRough * (1.0 - unison * 0.6);
 
   pos = pos * uScale + vec3(uOffset, 0.0);
 
-  // The clap: a tap or click sends a shock through the flock. It spreads out from that point, so
-  // near birds burst first and far ones a moment later; each flies out with a little swirl and
-  // depth, catches the light, then rejoins the flock over about two seconds.
-  vec2 fromBurst = pos.xy - uBurst;
-  float bd = length(fromBurst) / uBurstSize; // in desktop-card units, so a tap feels the same on a phone
-  float ba = max(uBurstAge - bd / 8.0, 0.0) / 0.28;
-  // A small settle, after the main burst has mostly faded: birds dip slightly past their place before
-  // coming to rest, rather than decaying straight back — the overshoot of a real return, not a reset.
-  float settle = -0.12 * sin(max(ba - 1.1, 0.0) * 2.2) * exp(-max(ba - 1.1, 0.0) * 1.4);
-  float burst = (ba * exp(1.0 - ba) + settle) * exp(-bd * bd / 18.0) * (0.6 + 0.8 * hash(r + 11.0));
-  vec2 bdir = normalize(fromBurst + 1e-4);
-  pos.xy += (bdir + vec2(-bdir.y, bdir.x) * (hash(r + 12.0) - 0.5) * 1.2) * burst * 2.2 * uBurstSize;
-  pos.z += burst * (hash(r + 13.0) - 0.3) * 1.6 * uBurstSize;
+  // 4 · The pulse: each tap's soft wave reaches near birds first; they lean toward its source together
+  // as it passes, then ease back as it fades.
+  float pulse = 0.0;
+  vec2 lean = vec2(0.0);
+  for (int i = 0; i < 3; i++) {
+    vec2 fromTap = pos.xy - uBurst[i];
+    float pd = length(fromTap) / uBurstSize; // desktop-card units, so a tap feels the same on a phone
+    float pa = max(uBurstAge[i] - pd / 8.0, 0.0) / 0.55;
+    float p = pa * exp(1.0 - pa) * exp(-pd * pd / 18.0);
+    pulse += p;
+    lean -= normalize(fromTap + 1e-4) * p;
+  }
+  float answer = 0.6 + 0.8 * hash(rank + 11.0); // each bird answers in its own measure
+  pos.xy += lean * answer * 0.16;
 
-  // The falcon: birds near the pointer scatter, leaving a hole that closes as it passes;
-  // birds near the sun catch its light. The hole has no regular shape: its outline comes from a
-  // drifting random noise field (lumps and bays that never repeat), its centre wanders a little
-  // around the pointer, each bird holds its ground at its own distance (a ragged edge), and when
-  // the pointer moves the hole stretches out behind it into a wake.
-  vec2 jitter = (vec2(noise2(vec2(uTime * 0.7, 3.1)), noise2(vec2(5.2, uTime * 0.8))) - 0.5) * 0.4;
-  vec2 away = pos.xy - uMouse - jitter;
-  float near = dot(away, away);
-  vec2 heading = away / max(sqrt(near), 1e-3);
-  float wobble = 0.4 + 0.85 * (0.6 * noise2(heading * 1.6 + vec2(uTime * 0.35, -uTime * 0.27))
-    + 0.4 * noise2(heading * 3.7 + vec2(-uTime * 0.6, uTime * 0.5) + 7.3));
-  float nerve = 0.35 + 1.3 * hash(r + 14.0);
-  float speed = length(uMouseVel);
-  float behind = min(dot(away, -uMouseVel / max(speed, 1e-3)), 0.0) * -1.0;
-  float wake = behind * behind * clamp(speed * 0.18, 0.0, 0.75);
-  float reach = 0.5 * wobble * wobble * nerve;
-  float fear = exp(-max(near - wake, 0.0) / reach) * uMouseStrength;
-  pos.xy += normalize(away + 1e-4) * fear * 0.8;
-  pos.z += fear * 0.3;
-
-  // Just past where fear fades out, birds ease a little toward the light instead of fleeing it — a
-  // loose, wandering ring of welcome around the sun, not a predator's reach. It fades in only once
-  // fear has mostly faded, and fades out again before it would ever pull a bird in too close.
-  float ringIn = smoothstep(reach * 0.9, reach * 2.0, near);
-  float ringOut = 1.0 - smoothstep(reach * 2.5, reach * 7.0, near);
-  float warmth = ringIn * ringOut * uMouseStrength * (0.5 + 0.5 * hash(r + 15.0)) * (1.0 - uInk);
-  pos.xy -= heading * warmth * 0.35;
-
-  float lit = (exp(-near / (4.0 * wobble)) * uMouseStrength + burst * 0.6) * (1.0 - uInk) + warmth * 0.5;
+  // 3 · Influence, part two: birds nearest the orb (or caught in a pulse) carry a little of its light,
+  // each a little differently.
+  vec2 toOrb = pos.xy - uMouse;
+  float nerve = 0.5 + hash(rank + 14.0);
+  float lit = (exp(-dot(toOrb, toOrb) / (0.5 * nerve)) * uMouseStrength + pulse * answer * 0.6)
+    * (1.0 - uInk);
 
   float dist = CAMERA_Z - pos.z;
   gl_Position = vec4(pos.x * uFocal / uAspect, pos.y * uFocal, 0.0, dist);
-  gl_PointSize = uPointSize * (0.6 + hash(r + 7.0) * 0.8 + lead * 0.9) * (CAMERA_Z / dist);
+  gl_PointSize = uPointSize * (0.6 + hash(rank + 7.0) * 0.8) * (CAMERA_Z / dist);
 
-  // The Alchemy gradient laid across the screen: Alchemy 1 at top left, Alchemy 2 at bottom right.
+  // The Alchemy gradient across the screen (Alchemy 1 top left, Alchemy 2 bottom right). Near the orb
+  // a bird deepens toward red, never toward anything paler: orange and red only, everywhere.
   vec2 screen = pos.xy * uFocal / dist;
   float tint = clamp(0.5 + (screen.x / uAspect - screen.y) * 0.35, 0.0, 1.0);
-  // Seen from below, wings spread across the view, banking a little as the flock turns;
-  // each bird beats its wings at its own pace.
-  vHead = normalize(vec2(T.x * 0.45, -1.0));
-  vFlap = sin(uTime * (8.0 + hash(r + 8.0) * 5.0) + r * 50.0);
+  vec3 hue = mix(uColorA, uColorB, tint);
+  vColor = mix(mix(hue, uColorB, lit * 0.7), uColorInk, uInk);
 
-  // …and, as in the design's original hero art, the far bottom-right of the sky turns green: birds
-  // flying through that corner shade into it, so the flock carries a little green as it passes.
-  // Like the art, the red warms back to orange first and then turns green (a golden step between,
-  // not the brown a straight red-to-green blend would give).
-  float corner = 0.5 + (screen.x / uAspect - screen.y) * 0.35; // past 1 toward the far corner
-  float warm = smoothstep(0.8, 0.98, corner) * uGreenAmount;
-  float verdant = smoothstep(0.92, 1.12, corner) * uGreenAmount;
-  vec3 hue = mix(mix(mix(uColorA, uColorB, tint), uColorA, warm), uColorGreen, verdant);
-  vColor = mix(mix(hue, uColorLight, lit * 0.7), uColorInk, uInk);
-  vColor = mix(vColor, uColorLight, lead * 0.5 * (1.0 - uInk)); // leads carry a little of the light always
-  vAlpha = clamp(0.42 + pos.z / uScale * 0.12, 0.25, 0.6) * (1.0 + uInk * 0.5) * uGlow * (1.0 + lit) * (1.0 + lead * 0.35);
+  // Seen from below, wings spread across the view, banking a little as the flock turns.
+  vHead = normalize(vec2(T.x * 0.45, -1.0));
+  vFlap = sin(uTime * (8.0 + hash(rank + 8.0) * 5.0) + hash(rank + 9.0) * 6.2831853);
+
+  // Far birds sink into the dark (down to 15% of a near bird). Each bird's light is capped, so where
+  // many overlap and their light adds up, a dense spot becomes a richer red, never a wash of white.
+  float nearness = smoothstep(-1.4, 1.0, pos.z / uScale);
+  float kept = 1.0 - smoothstep(uKeep - 0.05, uKeep, rank);
+  vAlpha = min(mix(0.075, 0.5, nearness) * (1.0 + uInk * 0.5) * uGlow * (1.0 + lit * 0.5), 0.85) * kept;
 }
 `
 
@@ -296,17 +257,17 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 /** Everything the renderer needs, as plain data: it usually runs in a worker, without the DOM. */
 export type FlockConfig = {
-  colors: [Rgb, Rgb, Rgb]
+  colors: [Rgb, Rgb]
   ink?: Rgb
   glow: number
-  green?: Rgb
   layout: 'hero' | 'center'
   stage?: number
+  calm: boolean
   /** Phone/tablet: fewer birds, lower resolution. */
   small: boolean
 }
 
-/** What the page tells the renderer (sizes, pointer, scroll), since a worker can't see the page. */
+/** What the page tells the renderer (sizes, orb, scroll), since a worker can't see the page. */
 export type FlockCommand =
   | { type: 'resize'; width: number; height: number; dpr: number; wide: boolean }
   | { type: 'pointer'; x: number; y: number } // −1 … 1 across the canvas
@@ -316,13 +277,15 @@ export type FlockCommand =
   | { type: 'run'; run: boolean }
   | { type: 'destroy' }
 
+const PULSES = 3
+
 /**
  * Draws the flock into a canvas it owns (an OffscreenCanvas in lib/murmuration.worker, or the
  * page's canvas where workers can't draw). Returns null when WebGL is unavailable.
  */
 export function createFlockRenderer(
   canvas: HTMLCanvasElement | OffscreenCanvas,
-  { colors, ink, glow, green, layout, stage, small }: FlockConfig,
+  { colors, ink, glow, layout, stage, calm, small }: FlockConfig,
   onFirstFrame: () => void,
 ): ((command: FlockCommand) => void) | null {
   const gl = canvas.getContext('webgl', {
@@ -346,16 +309,18 @@ export function createFlockRenderer(
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null
   gl.useProgram(program)
 
-  // Fewer birds on phones and low-core machines, so it stays at frame rate.
+  // Fewer birds on phones and low-core machines, so it starts at frame rate; the guard in render()
+  // thins the flock further, gradually, if frames still run long.
   const lowEnd = (navigator.hardwareConcurrency || 8) <= 4
   const count = Math.round((small ? 5000 : 10000) * (lowEnd ? 0.5 : 1))
   const rand = mulberry32(3)
   const seeds = new Float32Array(count * 4)
   for (let i = 0; i < count; i++) {
-    // Denser toward the middle of the body and its centre line, like a real flock.
+    // Denser toward the middle of the body and its centre line, like a real flock. Rank follows the
+    // order, so drawing the first n birds is an even thinning of the whole flock.
     const along = 0.5 + (rand() - 0.5) * (0.6 + 0.4 * rand())
-    const across = 0.5 + (rand() - 0.5) * (0.5 + 0.5 * rand())
-    seeds.set([along, across, rand(), rand()], i * 4)
+    const radius = Math.abs(rand() - 0.5) * (1 + rand())
+    seeds.set([along, radius, rand(), (i + 0.5) / count], i * 4)
   }
   const buffer = gl.createBuffer()!
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
@@ -370,9 +335,8 @@ export function createFlockRenderer(
     flight: u('uFlight'),
     lag: u('uLag'),
     width: u('uWidth'),
-    twist: u('uTwist'),
-    split: u('uSplit'),
-    ball: u('uBall'),
+    rough: u('uRough'),
+    keep: u('uKeep'),
     scale: u('uScale'),
     offset: u('uOffset'),
     mouse: u('uMouse'),
@@ -380,19 +344,15 @@ export function createFlockRenderer(
     burst: u('uBurst'),
     burstAge: u('uBurstAge'),
     burstSize: u('uBurstSize'),
-    mouseVel: u('uMouseVel'),
     aspect: u('uAspect'),
     focal: u('uFocal'),
     pointSize: u('uPointSize'),
   }
   gl.uniform3fv(u('uColorA'), colors[0])
   gl.uniform3fv(u('uColorB'), colors[1])
-  gl.uniform3fv(u('uColorLight'), colors[2])
   if (ink) gl.uniform3fv(u('uColorInk'), ink)
   gl.uniform1f(u('uInk'), ink ? 1 : 0)
   gl.uniform1f(u('uGlow'), glow)
-  if (green) gl.uniform3fv(u('uColorGreen'), green)
-  gl.uniform1f(u('uGreenAmount'), green ? 0.9 : 0)
   gl.enable(gl.BLEND)
   if (ink)
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA) // ink: where the flock is dense, it darkens
@@ -403,20 +363,30 @@ export function createFlockRenderer(
   const FOV = (35 * Math.PI) / 180
   const focal = 1 / Math.tan(FOV / 2)
   const view = { halfW: 1, halfH: 1 }
+  const pace = calm ? 0.3 : 1
 
   const state = {
     target: stage ?? 0,
     progress: stage ?? 0,
-    flight: 20, // start mid-flight, not at the path's origin
+    flight: 20, // start mid-flight, not at the course's origin
+    clock: 0,
     scale: 1,
+    scaleTarget: 1,
     offset: [0, 0] as [number, number],
+    offsetTarget: [0, 0] as [number, number],
     mouse: [0, 0] as [number, number],
     mouseTarget: [0, 0] as [number, number],
     strength: 0,
     strengthTarget: 0,
-    burst: [0, 0] as [number, number],
-    burstAt: -1e4, // seconds (performance.now clock); long ago = no burst
-    mouseVel: [0, 0] as [number, number],
+    bursts: new Float32Array(PULSES * 2),
+    burstAt: Array<number>(PULSES).fill(-1e4), // seconds (performance.now clock); long ago = none
+    nextBurst: 0,
+    // The frame-rate guard: a running average of frame time, and how much of the flock to draw.
+    frameAvg: 1 / 60,
+    watched: 0,
+    lastCut: 0,
+    keep: 1.05,
+    keepTarget: 1.05,
 
     running: false,
     sized: false,
@@ -424,6 +394,7 @@ export function createFlockRenderer(
     frame: 0,
     last: performance.now(),
   }
+  const ages = new Float32Array(PULSES)
 
   function resize(w: number, h: number, deviceDpr: number, wide: boolean) {
     const dpr = Math.min(deviceDpr || 1, small ? 1.5 : 2)
@@ -433,16 +404,21 @@ export function createFlockRenderer(
     view.halfH = 10 / focal // half the visible height at z = 0 (camera at z = 10)
     view.halfW = view.halfH * (w / Math.max(1, h))
     if (layout === 'center') {
-      state.scale = Math.min(view.halfW * 0.85, view.halfH * 1.4)
-      state.offset = [0, 0]
+      state.scaleTarget = Math.min(view.halfW * 0.85, view.halfH * 1.4)
+      state.offsetTarget = [0, 0]
     } else if (wide) {
-      // Desktop: the flock fills the card edge to edge, behind the headline.
-      state.scale = Math.min(view.halfW * 0.78, view.halfH * 1.5)
-      state.offset = [0, 0]
+      // Desktop: the flock covers the card edge to edge, behind the headline.
+      state.scaleTarget = Math.min(view.halfW * 0.78, view.halfH * 1.5)
+      state.offsetTarget = [0, 0]
     } else {
-      // Tablet/phone: fills the card, weighted toward the space above the headline.
-      state.scale = Math.min(view.halfW * 1.05, view.halfH * 0.8)
-      state.offset = [0, view.halfH * 0.2]
+      // Tablet/phone: covers the card, weighted toward the space above the headline.
+      state.scaleTarget = Math.min(view.halfW * 1.0, view.halfH * 0.8)
+      state.offsetTarget = [0, view.halfH * 0.2]
+    }
+    // The first size is taken as is; later ones (a resize, a phone turning) ease in, never snap.
+    if (!state.sized) {
+      state.scale = state.scaleTarget
+      state.offset = [...state.offsetTarget]
     }
     gl!.uniform1f(uniforms.aspect, w / Math.max(1, h))
     gl!.uniform1f(uniforms.focal, focal)
@@ -451,46 +427,60 @@ export function createFlockRenderer(
     state.sized = true
   }
 
+  /*
+   * Mastery: a steady frame rate over a full flock. If frames run long on average (over ~18 ms, past
+   * the first 3 s), a tenth of the flock fades out over about a second — never more than once every
+   * 2 s, never below 55%, and never back up during the visit, so it can't flicker between the two.
+   */
+  function guardFrameRate(dt: number, now: number) {
+    state.frameAvg += (dt - state.frameAvg) * 0.05
+    state.watched += dt
+    if (
+      state.watched > 3 &&
+      state.frameAvg > 0.0185 &&
+      state.keepTarget > 0.6 &&
+      now - state.lastCut > 2000
+    ) {
+      state.keepTarget = Math.max(0.55, state.keepTarget - 0.1)
+      state.lastCut = now
+    }
+    state.keep += (state.keepTarget - state.keep) * Math.min(1, dt * 2.5)
+  }
+
   function render(now: number) {
     state.frame = raf(render)
     const dt = Math.min((now - state.last) / 1000, 0.05)
     state.last = now
     const ease = 1 - Math.pow(0.001, dt) // frame-rate independent smoothing
     state.progress += (state.target - state.progress) * ease * 0.9
-    const [mx, my] = state.mouse
     state.mouse[0] += (state.mouseTarget[0] - state.mouse[0]) * ease * 1.5
     state.mouse[1] += (state.mouseTarget[1] - state.mouse[1]) * ease * 1.5
-    // The falcon's velocity (smoothed), which stretches the hole into a wake behind it.
-    if (dt > 0) {
-      state.mouseVel[0] += ((state.mouse[0] - mx) / dt - state.mouseVel[0]) * ease
-      state.mouseVel[1] += ((state.mouse[1] - my) / dt - state.mouseVel[1]) * ease
-    }
     state.strength += (state.strengthTarget - state.strength) * ease
+    state.scale += (state.scaleTarget - state.scale) * ease
+    state.offset[0] += (state.offsetTarget[0] - state.offset[0]) * ease
+    state.offset[1] += (state.offsetTarget[1] - state.offset[1]) * ease
+    guardFrameRate(dt, now)
 
-    // Blend the two neighbouring flight styles.
-    const i = Math.min(Math.floor(state.progress), STAGE_COUNT - 2)
-    const f = state.progress - i
-    const [lag, width, twist, split, ball, speed] = STAGES[i].map((v, k) =>
-      lerp(v, STAGES[i + 1][k], f),
-    )
-    state.flight += dt * speed
+    // One shape throughout; the story only eases its mood from loose (0) to gathered (1).
+    const mood = state.progress / (STAGE_COUNT - 1)
+    state.flight += dt * lerp(LOOSE[3], GATHERED[3], mood) * pace
+    state.clock += dt * pace
+    for (let i = 0; i < PULSES; i++) ages[i] = Math.min(now / 1000 - state.burstAt[i], 1e3)
 
     gl!.clear(gl!.COLOR_BUFFER_BIT)
-    gl!.uniform1f(uniforms.time, now / 1000)
+    gl!.uniform1f(uniforms.time, state.clock)
     gl!.uniform1f(uniforms.flight, state.flight)
-    gl!.uniform1f(uniforms.lag, lag)
-    gl!.uniform1f(uniforms.width, width)
-    gl!.uniform1f(uniforms.twist, twist)
-    gl!.uniform1f(uniforms.split, split)
-    gl!.uniform1f(uniforms.ball, ball)
+    gl!.uniform1f(uniforms.lag, lerp(LOOSE[0], GATHERED[0], mood))
+    gl!.uniform1f(uniforms.width, lerp(LOOSE[1], GATHERED[1], mood))
+    gl!.uniform1f(uniforms.rough, lerp(LOOSE[2], GATHERED[2], mood))
+    gl!.uniform1f(uniforms.keep, state.keep)
     gl!.uniform1f(uniforms.scale, state.scale)
     gl!.uniform2fv(uniforms.offset, state.offset)
     gl!.uniform2fv(uniforms.mouse, state.mouse)
     gl!.uniform1f(uniforms.mouseStrength, state.strength)
-    gl!.uniform2fv(uniforms.burst, state.burst)
-    gl!.uniform2fv(uniforms.mouseVel, state.mouseVel)
-    gl!.uniform1f(uniforms.burstAge, Math.min(now / 1000 - state.burstAt, 1e3))
-    gl!.drawArrays(gl!.POINTS, 0, count)
+    gl!.uniform2fv(uniforms.burst, state.bursts)
+    gl!.uniform1fv(uniforms.burstAge, ages)
+    gl!.drawArrays(gl!.POINTS, 0, Math.min(count, Math.ceil(count * state.keep)))
     if (state.firstFrame) {
       state.firstFrame = false
       onFirstFrame()
@@ -518,13 +508,17 @@ export function createFlockRenderer(
         state.mouseTarget = [command.x * view.halfW, command.y * view.halfH]
         state.strengthTarget = Math.abs(command.x) <= 1 && Math.abs(command.y) <= 1 ? 1 : 0
         break
-      case 'burst':
-        state.burst = [command.x * view.halfW, command.y * view.halfH]
-        state.burstAt = performance.now() / 1000
-        break
       case 'pointerleave':
         state.strengthTarget = 0
         break
+      case 'burst': {
+        const i = state.nextBurst
+        state.bursts[i * 2] = command.x * view.halfW
+        state.bursts[i * 2 + 1] = command.y * view.halfH
+        state.burstAt[i] = performance.now() / 1000
+        state.nextBurst = (i + 1) % PULSES
+        break
+      }
       case 'progress':
         if (stage === undefined)
           state.target = Math.min(STAGE_COUNT - 1, Math.max(0, command.value))
@@ -555,7 +549,7 @@ export function createMurmuration({
   stage,
   ink,
   glow = 1,
-  green,
+  calm = false,
   onReady,
   onError,
 }: Options): Murmuration | null {
@@ -563,9 +557,9 @@ export function createMurmuration({
     colors: colors.map(toRgb) as FlockConfig['colors'],
     ink: ink ? toRgb(ink) : undefined,
     glow,
-    green: green ? toRgb(green) : undefined,
     layout,
     stage,
+    calm,
     small: window.matchMedia('(max-width: 1032px)').matches,
   }
   const canvas = document.createElement('canvas')
@@ -608,17 +602,6 @@ export function createMurmuration({
       run: run.inView && !run.paused && document.visibilityState === 'visible',
     })
 
-  const onPointerMove = (event: PointerEvent) => {
-    const rect = canvas.getBoundingClientRect()
-    send({
-      type: 'pointer',
-      x: ((event.clientX - rect.left) / rect.width) * 2 - 1,
-      y: -(((event.clientY - rect.top) / rect.height) * 2 - 1),
-    })
-  }
-  const onPointerLeave = () => send({ type: 'pointerleave' })
-  window.addEventListener('pointermove', onPointerMove, { passive: true })
-  document.documentElement.addEventListener('pointerleave', onPointerLeave)
   document.addEventListener('visibilitychange', update)
   const observer = new ResizeObserver(sizeUp)
   observer.observe(canvas)
@@ -627,6 +610,8 @@ export function createMurmuration({
 
   return {
     setProgress: (value) => send({ type: 'progress', value }),
+    setPointer: (x, y) => send({ type: 'pointer', x, y }),
+    clearPointer: () => send({ type: 'pointerleave' }),
     burst(clientX, clientY) {
       const rect = canvas.getBoundingClientRect()
       send({
@@ -645,8 +630,6 @@ export function createMurmuration({
     },
     destroy() {
       observer.disconnect()
-      window.removeEventListener('pointermove', onPointerMove)
-      document.documentElement.removeEventListener('pointerleave', onPointerLeave)
       document.removeEventListener('visibilitychange', update)
       send({ type: 'destroy' })
       worker?.terminate()

@@ -31,16 +31,17 @@
       })()
     </script>
     <!--
-      Home hero: story mode (pinned murmuration) when motion is allowed and WebGL exists. Set before
+      Home hero, when WebGL exists: story mode (pinned murmuration) when motion is allowed, calm mode
+      (the same flock, slower, in the plain card) when the visitor asked for reduced motion. Set before
       first paint so the layout never shifts; the hero removes it again if the flock can't start.
     -->
     <script>
       try {
-        if (
-          !matchMedia('(prefers-reduced-motion: reduce)').matches &&
-          'WebGLRenderingContext' in window
-        )
-          document.documentElement.setAttribute('data-story', '')
+        if ('WebGLRenderingContext' in window)
+          document.documentElement.setAttribute(
+            matchMedia('(prefers-reduced-motion: reduce)').matches ? 'data-calm' : 'data-story',
+            '',
+          )
       } catch (e) {}
     </script>
     <!-- Fonts used above the fold: fetch in parallel with the CSS instead of after it. -->

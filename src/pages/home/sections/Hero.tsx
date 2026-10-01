@@ -21,9 +21,12 @@ import { animateSun, type SunAnimation } from '@/lib/sun'
  * Home hero — hero-section-design.md, hero-motion-patterns.md. A night-sky card where a murmuration
  * of starlings flies behind "We're a team of builders". In story mode (index.html sets [data-story]
  * when motion is allowed and WebGL exists) the section is 400% of the viewport tall and the card is
- * pinned inside it: 6 screens (headline, 4 services, finale), each with its own flight style. The
- * pointer is a sun the birds part around (lib/murmuration tracks it as the falcon; lib/sun draws it);
- * a click scatters them. Otherwise (reduced motion, no WebGL, or the flock fails) it is a static card.
+ * pinned inside it: 6 screens (headline, 4 services, finale), the one flock easing from loose to
+ * gathered as they pass. The orb (lib/sun draws it) is the mouse cursor over the card; it only ever
+ * lights the flock, never moves it. A click or tap sends a pulse through the flock. In calm mode
+ * ([data-calm]: reduced motion asked for)
+ * the static card keeps the flock, flying slowly, with no orb, pulse or story. Without WebGL, or if
+ * the flock fails, it is the static card alone.
  */
 
 const SCREENS = STAGE_COUNT
@@ -32,15 +35,26 @@ const pad = 'px-6 md:px-[clamp(24px,9vw,72px)]'
 const bigType =
   'font-display text-text-white text-[28px] leading-8 font-light md:text-[clamp(40px,8.1vw,65px)]'
 
-/* ------------------------------------------------------------ story flag */
+/* ------------------------------------------------------------ motion flags */
 
-const subscribeStory = (onChange: () => void) => {
+type Motion = 'story' | 'calm' | 'none'
+
+const subscribeMotion = (onChange: () => void) => {
   const observer = new MutationObserver(onChange)
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-story'] })
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-story', 'data-calm'],
+  })
   return () => observer.disconnect()
 }
-const readStory = () => document.documentElement.hasAttribute('data-story')
-const leaveStory = () => document.documentElement.removeAttribute('data-story')
+const readMotion = (): Motion => {
+  const root = document.documentElement
+  return root.hasAttribute('data-story') ? 'story' : root.hasAttribute('data-calm') ? 'calm' : 'none'
+}
+const leaveMotion = () => {
+  document.documentElement.removeAttribute('data-story')
+  document.documentElement.removeAttribute('data-calm')
+}
 
 /* ------------------------------------------------------------ scroll → screen + flight style */
 
@@ -154,7 +168,9 @@ function ServiceTitle({ title }: { title: string }) {
 /* ------------------------------------------------------------ hero */
 
 export function Hero() {
-  const story = useSyncExternalStore(subscribeStory, readStory, () => false)
+  const motion = useSyncExternalStore(subscribeMotion, readMotion, (): Motion => 'none')
+  const story = motion === 'story'
+  const calm = motion === 'calm'
   const wrapRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLElement>(null)
   const hostRef = useRef<HTMLDivElement>(null)
@@ -171,36 +187,24 @@ export function Hero() {
   const [paused, setPaused] = useState(false)
   const [screen, setScreen] = useState(0)
   const [progress, setProgress] = useState(0)
-  const [tapped, setTapped] = useState(false)
-  const [hintVisible, setHintVisible] = useState(false)
 
-  /* A one-time invitation to tap the flock, so the regroup (scatter, then come back together) isn't
-     found by accident. It appears a couple of seconds after the flock starts and is dismissed for
-     good at the first tap. */
+  /* Start the flock (story or calm mode) and, in story mode, the orb. The flock adds its own canvas;
+     it stops while the hero is off screen, the tab is hidden or Pause is pressed. */
   useEffect(() => {
-    if (!ready || tapped) return
-    const timer = window.setTimeout(() => setHintVisible(true), 1800)
-    return () => window.clearTimeout(timer)
-  }, [ready, tapped])
-
-  /* Start the flock and the sun (story mode only). The flock adds its own canvas and tracks the
-     pointer itself (the falcon); it stops while the tab is hidden or Pause is pressed. */
-  useEffect(() => {
-    if (!story) return
+    if (!story && !calm) return
     const flock = createMurmuration({
       container: hostRef.current!,
-      /* The third colour is what a bird glows toward near the sun or a tap: a warm gold rather than
-         --color-text-light's cool grey (used for body copy elsewhere), so being caught in the light
-         feels like warmth, not going pale. A one-off artistic choice, not a shared design token. */
-      colors: [token('--color-alchemy-1'), token('--color-alchemy-2'), '#f5d9a6'],
+      colors: [token('--color-alchemy-1'), token('--color-alchemy-2')],
       glow: 1.6,
-      green: token('--color-positive'),
       layout: 'hero',
+      /* Calm mode holds one mood, part-way gathered, so the slow flock still reads as one body. */
+      calm,
+      stage: calm ? 3 : undefined,
       onReady: () => setReady(true),
       /* No WebGL in the worker, or it failed: fall back to the static card. */
-      onError: leaveStory,
+      onError: leaveMotion,
     })
-    if (!flock) return leaveStory()
+    if (!flock) return leaveMotion()
     flockRef.current = flock
     flock.setPaused(pausedRef.current)
 
@@ -208,21 +212,25 @@ export function Hero() {
     const observer = new IntersectionObserver(([entry]) => flock.setActive(entry.isIntersecting))
     observer.observe(cardRef.current!)
 
-    const sun = animateSun(sunArtRef.current!)
+    const sun = story ? animateSun(sunArtRef.current!) : null
     sunAnimRef.current = sun
 
     return () => {
       observer.disconnect()
       flock.destroy()
-      sun.destroy()
+      sun?.destroy()
       flockRef.current = null
       sunAnimRef.current = null
     }
-  }, [story])
+  }, [story, calm])
 
+  /* Pause freezes everything that moves on its own: the flock and the orb's breathing. */
   useEffect(() => {
     pausedRef.current = paused
     flockRef.current?.setPaused(paused)
+    if (paused) sunAnimRef.current?.pause()
+    else if (sunRef.current?.hasAttribute('data-on')) sunAnimRef.current?.play()
+    cardRef.current?.toggleAttribute('data-paused', paused)
   }, [paused])
 
   /* Scroll position → text of every screen, current screen, progress bar and flight style. */
@@ -268,43 +276,48 @@ export function Hero() {
     }
   }, [story])
 
-  /* ---------------------------------------------------------- sun pointer and tap-to-scatter */
+  /* ---------------------------------------------------------- the orb and its pulse */
 
+  /* The mouse has left the card: the orb fades where it was, and its light fades from the flock. */
   const hideSun = () => {
     sunRef.current?.removeAttribute('data-on')
     sunRef.current?.removeAttribute('data-over')
     cardRef.current?.removeAttribute('data-sun')
     cardRef.current?.removeAttribute('data-over')
     sunAnimRef.current?.pause()
+    flockRef.current?.clearPointer()
   }
 
   /*
-   * The sun follows the mouse exactly, over the card only (touch and pen get no sun). Over text,
-   * links and buttons it shrinks into the pointer and the normal cursor takes over (a hand on links,
-   * the text cursor on copy), so everything there reads and clicks as usual; back on the sky, the sun
-   * grows out of the pointer again.
+   * The orb is the cursor: over the card it follows the mouse exactly and never moves on its own (touch
+   * and pen get no orb). It fades in where the pointer is, so it never jumps in from elsewhere. Over
+   * text, links and buttons it shrinks into the pointer and the normal cursor takes over (a hand on
+   * links, the text cursor on copy), so everything there reads and clicks as usual.
    */
   const onPointerMove = (event: PointerEvent<HTMLElement>) => {
     if (!story || event.pointerType !== 'mouse') return
     const card = cardRef.current!
     const rect = card.getBoundingClientRect()
     const sun = sunRef.current!
-    sun.style.transform = `translate(${event.clientX - rect.left}px, ${event.clientY - rect.top}px)`
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    sun.style.transform = `translate(${x}px, ${y}px)`
     const over = !!(event.target as Element).closest(SUN_YIELDS_TO)
     sun.toggleAttribute('data-over', over)
     card.toggleAttribute('data-over', over)
     if (!sun.hasAttribute('data-on')) {
       sun.setAttribute('data-on', '')
       card.setAttribute('data-sun', '')
-      sunAnimRef.current?.play()
+      if (!pausedRef.current) sunAnimRef.current?.play()
     }
+    flockRef.current?.setPointer((x / rect.width) * 2 - 1, 1 - (y / rect.height) * 2)
   }
 
-  /* A click or tap on the sky (not a link or button) scatters the flock; nothing while paused. */
+  /* A click or tap on the sky (not a link or button) sends a pulse through the flock; nothing while
+     paused. No hint is offered for this — it's there to be found, not announced. */
   const onClick = (event: MouseEvent<HTMLElement>) => {
     if (!story || pausedRef.current || (event.target as Element).closest('a, button')) return
     flockRef.current?.burst(event.clientX, event.clientY)
-    setTapped(true)
   }
 
   /* Glide past the whole story to the next section ("Why we exist"). */
@@ -352,7 +365,7 @@ export function Hero() {
           ref={hostRef}
           aria-hidden
           className={cn(
-            'hero-story-only pointer-events-none absolute inset-0 transition-opacity duration-[1500ms]',
+            'hero-motion-only pointer-events-none absolute inset-0 transition-opacity duration-[1500ms]',
             ready ? 'opacity-100' : 'opacity-0',
           )}
         />
@@ -360,7 +373,7 @@ export function Hero() {
         {/* Contrast scrim between the flock and the text. */}
         <div
           aria-hidden
-          className="hero-story-only pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(16_16_16/0.9),transparent_60%)] lg:bg-[radial-gradient(55%_60%_at_16%_52%,rgb(16_16_16/0.85),transparent_72%)]"
+          className="hero-motion-only pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(16_16_16/0.9),transparent_60%)] lg:bg-[radial-gradient(55%_60%_at_16%_52%,rgb(16_16_16/0.85),transparent_72%)]"
         />
 
         <div
@@ -401,17 +414,6 @@ export function Hero() {
                   </Button>
                 ))}
               </div>
-              {story && (
-                <p
-                  aria-hidden
-                  className={cn(
-                    'text-text-ultra-light font-sans text-[13px] transition-opacity duration-500',
-                    hintVisible && !tapped ? 'opacity-100' : 'opacity-0',
-                  )}
-                >
-                  Tap the sky to scatter the flock, then watch it come back together.
-                </p>
-              )}
             </div>
 
             {/* 2–5 — services */}
@@ -456,16 +458,18 @@ export function Hero() {
           <span className="scroll-cue-track" />
         </div>
 
-        {/* Skip intro + Pause/Play, once the flock has started. */}
+        {/* Skip intro (story only) + Pause/Play (story and calm), once the flock has started. */}
         {ready && (
-          <div className="hero-story-only absolute right-6 bottom-3 flex items-center gap-4 md:right-[clamp(24px,9vw,72px)] md:bottom-7">
-            <button
-              type="button"
-              onClick={skipIntro}
-              className="tap-target text-text-ultra-light font-sans text-[14px] transition-colors hover:text-white"
-            >
-              {hero.controls.skip}
-            </button>
+          <div className="hero-motion-only absolute right-6 bottom-3 flex items-center gap-4 md:right-[clamp(24px,9vw,72px)] md:bottom-7">
+            {story && (
+              <button
+                type="button"
+                onClick={skipIntro}
+                className="tap-target text-text-ultra-light font-sans text-[14px] transition-colors hover:text-white"
+              >
+                {hero.controls.skip}
+              </button>
+            )}
             <button
               type="button"
               aria-pressed={paused}
@@ -478,8 +482,10 @@ export function Hero() {
           </div>
         )}
 
-        {/* Sun pointer (mouse only), drawn by lib/sun into .sun; above the flock, ignores the pointer. */}
+        {/* The orb: the mouse cursor over the card (above the flock, ignores the pointer itself). The
+            halo reaches far and very faintly; lib/sun draws the core into .sun/.sun-art. */}
         <div ref={sunRef} aria-hidden className="hero-sun hero-story-only">
+          <div className="sun-halo" />
           <div ref={sunArtRef} className="sun" />
         </div>
       </section>
