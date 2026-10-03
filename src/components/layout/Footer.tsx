@@ -21,7 +21,7 @@ export function Footer() {
         </Link>
       </div>
 
-      <div className="text-body-lg flex flex-col gap-10 font-sans font-medium md:gap-12 lg:grid lg:grid-cols-[320px_480px_1fr] lg:gap-0">
+      <div className="text-body-lg flex flex-col gap-10 font-sans font-normal md:gap-12 lg:grid lg:grid-cols-[320px_480px_1fr] lg:gap-0">
         <address className="flex flex-wrap gap-x-6 gap-y-6 not-italic lg:flex-col">
           <a href={`mailto:${footer.email}`} className="text-alchemy tap-target">
             {footer.email}
@@ -31,15 +31,20 @@ export function Footer() {
           </a>
         </address>
         <div className="grid grid-cols-2 lg:contents">
-          {footer.columns.map((heading) => (
-            <p key={heading} className="text-text-ultra-light">
-              {heading}
+          {footer.columns.map((column) => (
+            <p key={column.label}>
+              <Link
+                to={column.href}
+                className="text-text-ultra-light tap-target transition-colors hover:text-white"
+              >
+                {column.label}
+              </Link>
             </p>
           ))}
         </div>
       </div>
 
-      <div className="border-stroke-very-light text-body-lg flex flex-col-reverse gap-6 border-t pt-6 font-sans font-medium min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between">
+      <div className="border-stroke-very-light text-body-lg flex flex-col-reverse gap-6 border-t pt-6 font-sans font-normal min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between">
         <p className="text-text-ultra-light">{footer.copyright}</p>
         {footer.legal.length > 0 && (
           <ul className="text-text-white flex gap-6">

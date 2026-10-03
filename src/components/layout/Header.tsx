@@ -68,7 +68,7 @@ export function Header() {
         </Link>
 
         <nav aria-label="Primary" className="flex items-center gap-10 max-[600px]:hidden">
-          <ul className="text-body-sm flex items-center gap-6 font-sans font-medium whitespace-nowrap text-white">
+          <ul className="text-body-sm flex items-center gap-6 font-sans font-normal whitespace-nowrap text-white">
             {primaryNav.map((link) => (
               <li key={link.label}>
                 <SmartLink href={link.href} className="tap-target">
@@ -101,7 +101,7 @@ export function Header() {
         hidden={!open}
         className="border-stroke-light bg-pitch-black absolute top-[calc(100%-24px)] right-0 flex flex-col items-start gap-8 rounded-b-[24px] border border-t-0 px-4 pt-12 pb-4 min-[601px]:hidden"
       >
-        <ul className="text-body-lg flex flex-col gap-8 px-2 font-sans font-medium text-white">
+        <ul className="text-body-lg flex flex-col gap-8 px-2 font-sans font-normal text-white">
           {primaryNav.map((link) => (
             <li key={link.label}>
               <SmartLink href={link.href} onClick={close} className="tap-target">

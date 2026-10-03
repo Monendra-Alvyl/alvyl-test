@@ -5,13 +5,13 @@ import { Chip } from '@/components/ui/Chip'
 import { Panel } from '@/components/ui/Panel'
 import { blogCategories, blogHeading, blogPosts } from '@/data/blog'
 import { blogMeta } from '@/data/seo'
-import { PostCard, PostHero, ProposalCard } from './PostCard'
+import { PostCard, PostHero } from './PostCard'
 
 /*
  * Blog list (/blog), as the Figma blog frame (pg/blog Desktop.png): the newest post as the hero,
- * centred topic chips (the design system's Chip), then the other posts three to a row with the
- * Alchemy proposal card in the first row, and the contact section. The chips filter the grid in
- * place; the prerendered page lists every post, so crawlers and no-JS visitors get them all.
+ * centred topic chips (the design system's Chip), then the other posts three to a row, and the
+ * contact section. The chips filter the grid in place; the prerendered page lists every post, so
+ * crawlers and no-JS visitors get them all.
  */
 export function BlogPage() {
   const [topic, setTopic] = useState<string | null>(null)
@@ -26,7 +26,7 @@ export function BlogPage() {
 
       {!featured ? (
         <Panel className="p-section-inner">
-          <p className="text-body-lg text-text-ultra-light font-sans font-medium">
+          <p className="text-body-lg text-text-ultra-light font-sans font-normal">
             {blogHeading.empty}
           </p>
         </Panel>
@@ -67,16 +67,12 @@ export function BlogPage() {
             </p>
 
             <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {posts.slice(0, 2).map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-              <ProposalCard />
-              {posts.slice(2).map((post) => (
+              {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
             </ul>
             {topic && posts.length === 0 && (
-              <p className="text-body-lg text-text-ultra-light text-center font-sans font-medium">
+              <p className="text-body-lg text-text-ultra-light text-center font-sans font-normal">
                 {blogHeading.emptyTopic}
               </p>
             )}

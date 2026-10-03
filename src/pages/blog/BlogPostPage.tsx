@@ -31,7 +31,7 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
 
       <article aria-labelledby="post-heading" className="flex flex-col gap-4">
         <nav aria-label="Breadcrumb" className="px-2">
-          <ol className="text-caption text-text-ultra-light flex items-center gap-2 font-sans font-medium tracking-[0.08em] uppercase">
+          <ol className="text-caption text-text-ultra-light flex items-center gap-2 font-sans font-normal tracking-[0.08em] uppercase">
             <li>
               <Link to="/blog" className="tap-target">
                 Blog
@@ -93,7 +93,7 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
                   <div className="flex items-center gap-4">
                     <AuthorAvatar post={post} size={64} />
                     {/* The site's attribution style (as under the Home founder quote). */}
-                    <p className="text-body-lg text-text-dark flex min-w-0 flex-1 flex-col gap-1 font-sans font-medium">
+                    <p className="text-body-lg text-text-dark flex min-w-0 flex-1 flex-col gap-1 font-sans font-normal">
                       {post.author?.name ?? 'The Alvyl team'}
                       {post.author?.role && (
                         <span className="text-body-sm text-text-ultra-light">
@@ -146,7 +146,7 @@ function TableOfContents({ items, className }: { items: BlogPost['toc']; classNa
     <ol className={`flex flex-col gap-3 ${className ?? ''}`}>
       {items.map((item) => (
         <li key={item.id}>
-          <a href={`#${item.id}`} className="text-body text-text-light font-sans font-medium">
+          <a href={`#${item.id}`} className="text-body text-text-light font-sans font-normal">
             {item.label}
           </a>
         </li>

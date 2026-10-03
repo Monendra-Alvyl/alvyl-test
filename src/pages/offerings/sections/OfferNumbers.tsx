@@ -34,7 +34,7 @@ export function OfferNumbers() {
             key={stat.label}
             className="bg-dark-grey p-card hover-alchemy group flex flex-col gap-10 rounded-[16px]"
           >
-            <p className="text-h1 text-text-white flex items-center gap-2 font-sans font-medium">
+            <p className="text-h1 text-text-white flex items-center gap-2 font-sans font-normal">
               {stat.trend === 'up' && (
                 <>
                   <TrendUp />
@@ -45,7 +45,7 @@ export function OfferNumbers() {
             </p>
             <div className="border-light-grey flex flex-col gap-4 border-t pt-10">
               <h3 className="font-display text-h3 text-text-dark font-light">{stat.label}</h3>
-              <p className="text-body-lg text-text-ultra-light font-sans font-medium transition-colors group-hover:text-white">
+              <p className="text-body-lg text-text-ultra-light font-sans font-normal transition-colors group-hover:text-white">
                 {stat.body}
               </p>
             </div>

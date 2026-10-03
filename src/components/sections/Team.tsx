@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, type PointerEvent, type ReactNode } from 'react'
 import { Icon } from '@/components/ui/Icon'
 import { Panel } from '@/components/ui/Panel'
 import { ProgressIndicator } from '@/components/ui/ProgressIndicator'
@@ -19,9 +19,9 @@ function Caption({ person }: { person: TeamMember }) {
     <div className="from-light-grey/50 to-light-grey/0 p-card-nested relative flex items-end justify-between gap-4 bg-linear-to-t">
       <div className="flex min-w-0 flex-col gap-2">
         {person.role && (
-          <p className="text-body-sm text-text-ultra-light font-sans font-medium">{person.role}</p>
+          <p className="text-body-sm text-text-ultra-light font-sans font-normal">{person.role}</p>
         )}
-        <p className="text-h3 text-text-dark font-sans font-medium">{person.name}</p>
+        <p className="text-h3 text-text-dark font-sans font-normal">{person.name}</p>
       </div>
       {/* Sits above the full-card flip button so it stays clickable. */}
       {person.linkedin && (
@@ -56,7 +56,8 @@ function Face({
 }
 
 /**
- * Person card: photo on the front, the person's own quote on the back. Clicking the card flips it.
+ * Person card: photo on the front, the person's own quote on the back. Hovering with a mouse flips it
+ * and leaving flips it back; a tap or click (touch, keyboard) toggles it.
  * People without a quote get a photo-only card that doesn't flip.
  */
 function FlipCard({ person }: { person: TeamMember }) {
@@ -86,14 +87,24 @@ function FlipCard({ person }: { person: TeamMember }) {
       type="button"
       aria-pressed={flipped}
       aria-label={flipped ? `Show ${person.name}'s photo` : `Show ${person.name}'s quote`}
-      onClick={() => setFlipped((value) => !value)}
+      onClick={(event) => {
+        if ((event.nativeEvent as globalThis.PointerEvent).pointerType !== 'mouse')
+          setFlipped((value) => !value)
+      }}
       className="absolute inset-0 cursor-pointer rounded-[16px]"
     />
   )
 
+  /* A mouse flips the card while it's over it; touch and keyboard use the flip button. */
+  const hover = (over: boolean) => (event: PointerEvent) => {
+    if (event.pointerType === 'mouse') setFlipped(over)
+  }
+
   return (
     <article
       aria-label={person.name}
+      onPointerEnter={hover(true)}
+      onPointerLeave={hover(false)}
       className={cn(cardSize, 'hover-grow relative perspective-[1600px]')}
     >
       <div
@@ -126,7 +137,7 @@ function FlipCard({ person }: { person: TeamMember }) {
               className="h-[68px] w-[87px] -translate-x-px"
               sizes="87px"
             />
-            <blockquote className="text-h3 text-text-white max-w-[330px] font-sans font-medium">
+            <blockquote className="text-h3 text-text-white max-w-[330px] font-sans font-normal">
               {person.quote}
             </blockquote>
           </div>

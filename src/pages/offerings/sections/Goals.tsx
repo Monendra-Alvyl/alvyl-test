@@ -18,7 +18,7 @@ export function Goals() {
         <h2 id="goals-heading" className="font-display text-h2 text-text-dark font-light">
           <RichHeading lines={[goals.headline]} accentWeight="italic" />
         </h2>
-        <p className="text-body-lg text-text-ultra-light max-w-[560px] font-sans font-medium">
+        <p className="text-body-lg text-text-ultra-light max-w-[560px] font-sans font-normal">
           {goals.body}
         </p>
       </div>
@@ -47,7 +47,7 @@ export function Goals() {
                   </span>
                 ))}
               </h3>
-              <p className="text-body-lg text-text-light font-sans font-medium transition-colors group-hover:text-white">
+              <p className="text-body-lg text-text-light font-sans font-normal transition-colors group-hover:text-white">
                 {card.body}
               </p>
             </div>

@@ -29,7 +29,7 @@ export function HowWeWork() {
           {howWeWork.paragraphs.map((paragraph) => (
             <p
               key={paragraph}
-              className="text-body-lg text-text-ultra-light max-w-[520px] font-sans font-medium"
+              className="text-body-lg text-text-ultra-light max-w-[520px] font-sans font-normal"
             >
               {paragraph}
             </p>
@@ -45,10 +45,10 @@ export function HowWeWork() {
             className="h-[51px] w-[65px] mix-blend-lighten md:h-[68px] md:w-[87px]"
             sizes="87px"
           />
-          <blockquote className="text-h3 text-text-white max-w-[440px] font-sans font-medium">
+          <blockquote className="text-h3 text-text-white max-w-[440px] font-sans font-normal">
             {quote.text}
           </blockquote>
-          <figcaption className="text-body-lg text-text-dark font-sans font-medium">
+          <figcaption className="text-body-lg text-text-dark font-sans font-normal">
             {quote.name} <span className="text-text-ultra-light">· {quote.role}</span>
           </figcaption>
         </figure>

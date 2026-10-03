@@ -21,7 +21,10 @@ export const footer = {
   email: 'hello@alvyl.com',
   phone: '+91 98278 28912',
   /* Column headings only — the Home footer design shows no links under them. */
-  columns: ['Services', 'Company'],
+  columns: [
+    { label: 'Services', href: '/offerings' },
+    { label: 'Company', href: '/about' },
+  ],
   copyright: '2026 Alvyl Consulting',
   /*
    * Legal links, shown in the footer's bottom row. Empty until the pages exist (no href="#"):

@@ -7,15 +7,20 @@
 
 /* ------------------------------------------------------------ story layout */
 
-/* 6 screens over 400% of the viewport height; the card is pinned for (section − card). */
+/*
+ * 6 screens over 400% of the viewport height; the card is pinned for (section − card). It pins just
+ * below the sticky header (12px + 74.5px tall) with the same 32px gap as content on every page, so the
+ * two never overlap, and it fills the rest of the screen down to the side padding.
+ */
 [data-story] .hero-wrap {
-  --hero-card-h: max(520px, calc(100svh - 2 * var(--space-side)));
+  --hero-top: 118px;
+  --hero-card-h: max(520px, calc(100svh - var(--hero-top) - var(--space-side)));
   height: max(400svh, calc(var(--hero-card-h) + 300px));
 }
 
 [data-story] .hero-card {
   position: sticky;
-  top: var(--space-side);
+  top: var(--hero-top);
   height: var(--hero-card-h);
 }
 

@@ -62,7 +62,7 @@ export function ShareLinks({ post, className }: { post: BlogPost; className?: st
         <span
           role="status"
           className={cn(
-            'text-body-sm text-text-ultra-light font-sans font-medium transition-opacity',
+            'text-body-sm text-text-ultra-light font-sans font-normal transition-opacity',
             copied ? 'opacity-100' : 'opacity-0',
           )}
         >

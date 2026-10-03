@@ -15,7 +15,7 @@ export function OfferHero() {
               </span>
             ))}
           </h1>
-          <p className="text-body-lg text-text-white font-sans font-medium">{offerHero.body}</p>
+          <p className="text-body-lg text-text-white font-sans font-normal">{offerHero.body}</p>
         </div>
         <Button href={offerHero.cta.href} size="responsive-lg">
           {offerHero.cta.label}
@@ -34,7 +34,7 @@ export function OfferHero() {
           {offerHero.tags.map((tag) => (
             <li
               key={tag}
-              className="bg-alchemy text-body-lg text-text-dark rounded-[8px] px-2 py-2 font-sans font-medium"
+              className="bg-alchemy text-body-lg text-text-dark rounded-[8px] px-2 py-2 font-sans font-normal"
             >
               {tag}
             </li>

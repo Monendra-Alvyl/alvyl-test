@@ -52,7 +52,7 @@ export function WhyWeExist() {
                 src={slide.src}
                 alt={slide.alt}
                 className="absolute size-full max-w-none rounded-[16px] object-cover"
-                sizes="(min-width: 1033px) 996px, (min-width: 450px) 854px, 400px"
+                sizes="(min-width: 1033px) 996px, (min-width: 450px) 854px, 427px"
               />
               {slide.overlay && <div className="absolute inset-0 rounded-[16px] bg-black/40" />}
             </div>

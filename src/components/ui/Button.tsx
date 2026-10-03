@@ -35,7 +35,7 @@ export type ButtonProps = ButtonAsButton | ButtonAsLink
 
 /* tap-target: the S size is 38px tall; its hit area is 44px without changing the design. */
 const base =
-  'tap-target inline-flex shrink-0 items-center justify-center rounded-[8px] text-center font-sans text-[14px] leading-none font-medium whitespace-nowrap'
+  'tap-target inline-flex shrink-0 items-center justify-center rounded-[8px] text-center font-sans text-[14px] leading-none font-normal whitespace-nowrap'
 
 const sizes: Record<Size, string> = {
   xl: 'h-[46px] gap-[10px] p-4',

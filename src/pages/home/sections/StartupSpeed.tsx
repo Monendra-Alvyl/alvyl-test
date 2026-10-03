@@ -30,12 +30,12 @@ export function StartupSpeed() {
             key={stat.label}
             className="border-stroke-light bg-pitch-black p-card flex flex-col justify-between gap-12 rounded-[24px] border lg:h-[420px]"
           >
-            <p className="text-h1 text-text-white font-sans font-medium whitespace-nowrap">
+            <p className="text-h1 text-text-white font-sans font-normal whitespace-nowrap">
               {stat.value}
             </p>
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h3 text-text-white font-light">{stat.label}</h3>
-              <p className="text-body-lg text-text-ultra-light font-sans font-medium">
+              <p className="text-body-lg text-text-ultra-light font-sans font-normal">
                 {stat.body}
               </p>
             </div>

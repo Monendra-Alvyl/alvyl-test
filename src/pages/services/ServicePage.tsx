@@ -29,7 +29,7 @@ function ServiceHero({ service }: { service: Service }) {
               </span>
             ))}
           </h1>
-          <p className="text-body-lg text-text-white max-w-[520px] font-sans font-medium">
+          <p className="text-body-lg text-text-white max-w-[520px] font-sans font-normal">
             {service.intro}
           </p>
         </div>
@@ -94,7 +94,7 @@ function Benefits({ service }: { service: Service }) {
             <Eyebrow tone="card">{String(i + 1).padStart(2, '0')}</Eyebrow>
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h3 text-text-white font-light">{benefit.title}</h3>
-              <p className="text-body-lg text-text-light font-sans font-medium transition-colors group-hover:text-white">
+              <p className="text-body-lg text-text-light font-sans font-normal transition-colors group-hover:text-white">
                 {benefit.body}
               </p>
             </div>
@@ -117,11 +117,11 @@ function Testimonial({ testimonial }: { testimonial: NonNullable<Service['testim
           className="h-[51px] w-[65px] md:h-[68px] md:w-[87px]"
           sizes="87px"
         />
-        {/* Figma quote style (as on the team cards): Forma DJR Micro Medium, H3 size. */}
-        <blockquote className="text-h3 text-text-white max-w-[640px] font-sans font-medium">
+        {/* Figma quote style (as on the team cards): Forma DJR Micro Regular, H3 size. */}
+        <blockquote className="text-h3 text-text-white max-w-[640px] font-sans font-normal">
           {testimonial.quote}
         </blockquote>
-        <figcaption className="text-body-lg text-text-ultra-light font-sans font-medium">
+        <figcaption className="text-body-lg text-text-ultra-light font-sans font-normal">
           {testimonial.name}
         </figcaption>
       </figure>

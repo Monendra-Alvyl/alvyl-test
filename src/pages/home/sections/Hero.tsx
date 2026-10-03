@@ -339,8 +339,8 @@ export function Hero() {
   })
 
   return (
-    /* Story mode starts already pinned: pulled up under the floating header (header + gap). */
-    <div ref={wrapRef} className="hero-wrap story:-mt-[110px]">
+    /* Story mode starts already pinned, just below the header (never under it; see motion.css). */
+    <div ref={wrapRef} className="hero-wrap">
       <section
         ref={cardRef}
         aria-label="Introduction"
@@ -394,7 +394,7 @@ export function Hero() {
                 ))}
               </h1>
               <p
-                className="hero-fade-up text-body-lg text-text-light -mt-2 max-w-[520px] font-sans font-medium md:-mt-3"
+                className="hero-fade-up text-body-lg text-text-light -mt-2 max-w-[520px] font-sans font-normal md:-mt-3"
                 style={{ animationDelay: '350ms' }}
               >
                 {hero.subheadline}

@@ -54,7 +54,7 @@ export function FeaturePanel({
           >
             {heading}
           </h2>
-          <p className="text-body-lg text-text-ultra-light max-w-[463px] font-sans font-medium">
+          <p className="text-body-lg text-text-ultra-light max-w-[463px] font-sans font-normal">
             {body}
           </p>
         </div>

@@ -41,7 +41,7 @@ export function FormCta({
         <Icon name="send" size={size === 'large' ? 24 : 20} />
         <span
           className={cn(
-            'font-sans leading-none font-medium whitespace-nowrap',
+            'font-sans leading-none font-normal whitespace-nowrap',
             isLarge ? 'text-[20px]' : 'text-[16px]',
           )}
         >

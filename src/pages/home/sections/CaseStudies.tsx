@@ -42,12 +42,12 @@ function Slide({ slide }: { slide: CaseStudySlide }) {
 
       <div className="from-light-grey/50 to-light-grey/0 p-card-nested absolute inset-x-0 bottom-0 flex flex-col items-start gap-6 rounded-b-[8px] bg-linear-to-t backdrop-blur-[24px] lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-col gap-4">
-          <p className="text-body flex items-center gap-[14.578px] font-sans font-medium whitespace-nowrap">
+          <p className="text-body flex items-center gap-[14.578px] font-sans font-normal whitespace-nowrap">
             <span className="text-text-ultra-light">Focus</span>
             <span aria-hidden className="bg-stroke-dark size-[3.644px] rounded-full" />
             <span className="text-text-dark">{slide.focus}</span>
           </p>
-          <p className="text-h4 max-w-[485px] font-sans font-medium text-white">{slide.summary}</p>
+          <p className="text-h4 max-w-[485px] font-sans font-normal text-white">{slide.summary}</p>
         </div>
         {slide.cta && <Button href={slide.cta.href}>{slide.cta.label}</Button>}
       </div>

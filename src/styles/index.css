@@ -319,7 +319,7 @@
 
   & > p,
   & li {
-    @apply text-body-lg text-text-light font-sans font-medium;
+    @apply text-body-lg text-text-light font-sans font-normal;
     /* Long-form reading: a looser line height than the UI copy's (1.3). */
     line-height: 1.65;
   }
@@ -347,12 +347,12 @@
     @apply font-display text-h3 text-text-dark mt-6 font-light;
   }
   & h3 {
-    @apply text-h4 text-text-dark mt-4 font-sans font-medium;
+    @apply text-h4 text-text-dark mt-4 font-sans font-normal;
   }
   /* The site's quote style (Home "How we work", service testimonials): the quote mark above
-     Forma DJR Micro Medium at the H3 size, on a dark-grey card. */
+     Forma DJR Micro Regular at the H3 size, on a dark-grey card. */
   & blockquote {
-    @apply bg-dark-grey p-card text-h3 text-text-white my-2 flex flex-col gap-4 rounded-[16px] font-sans font-medium;
+    @apply bg-dark-grey p-card text-h3 text-text-white my-2 flex flex-col gap-4 rounded-[16px] font-sans font-normal;
     &::before {
       content: '';
       @apply mb-4 block h-[51px] w-[65px] md:h-[68px] md:w-[87px];
@@ -361,7 +361,7 @@
       mix-blend-mode: lighten;
     }
     & p {
-      @apply text-h3 text-text-white font-sans font-medium;
+      @apply text-h3 text-text-white font-sans font-normal;
     }
   }
   & ul,
@@ -375,7 +375,7 @@
     @apply list-decimal;
   }
   & strong {
-    @apply text-text-white font-medium;
+    @apply text-text-white font-normal;
   }
   & em {
     @apply italic;
@@ -393,6 +393,6 @@
     @apply h-auto w-full rounded-[16px];
   }
   & figcaption {
-    @apply text-body-sm text-text-ultra-light font-sans font-medium;
+    @apply text-body-sm text-text-ultra-light font-sans font-normal;
   }
 }

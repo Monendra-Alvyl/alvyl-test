@@ -41,6 +41,8 @@ Rules that follow from these:
 - Where tablet/phone PNGs omit sections or show placeholders, show every desktop section at all sizes
   with the desktop art and real copy.
 - Typography always follows Figma: IvyMode headings with Alchemy italic accents, Forma DJR Micro body.
+  Exception: Forma's **Regular (400)** replaces Figma's Medium everywhere (the user's choice); use
+  `font-normal`, never `font-medium` (no Medium face is loaded).
 - Missing images may be cropped from the PNGs as stand-ins; real exports replace them under the same
   filenames later.
 
@@ -52,7 +54,12 @@ Rules that follow from these:
   its `sticky top-3`) so it never jumps on the first scroll. At ≤ 600px the links collapse into a
   hamburger dropdown card (Offerings, About Us, Schedule a Call).
 - **Footer:** the original Home footer on every page: headline + logo, email/phone, and only the
-  "Services" and "Company" headings with no link lists under them.
+  "Services" and "Company" headings with no link lists under them. The headings themselves are links:
+  Services → `/offerings`, Company → `/about`.
+- **Home hero vs header:** they never overlap. The story card pins at `--hero-top` (118px: header
+  bottom 86.5px + the usual 32px gap, motion.css) and fills the screen below it; no negative margin.
+- **Team cards:** a mouse flips a card on hover and back on leave; touch and keyboard toggle it with
+  the full-card button (a mouse click doesn't toggle, so it can't fight the hover).
 - **Contact:** "Schedule a Call" and every "Contact Us" link go to `/contact-us`, which reuses Home's
   "Get in touch" section (not the Figma Contact designs). On phones that section shows only its heading
   and a "Contact Us" button.

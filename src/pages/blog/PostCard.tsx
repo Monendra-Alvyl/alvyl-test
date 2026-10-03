@@ -2,15 +2,14 @@ import { Button } from '@/components/ui/Button'
 import { Img } from '@/components/ui/Img'
 import { Panel } from '@/components/ui/Panel'
 import { formatDate, type BlogPost } from '@/data/blog'
-import { asset } from '@/lib/asset'
 import { Link } from '@/lib/router'
 import { cn } from '@/lib/cn'
 
 /*
  * Blog building blocks, from the Figma blog frame (pg/blog Desktop.png): the "AI • 25 March 2025 •
  * Written by …" meta line, the hero (image beside the title, used for the featured post on /blog
- * and as the header of a post), the post card and the Alchemy proposal card. Cards are one link each
- * (a stretched ::after over the card) with the site's Alchemy hover.
+ * and as the header of a post) and the post card. Cards are one link each (a stretched ::after over
+ * the card) with the site's Alchemy hover.
  */
 
 const dot = <span aria-hidden className="bg-text-ultra-light size-1 shrink-0 rounded-full" />
@@ -32,7 +31,7 @@ export function AuthorAvatar({ post, size }: { post: BlogPost; size: 32 | 64 }) 
       aria-hidden
       className={cn(
         className,
-        'bg-light-grey text-text-white flex items-center justify-center font-sans text-[14px] font-medium',
+        'bg-light-grey text-text-white flex items-center justify-center font-sans text-[14px] font-normal',
       )}
     >
       {(post.author?.name ?? 'Alvyl').charAt(0)}
@@ -56,7 +55,7 @@ export function PostMeta({
   return (
     <p
       className={cn(
-        'text-body text-text-ultra-light flex flex-wrap items-center gap-x-3 gap-y-1 font-sans font-medium',
+        'text-body text-text-ultra-light flex flex-wrap items-center gap-x-3 gap-y-1 font-sans font-normal',
         className,
       )}
     >
@@ -86,7 +85,7 @@ export function PostMeta({
 /** Avatar and "Written by Hari Krishna", at the foot of a card. */
 function Byline({ post }: { post: BlogPost }) {
   return (
-    <p className="text-body text-text-ultra-light flex items-center gap-3 font-sans font-medium transition-colors group-hover:text-white">
+    <p className="text-body text-text-ultra-light flex items-center gap-3 font-sans font-normal transition-colors group-hover:text-white">
       <AuthorAvatar post={post} size={32} />
       <span>
         Written by <span className="text-text-white">{authorName(post)}</span>
@@ -128,7 +127,7 @@ export function PostHero({ post, as = 'feature' }: { post: BlogPost; as?: 'featu
             {post.title}
           </Title>
           {post.excerpt && (
-            <p className="text-body-lg text-text-ultra-light line-clamp-4 font-sans font-medium">
+            <p className="text-body-lg text-text-ultra-light line-clamp-4 font-sans font-normal">
               {post.excerpt}
             </p>
           )}
@@ -173,29 +172,6 @@ export function PostCard({ post }: { post: BlogPost }) {
           <Byline post={post} />
         </div>
       </Panel>
-    </li>
-  )
-}
-
-/** The Alchemy card in the grid: "Need help with a question, idea, or project?" → contact. */
-export function ProposalCard() {
-  return (
-    <li className="flex">
-      <div className="bg-alchemy p-card-nested relative flex w-full flex-col justify-end gap-6 overflow-clip rounded-[24px]">
-        <Img
-          src={asset('/assets/home/offer-sphere-large.png')}
-          alt=""
-          aria-hidden
-          className="pointer-events-none mx-auto aspect-square w-[78%] max-w-[380px] object-contain"
-          sizes="(min-width: 1033px) 340px, 60vw"
-        />
-        <p className="font-display text-h3 text-text-white font-light">
-          Need help with a question, idea, or project?
-        </p>
-        <Button href="/contact-us" size="responsive-lg" className="self-start">
-          Send us a proposal
-        </Button>
-      </div>
     </li>
   )
 }

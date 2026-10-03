@@ -19,15 +19,16 @@ type AlchemyTextProps = {
 export function AlchemyText({ children, weight = 'thin-italic' }: AlchemyTextProps) {
   /*
    * data-accent lets src/lib/accentFonts.ts load the italic faces only when accents are near view.
-   * The gradient is only painted inside the span's box, so tall italic ascenders ("d", "l") and the
-   * slant past the last letter were cut off. The padding enlarges the painted area; the negative
-   * margin keeps the layout unchanged (vertical inline padding doesn't affect line height).
+   * The gradient is only painted inside the span's box, so tall italic ascenders ("d", "l"), the
+   * slant past the last letter and descenders that swing left under the first ("g" in "great") were
+   * cut off. The padding enlarges the painted area; the negative margins keep the layout unchanged
+   * (vertical inline padding doesn't affect line height).
    */
   return (
     <span
       data-accent
       className={cn(
-        'text-alchemy font-display -mr-[0.1em] box-decoration-clone py-[0.15em] pr-[0.1em] italic',
+        'text-alchemy font-display -mx-[0.15em] box-decoration-clone px-[0.15em] pt-[0.15em] pb-[0.25em] italic',
         weights[weight],
       )}
     >

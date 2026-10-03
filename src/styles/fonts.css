@@ -32,13 +32,13 @@
   font-display: swap;
 }
 
-/* Forma DJR Micro Medium — UI / body (Figma: "Forma DJR Micro:Medium") */
+/* Forma DJR Micro Regular — UI / body (Figma specified Medium; the site uses Regular by choice) */
 @font-face {
   font-family: 'Forma DJR Micro';
   src:
-    url('/fonts/FormaDJRMicro-Medium.woff2') format('woff2'),
-    url('/fonts/FormaDJRMicro-Medium.woff') format('woff');
-  font-weight: 500;
+    url('/fonts/FormaDJRMicro-Regular.woff2') format('woff2'),
+    url('/fonts/FormaDJRMicro-Regular.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }

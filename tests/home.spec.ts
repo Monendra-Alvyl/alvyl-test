@@ -96,15 +96,23 @@ test('header stays at the top while scrolling', async ({ page }) => {
   expect(top).toBeLessThanOrEqual(12)
 })
 
-test('team card flips to the quote and back on click', async ({ page }) => {
+test('team card flips to the quote on hover and back on leave; the keyboard toggles it', async ({
+  page,
+}) => {
   await page.goto('/')
   const card = page.locator('article[aria-label="Hari Krishna"]')
   const back = card.locator('div:has(> div > blockquote)')
   await expect(back).toHaveAttribute('inert', '')
-  await card.getByRole('button', { name: "Show Hari Krishna's quote" }).click()
+  await card.hover()
   await expect(back).not.toHaveAttribute('inert', '')
-  await expect(card.getByRole('button', { name: "Show Hari Krishna's photo" })).toBeVisible()
-  await card.getByRole('button', { name: "Show Hari Krishna's photo" }).click()
+  await page.mouse.move(0, 0)
+  await expect(back).toHaveAttribute('inert', '')
+
+  await card.getByRole('button', { name: "Show Hari Krishna's quote" }).focus()
+  await page.keyboard.press('Enter')
+  await expect(back).not.toHaveAttribute('inert', '')
+  await card.getByRole('button', { name: "Show Hari Krishna's photo" }).focus()
+  await page.keyboard.press('Enter')
   await expect(back).toHaveAttribute('inert', '')
 })
 
@@ -210,19 +218,14 @@ test('team cards show each person’s own quote, and cards without one do not fl
   await expect(page.getByRole('button', { name: "Show Sanjay Munde's quote" })).toHaveCount(0)
 })
 
-test('blog lists the newest post as the hero and the proposal card third in the grid', async ({
-  page,
-}) => {
+test('blog lists the newest post as the hero, without a proposal card', async ({ page }) => {
   await page.goto('/blog')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Alvyl Blog: notes from the team',
   )
   const hero = page.getByRole('region', { name: 'Latest post' })
   await expect(hero.getByRole('link', { name: 'Read Blog' })).toBeVisible()
-  const items = page.locator('section[aria-labelledby="posts-heading"] > ul > li')
-  await expect(items.nth(Math.min(2, (await items.count()) - 1))).toContainText(
-    'Send us a proposal',
-  )
+  await expect(page.getByText('Send us a proposal')).toHaveCount(0)
   await expect(page.getByRole('group', { name: 'Filter posts by topic' })).toBeVisible()
 })
 

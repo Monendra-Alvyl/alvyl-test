@@ -17,7 +17,7 @@ export function AboutIntro() {
               className="bg-dark-grey md:p-card flex flex-col gap-6 rounded-[16px] p-6 lg:h-[249px] lg:gap-12"
             >
               <p className="font-display text-h3 text-text-ultra-light font-light">{stat.label}</p>
-              <p className="text-h1 text-text-white font-sans font-medium">{stat.value}</p>
+              <p className="text-h1 text-text-white font-sans font-normal">{stat.value}</p>
             </li>
           ))}
         </ul>

@@ -18,7 +18,7 @@ export function OurPromise() {
         <h2 id="promise-heading" className="font-display text-h2 text-text-dark font-light">
           <RichHeading lines={[promise.headline]} accentWeight="italic" />
         </h2>
-        <p className="text-body-lg text-text-ultra-light max-w-[560px] font-sans font-medium">
+        <p className="text-body-lg text-text-ultra-light max-w-[560px] font-sans font-normal">
           {promise.body}
         </p>
       </div>
@@ -40,7 +40,7 @@ export function OurPromise() {
             />
             <div className="flex flex-col gap-4">
               <h3 className="font-display text-h2 text-text-white font-light">{card.title}</h3>
-              <p className="text-body-lg text-text-light font-sans font-medium transition-colors group-hover:text-white">
+              <p className="text-body-lg text-text-light font-sans font-normal transition-colors group-hover:text-white">
                 {card.body}
               </p>
             </div>

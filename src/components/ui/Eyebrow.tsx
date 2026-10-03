@@ -25,7 +25,7 @@ export function Eyebrow({ children, tone = 'section', className }: EyebrowProps)
       />
       <span
         className={cn(
-          'text-caption font-sans font-medium tracking-[0.08em] whitespace-nowrap uppercase',
+          'text-caption font-sans font-normal tracking-[0.08em] whitespace-nowrap uppercase',
           tone === 'card' ? 'pt-[2px] text-white/70' : 'text-text-ultra-light',
         )}
       >
