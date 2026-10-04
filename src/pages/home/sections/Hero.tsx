@@ -301,7 +301,8 @@ export function Hero() {
     const sun = sunRef.current!
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    sun.style.transform = `translate(${x}px, ${y}px)`
+    /* `translate`, not `transform`: CSS scales after `transform`, so the hover shrink would pull it off the pointer. */
+    sun.style.translate = `${x}px ${y}px`
     const over = !!(event.target as Element).closest(SUN_YIELDS_TO)
     sun.toggleAttribute('data-over', over)
     card.toggleAttribute('data-over', over)
@@ -318,6 +319,18 @@ export function Hero() {
   const onClick = (event: MouseEvent<HTMLElement>) => {
     if (!story || pausedRef.current || (event.target as Element).closest('a, button')) return
     flockRef.current?.burst(event.clientX, event.clientY)
+    /* With the orb showing (a mouse on the sky), a ring leaves it from where the tap landed. */
+    const sun = sunRef.current
+    if (sun?.hasAttribute('data-on') && !sun.hasAttribute('data-over')) {
+      const rect = cardRef.current!.getBoundingClientRect()
+      const ring = document.createElement('span')
+      ring.className = 'sun-ring'
+      ring.setAttribute('aria-hidden', 'true')
+      ring.style.translate = `${event.clientX - rect.left}px ${event.clientY - rect.top}px`
+      ring.addEventListener('animationend', () => ring.remove(), { once: true })
+      /* Just above the flock (below the scrim and text): a wave passing through the birds. */
+      hostRef.current?.after(ring)
+    }
   }
 
   /* Glide past the whole story to the next section ("Why we exist"). */
@@ -359,6 +372,14 @@ export function Hero() {
             screen === 0 || screen === SCREENS - 1 ? 'opacity-100' : 'opacity-60',
           )}
         />
+
+        {/* The orb: the mouse cursor over the card. It sits behind the flock, like a low sun the
+            birds fly across; it ignores the pointer itself. The halo reaches far and very faintly;
+            lib/sun draws the core into .sun/.sun-art. */}
+        <div ref={sunRef} aria-hidden className="hero-sun hero-story-only">
+          <div className="sun-halo" />
+          <div ref={sunArtRef} className="sun" />
+        </div>
 
         {/* The flock (its canvas is added on the client), fading in once its first frame is drawn. */}
         <div
@@ -481,13 +502,6 @@ export function Hero() {
             </button>
           </div>
         )}
-
-        {/* The orb: the mouse cursor over the card (above the flock, ignores the pointer itself). The
-            halo reaches far and very faintly; lib/sun draws the core into .sun/.sun-art. */}
-        <div ref={sunRef} aria-hidden className="hero-sun hero-story-only">
-          <div className="sun-halo" />
-          <div ref={sunArtRef} className="sun" />
-        </div>
       </section>
     </div>
   )

@@ -10,11 +10,16 @@
 /*
  * 6 screens over 400% of the viewport height; the card is pinned for (section − card). It pins just
  * below the sticky header (12px + 74.5px tall) with the same 32px gap as content on every page, so the
- * two never overlap, and it fills the rest of the screen down to the side padding.
+ * two never overlap, and it fills the rest of the screen down to the side padding — up to the design's
+ * 772px card height, so on taller screens it stays that fixed size instead of stretching. There, it
+ * is centred in the space below the header (never closer to it than 32px) rather than leaving an
+ * empty band underneath; the wrapper's margin moves its unpinned position by the same amount, so the
+ * card never jumps when it pins.
  */
 [data-story] .hero-wrap {
-  --hero-top: 118px;
-  --hero-card-h: max(520px, calc(100svh - var(--hero-top) - var(--space-side)));
+  --hero-top: max(118px, calc(86.5px + (100svh - 86.5px - 772px) / 2));
+  --hero-card-h: clamp(520px, calc(100svh - 118px - var(--space-side)), 772px);
+  margin-top: calc(var(--hero-top) - 118px);
   height: max(400svh, calc(var(--hero-card-h) + 300px));
 }
 
@@ -97,7 +102,7 @@
 
 /* ------------------------------------------------------------ sun pointer */
 
-/* Positioned on the mouse by Hero.tsx (transform); fades in and out. */
+/* Positioned on the mouse by Hero.tsx (the `translate` property); fades in and out. */
 .hero-sun {
   position: absolute;
   top: 0;
@@ -110,7 +115,7 @@
   transition:
     opacity 0.3s ease,
     scale 0.25s var(--ease-reveal);
-  will-change: transform;
+  will-change: translate;
 }
 
 .hero-sun[data-on] {
@@ -119,7 +124,7 @@
 
 /*
  * Over text, links and buttons the sun shrinks into the pointer and fades, and the normal cursor
- * returns there. `scale` is its own property, so it composes with the position transform.
+ * returns there. `scale` shrinks it about its centre, which stays on the pointer (`translate`).
  */
 .hero-sun[data-on][data-over] {
   opacity: 0;
@@ -194,8 +199,40 @@
   overflow: visible;
 }
 
+/* A slight blur takes the hard edge off the core, so it reads as light rather than an object. */
 .sun-core {
-  filter: drop-shadow(0 0 3px rgb(255 176 102 / 0.8));
+  filter: blur(1.5px) drop-shadow(0 0 3px rgb(255 176 102 / 0.8));
+}
+
+/*
+ * A tap on the sky with the mouse: one thin ring expands from the orb and fades, so the pulse visibly
+ * comes from the energy itself. It stays where the tap landed, passes over the birds as it goes (just
+ * above the flock, below the text) and removes itself when done (Hero.tsx). Orange-red only, never a
+ * flash.
+ */
+.sun-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 130px;
+  margin: -65px 0 0 -65px;
+  border: 1.5px solid rgb(232 106 52 / 0.85);
+  box-shadow: 0 0 12px rgb(206 82 29 / 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sun-ring 1.4s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes sun-ring {
+  from {
+    scale: 0.15;
+    opacity: 0.8;
+  }
+  to {
+    scale: 3.2;
+    opacity: 0;
+  }
 }
 
 /* Pause stops the orb's breathing along with the flock (WCAG 2.2.2). */

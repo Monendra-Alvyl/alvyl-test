@@ -110,12 +110,14 @@ held deliberately small and quiet. It's felt the way afternoon sun is felt, not 
 spotlight. It is the visitor's cursor, so the visitor carries the energy into the village.
 
 ### What you see
-Over the card, the mouse pointer becomes a small, uneven, glowing core with a very faint warmth
-around it. It follows the mouse exactly and **never moves on its own**.
+Over the card, the mouse pointer becomes a small, soft, glowing core with a very faint warmth
+around it. It follows the mouse exactly and **never moves on its own**. It sits **behind the flock**,
+like a low sun: the birds fly across its glow.
 
 | | Value |
 |---|---|
-| Core | A soft, uneven blob about 10–14 px across: 9 edge points, each easing toward new random radii (4.8–7.2 px), never a perfect circle |
+| Core | A soft, uneven blob about 10–14 px across: 9 edge points, each easing toward new random radii (4.8–7.2 px), never a perfect circle. A 1.5 px blur takes off the hard edge, so it reads as light, not an object |
+| Layer | Behind the birds, above the sky; birds passing over it are lit by it (Part 3) |
 | Colour | Orange and red only: a warm orange centre through Alchemy orange to Alchemy red at the rim; never white, gold or pale |
 | Close glow | A restrained halo inside its 130 px box, breathing between 1× and 1.03× every 7 s; it never flares |
 | Far halo | About 900 px across, at 3–6% opacity, fading to nothing well before its edge: light that reaches far without making a bright spot |
@@ -164,6 +166,7 @@ toward the tap together and brighten. Then they ease back into place.
 | Movement | A lean toward the tap of up to ≈ 30 px; each bird answers in its own measure (0.6–1.4×) |
 | Light | Answering birds deepen and brighten, the same light the orb gives |
 | Several taps | Up to three waves run at once, so a new tap never cuts an earlier one off |
+| The orb's ring | With a mouse, one thin orange ring leaves the orb at the tap and expands to about 415 px across as it fades (1.4 s), passing over the birds, so the wave visibly comes from the energy. It stays where the tap landed. No ring on touch (there's no orb) or over text |
 
 **Rules:**
 - Taps on links and buttons do their normal job.

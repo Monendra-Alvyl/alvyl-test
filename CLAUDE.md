@@ -56,8 +56,15 @@ Rules that follow from these:
 - **Footer:** the original Home footer on every page: headline + logo, email/phone, and only the
   "Services" and "Company" headings with no link lists under them. The headings themselves are links:
   Services → `/offerings`, Company → `/about`.
-- **Home hero vs header:** they never overlap. The story card pins at `--hero-top` (118px: header
-  bottom 86.5px + the usual 32px gap, motion.css) and fills the screen below it; no negative margin.
+- **Home hero vs header:** they never overlap. The story card pins at `--hero-top` (at least 118px:
+  header bottom 86.5px + the usual 32px gap, motion.css); no negative margin. Its height fills the
+  screen below the header up to a **fixed 772px** (the design height); on taller screens it stays 772px
+  and is centred in the space below the header, with the wrapper's margin matching so it never jumps.
+- **The orb sits behind the flock** (rendered before the canvas in Hero.tsx): birds fly across it like
+  a low sun. Its core has a 1.5px blur. A mouse tap adds one `.sun-ring` (inserted just after the flock
+  host, removes itself on `animationend`). Position the orb and ring with the CSS `translate`
+  property, never `transform`: the separate `scale` (hover shrink, ring expansion) applies after
+  `transform`, which would scale the position too.
 - **Team cards:** a mouse flips a card on hover and back on leave; touch and keyboard toggle it with
   the full-card button (a mouse click doesn't toggle, so it can't fight the hover).
 - **Contact:** "Schedule a Call" and every "Contact Us" link go to `/contact-us`, which reuses Home's
