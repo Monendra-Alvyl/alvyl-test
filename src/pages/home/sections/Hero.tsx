@@ -98,11 +98,9 @@ const SUN_YIELDS_TO = 'a, button, h1, h2, p, [role="button"]'
 const token = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 
-/* ------------------------------------------------------------ eyebrow that decodes */
+/* ------------------------------------------------------------ eyebrow that fades in */
 
-const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+'
-
-/** Design-system Eyebrow whose letters decode from random glyphs, left to right, each time it appears. */
+/** Design-system Eyebrow that fades and settles in each time its screen becomes active. */
 function DecodeEyebrow({ text, active }: { text: string; active: boolean }) {
   return (
     <>
