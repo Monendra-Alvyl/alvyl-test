@@ -56,10 +56,16 @@ Rules that follow from these:
 - **Footer:** the original Home footer on every page: headline + logo, email/phone, and only the
   "Services" and "Company" headings with no link lists under them. The headings themselves are links:
   Services → `/offerings`, Company → `/about`.
-- **Home hero vs header:** they never overlap. The story card pins at `--hero-top` (at least 118px:
-  header bottom 86.5px + the usual 32px gap, motion.css); no negative margin. Its height fills the
-  screen below the header up to a **fixed 772px** (the design height); on taller screens it stays 772px
-  and is centred in the space below the header, with the wrapper's margin matching so it never jumps.
+- **Home hero vs header:** they never overlap and the gap is **always exactly 32px** (the user's rule;
+  no centring on tall screens). The story card pins at `--hero-top` (118px on phones, 118.56px from
+  450px up: header bottom + 32px, motion.css); no negative margin. Its height fills the screen below
+  the header up to a **fixed 772px** (the design height); on taller screens it stays 772px.
+  The pinned scroll story runs at every screen size (a no-pin variant for tall screens was tried and
+  reverted by the user). **While the story is pinned, "Why we exist" waits right under the hero card**
+  (the usual section gap below it) instead of after the hero's long scroll area, so tall screens show it
+  rather than an empty band. Pure CSS (a JS version jittered): HomePage wraps it in `.why-follow`, pulled
+  up by `--hero-range` (the story length) with a same-height spacer after it, and the section is sticky
+  at `--hero-top + --hero-card-h + --space-section-lg`. Skip intro accounts for this.. The hero card has the same 1px `stroke-light` border as every Panel.
 - **The orb sits behind the flock** (rendered before the canvas in Hero.tsx): birds fly across it like
   a low sun. Its core has a 1.5px blur. A mouse tap adds one `.sun-ring` (inserted just after the flock
   host, removes itself on `animationend`). Position the orb and ring with the CSS `translate`
@@ -71,6 +77,10 @@ Rules that follow from these:
   "Get in touch" section (not the Figma Contact designs). On phones that section shows only its heading
   and a "Contact Us" button.
 - The Home case-studies carousel was removed (it isn't in the PNGs).
+- **"Our approach" (StartupSpeed) art** is a code-drawn SVG orbit (`OrbitArt`), not the cubes PNG (the
+  user disliked the cube render): the live alvyl.com icon language (thin orbits, hollow nodes), a slow
+  outer orbit (enterprise) and a fast orange node on a tight inner orbit (startup). Motion in
+  motion.css, still under reduced motion. `cubes.png` is kept in public/ but unused.
 - **Section spacing:** an eyebrow sits 48px above its heading (`gap-12`) at every size; don't centre a
   text column against a taller neighbour (it pushes the heading down).
 

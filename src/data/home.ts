@@ -65,7 +65,6 @@ export const startupSpeed = {
     [{ text: 'Enterprise ' }, { text: 'Impact', accent: true }, { text: '.' }],
   ] satisfies HeadingSegment[][],
   body: 'We move with the agility of a startup and the precision of an enterprise partner by designing, building, and scaling ideas that make a lasting mark.',
-  image: asset('/assets/home/cubes.png'),
 }
 
 export const stats = [

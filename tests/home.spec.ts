@@ -118,7 +118,13 @@ test('team card flips to the quote on hover and back on leave; the keyboard togg
 
 test('brand fonts load', async ({ page }) => {
   await page.goto('/')
-  /* Accent italics are registered once an accent nears the viewport (src/lib/accentFonts.ts). */
+  /* Accent italics are registered once an accent nears the viewport (src/lib/accentFonts.ts). The
+     first accent is in "Why we exist", which waits under the pinned hero until its story ends, so
+     scroll past the story first. */
+  await page.evaluate(() => {
+    const wrap = document.querySelector<HTMLElement>('.hero-wrap')
+    if (wrap) scrollTo(0, wrap.offsetTop + wrap.offsetHeight)
+  })
   await page.locator('[data-accent]').first().scrollIntoViewIfNeeded()
   await page.waitForFunction(
     () => [...document.fonts].filter((f) => f.style === 'italic').length === 3,

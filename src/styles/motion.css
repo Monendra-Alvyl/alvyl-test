@@ -11,16 +11,43 @@
  * 6 screens over 400% of the viewport height; the card is pinned for (section − card). It pins just
  * below the sticky header (12px + 74.5px tall) with the same 32px gap as content on every page, so the
  * two never overlap, and it fills the rest of the screen down to the side padding — up to the design's
- * 772px card height, so on taller screens it stays that fixed size instead of stretching. There, it
- * is centred in the space below the header (never closer to it than 32px) rather than leaving an
- * empty band underneath; the wrapper's margin moves its unpinned position by the same amount, so the
- * card never jumps when it pins.
+ * 772px card height, so on taller screens it stays that fixed size instead of stretching. The gap to
+ * the header is always exactly 32px, at every screen size.
  */
+/* On the root so "Why we exist" (below) can wait under the card for exactly the story's length. */
+[data-story] {
+  --hero-top: 118px; /* header bottom (86px phone, 86.56px from tablet up) + 32px */
+  --hero-card-h: clamp(520px, calc(100svh - var(--hero-top) - var(--space-side)), 772px);
+  /* How far the story scrolls while the card is pinned. */
+  --hero-range: calc(max(400svh, calc(var(--hero-card-h) + 300px)) - var(--hero-card-h));
+}
+
+@media (min-width: 450px) {
+  [data-story] {
+    --hero-top: 118.56px;
+  }
+}
+
 [data-story] .hero-wrap {
-  --hero-top: max(118px, calc(86.5px + (100svh - 86.5px - 772px) / 2));
-  --hero-card-h: clamp(520px, calc(100svh - 118px - var(--space-side)), 772px);
-  margin-top: calc(var(--hero-top) - 118px);
-  height: max(400svh, calc(var(--hero-card-h) + 300px));
+  height: calc(var(--hero-card-h) + var(--hero-range));
+}
+
+/*
+ * "Why we exist" waits right under the pinned hero card (the usual section gap below it) while the
+ * story plays, then scrolls on with it — so tall screens show it instead of an empty band. Pure CSS,
+ * so it holds perfectly still: its wrapper is pulled up by the story's length and is that much taller
+ * (a spacer after the section), and the section is sticky inside it at the spot under the card. The
+ * hero itself is untouched; everything after the wrapper keeps its original place.
+ */
+[data-story] .why-follow {
+  margin-top: calc(-1 * var(--hero-range));
+}
+[data-story] .why-follow > section {
+  position: sticky;
+  top: calc(var(--hero-top) + var(--hero-card-h) + var(--space-section-lg));
+}
+[data-story] .why-follow-spacer {
+  height: var(--hero-range);
 }
 
 [data-story] .hero-card {
@@ -183,9 +210,9 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgb(206 29 30 / 0.06) 0%,
-    rgb(206 29 30 / 0.03) 40%,
-    transparent 72%
+    rgb(206 29 30 / 0.03) 0%,
+    rgb(206 29 30 / 0.01) 40%,
+    transparent 60%
   );
   mix-blend-mode: screen;
   pointer-events: none;
@@ -288,6 +315,39 @@
   }
   .sun,
   .scroll-cue-track::after {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------ "Our approach" orbit art */
+
+/*
+ * StartupSpeed.tsx: the outer orbit turns very slowly (enterprise: steady), the small node laps its
+ * tight inner orbit quickly (startup: speed). Linear, continuous, never a jump; held still when the
+ * visitor asks for reduced motion.
+ */
+.orbit-art .orbit-slow,
+.orbit-art .orbit-fast {
+  transform-box: view-box;
+}
+.orbit-art .orbit-slow {
+  transform-origin: 300px 300px;
+  animation: orbit-turn 90s linear infinite;
+}
+.orbit-art .orbit-fast {
+  transform-origin: 420px 300px;
+  animation: orbit-turn 6s linear infinite;
+}
+
+@keyframes orbit-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-art .orbit-slow,
+  .orbit-art .orbit-fast {
     animation: none;
   }
 }

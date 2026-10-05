@@ -16,7 +16,11 @@ export function HomePage() {
     <>
       <Seo {...pageMeta.home} />
       <Hero />
-      <WhyWeExist />
+      {/* Waits under the pinned hero card while its story plays (motion.css, story mode only). */}
+      <div className="why-follow">
+        <WhyWeExist />
+        <div aria-hidden className="why-follow-spacer" />
+      </div>
       {/* <WhatWeOffer /> */}
       <div className="flex flex-col gap-4">
         <StartupSpeed />

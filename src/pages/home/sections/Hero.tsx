@@ -84,9 +84,8 @@ function mapScroll(q: number) {
 const HOLD = 0.2
 
 function textStyle(d: number, first: boolean, last: boolean) {
-  const bold = first || last
-  const zoom = bold ? 0.12 : 0.045
-  const fade = bold ? 0.56 : 0.46
+  const zoom = 0.06
+  const fade = 0.46
   const edge = (first && d < 0) || (last && d > 0) ? 0 : Math.abs(d)
   const t = Math.min(1, Math.max(0, (edge - HOLD) / (fade - HOLD)))
   const eased = t * t * (3 - 2 * t)
@@ -105,33 +104,17 @@ const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+'
 
 /** Design-system Eyebrow whose letters decode from random glyphs, left to right, each time it appears. */
 function DecodeEyebrow({ text, active }: { text: string; active: boolean }) {
-  const [shown, setShown] = useState(text)
-
-  useEffect(() => {
-    if (!active || matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    let frame = 0
-    const start = performance.now()
-    const step = (now: number) => {
-      const t = Math.min(1, (now - start) / 700)
-      const revealed = Math.floor(t * text.length)
-      setShown(
-        [...text]
-          .map((c, i) =>
-            i < revealed || c === ' ' ? c : GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
-          )
-          .join(''),
-      )
-      if (t < 1) frame = requestAnimationFrame(step)
-    }
-    frame = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(frame)
-  }, [active, text])
-
   return (
     <>
       <span className="sr-only">{text}</span>
-      <div aria-hidden>
-        <Eyebrow>{shown}</Eyebrow>
+      <div 
+        aria-hidden 
+        className={cn(
+          "transition-all duration-700 ease-out",
+          active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+        )}
+      >
+        <Eyebrow>{text}</Eyebrow>
       </div>
     </>
   )
@@ -319,26 +302,18 @@ export function Hero() {
   const onClick = (event: MouseEvent<HTMLElement>) => {
     if (!story || pausedRef.current || (event.target as Element).closest('a, button')) return
     flockRef.current?.burst(event.clientX, event.clientY)
-    /* With the orb showing (a mouse on the sky), a ring leaves it from where the tap landed. */
-    const sun = sunRef.current
-    if (sun?.hasAttribute('data-on') && !sun.hasAttribute('data-over')) {
-      const rect = cardRef.current!.getBoundingClientRect()
-      const ring = document.createElement('span')
-      ring.className = 'sun-ring'
-      ring.setAttribute('aria-hidden', 'true')
-      ring.style.translate = `${event.clientX - rect.left}px ${event.clientY - rect.top}px`
-      ring.addEventListener('animationend', () => ring.remove(), { once: true })
-      /* Just above the flock (below the scrim and text): a wave passing through the birds. */
-      hostRef.current?.after(ring)
-    }
   }
 
   /* Glide past the whole story to the next section ("Why we exist"). */
   const skipIntro = () => {
     const wrap = wrapRef.current!
-    const next = wrap.nextElementSibling as HTMLElement | null
+    const card = cardRef.current!
+    const next = wrap.nextElementSibling?.querySelector('section') ?? wrap.nextElementSibling
+    /* "Why we exist" waits (sticky) under the pinned card until the story ends (motion.css), so: scroll
+       the rest of the story, then on until that section is 96px from the top. */
+    const storyLeft = Math.max(0, wrap.getBoundingClientRect().bottom - card.getBoundingClientRect().bottom)
     const top = next
-      ? next.getBoundingClientRect().top + window.scrollY - 96
+      ? window.scrollY + storyLeft + next.getBoundingClientRect().top - 96
       : wrap.offsetTop + wrap.offsetHeight
     window.scrollTo({ top, behavior: 'smooth' })
   }
@@ -360,7 +335,7 @@ export function Hero() {
         onPointerMove={onPointerMove}
         onPointerLeave={hideSun}
         onClick={onClick}
-        className="hero-card from-sky-top to-sky-bottom relative h-[634px] overflow-clip rounded-[24px] bg-linear-to-b md:h-[772px]"
+        className="hero-card from-sky-top to-sky-bottom border-stroke-light relative h-[634px] overflow-clip rounded-[24px] border bg-linear-to-b md:h-[772px]"
       >
         {/* A faint warm ambient glow behind the flock, so the sky never reads as a cold void — even
             in the gap before the flock fades in. A little brighter on the headline and the invitation,
@@ -481,7 +456,7 @@ export function Hero() {
 
         {/* Skip intro (story only) + Pause/Play (story and calm), once the flock has started. */}
         {ready && (
-          <div className="hero-motion-only absolute right-6 bottom-3 flex items-center gap-4 md:right-[clamp(24px,9vw,72px)] md:bottom-7">
+          <div className="hero-motion-only absolute right-6 bottom-3 flex items-center gap-4 md:right-[clamp(24px,9vw,72px)] md:bottom-7 opacity-40 transition-opacity hover:opacity-100">
             {story && (
               <button
                 type="button"
