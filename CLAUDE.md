@@ -65,7 +65,7 @@ Rules that follow from these:
   (the usual section gap below it) instead of after the hero's long scroll area, so tall screens show it
   rather than an empty band. Pure CSS (a JS version jittered): HomePage wraps it in `.why-follow`, pulled
   up by `--hero-range` (the story length) with a same-height spacer after it, and the section is sticky
-  at `--hero-top + --hero-card-h + --space-section-lg`. Skip intro accounts for this.. The hero card has the same 1px `stroke-light` border as every Panel.
+  at `--hero-top + --hero-card-h + --space-section-lg`. Skip intro accounts for this. The hero card has the same 1px `stroke-light` border as every Panel.
 - **The orb sits behind the flock** (rendered before the canvas in Hero.tsx): birds fly across it like
   a low sun. Its core has a 1.5px blur. A mouse tap adds one `.sun-ring` (inserted just after the flock
   host, removes itself on `animationend`). Position the orb and ring with the CSS `translate`
