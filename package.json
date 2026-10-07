@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/compress-dist-images.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -18,7 +18,8 @@
     "predev": "npm run webflow:team && npm run cms:media && npm run images && npm run cms:content",
     "prebuild": "npm run webflow:team && npm run cms:media && npm run images && npm run cms:content",
     "images": "node scripts/optimize-images.mjs",
-    "logos": "node scripts/normalize-logos.mjs"
+    "logos": "node scripts/normalize-logos.mjs",
+    "og": "node scripts/og-images.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

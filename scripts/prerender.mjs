@@ -81,6 +81,10 @@ function withSeo(html, { path: pagePath, image, imageAlt, article, jsonLd: data,
     `    <link rel="canonical" href="${escape(url)}" />\n` +
     tag('property', 'og:url', url) +
     tag('property', 'og:image', shareImage) +
+    /* The share cards (public/og/, scripts/og-images.mjs) are all 1200×630. */
+    (shareImage.includes('/og/')
+      ? tag('property', 'og:image:width', '1200') + tag('property', 'og:image:height', '630')
+      : '') +
     tag('property', 'og:image:alt', alt) +
     (article
       ? tag('property', 'article:published_time', article.publishedTime) +
@@ -178,4 +182,12 @@ if (legacyRedirects.length) console.log(`[prerender] ${legacyRedirects.length} /
       `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}</urlset>\n`,
   )
   console.log(`[prerender] sitemap.xml (${pages.length} URLs)`)
+
+  /* robots.txt (copied from public/) points crawlers at the sitemap too. */
+  const robots = path.join(DIST, 'robots.txt')
+  const rules = fs.existsSync(robots)
+    ? fs.readFileSync(robots, 'utf8').trimEnd()
+    : 'User-agent: *\nAllow: /'
+  if (!/^sitemap:/im.test(rules))
+    fs.writeFileSync(robots, `${rules}\n\nSitemap: ${absoluteUrl('/sitemap.xml')}\n`)
 }

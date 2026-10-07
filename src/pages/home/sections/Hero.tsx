@@ -23,7 +23,7 @@ import { animateSun, type SunAnimation } from '@/lib/sun'
  * when motion is allowed and WebGL exists) the section is 400% of the viewport tall and the card is
  * pinned inside it: 6 screens (headline, 4 services, finale), the one flock easing from loose to
  * gathered as they pass. The orb (lib/sun draws it) is the mouse cursor over the card; it only ever
- * lights the flock, never moves it. A click or tap sends a pulse through the flock. In calm mode
+ * lights the flock, never moves it. A mouse press or a tap sends a pulse through the flock. In calm mode
  * ([data-calm]: reduced motion asked for)
  * the static card keeps the flock, flying slowly, with no orb, pulse or story. Without WebGL, or if
  * the flock fails, it is the static card alone.
@@ -161,6 +161,7 @@ export function Hero() {
   const sunAnimRef = useRef<SunAnimation | null>(null)
   const screenRef = useRef(0)
   const pausedRef = useRef(false)
+  const mousePressRef = useRef(false) // the current press is a mouse (it pulsed on button down)
 
   const screensRef = useRef<HTMLDivElement>(null)
 
@@ -218,6 +219,7 @@ export function Hero() {
   useEffect(() => {
     if (!story) return
     let frame = 0
+    let lastStage = -1
     const update = () => {
       frame = 0
       const wrap = wrapRef.current!
@@ -242,7 +244,10 @@ export function Hero() {
         screenRef.current = m.screen
         setScreen(m.screen)
       }
-      flockRef.current?.setProgress(m.stage)
+      /* The flock answers scrolling down only: scrolling up leaves it exactly as it is (the user's
+         rule), and the next scroll down picks up from wherever the story is then (the engine eases). */
+      if (m.stage > lastStage) flockRef.current?.setProgress(m.stage)
+      lastStage = m.stage
     }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update)
@@ -295,11 +300,20 @@ export function Hero() {
     flockRef.current?.setPointer((x / rect.width) * 2 - 1, 1 - (y / rect.height) * 2)
   }
 
-  /* A click or tap on the sky (not a link or button) sends a pulse through the flock; nothing while
-     paused. No hint is offered for this — it's there to be found, not announced. */
+  /* A press on the sky (not a link or button) sends a pulse through the flock; nothing while paused.
+     No hint is offered for this — it's there to be found, not announced. A mouse pulses on button
+     down and releasing it does nothing; touch and pen pulse on the tap (click), so a swipe to scroll
+     never sends one. */
+  const pulse = (target: EventTarget, clientX: number, clientY: number) => {
+    if (!story || pausedRef.current || (target as Element).closest('a, button')) return
+    flockRef.current?.burst(clientX, clientY)
+  }
+  const onPointerDown = (event: PointerEvent<HTMLElement>) => {
+    mousePressRef.current = event.pointerType === 'mouse'
+    if (mousePressRef.current && event.button === 0) pulse(event.target, event.clientX, event.clientY)
+  }
   const onClick = (event: MouseEvent<HTMLElement>) => {
-    if (!story || pausedRef.current || (event.target as Element).closest('a, button')) return
-    flockRef.current?.burst(event.clientX, event.clientY)
+    if (!mousePressRef.current) pulse(event.target, event.clientX, event.clientY)
   }
 
   /* Glide past the whole story to the next section ("Why we exist"). */
@@ -332,6 +346,7 @@ export function Hero() {
         aria-label="Introduction"
         onPointerMove={onPointerMove}
         onPointerLeave={hideSun}
+        onPointerDown={onPointerDown}
         onClick={onClick}
         className="hero-card from-sky-top to-sky-bottom border-stroke-light relative h-[634px] overflow-clip rounded-[24px] border bg-linear-to-b md:h-[772px]"
       >

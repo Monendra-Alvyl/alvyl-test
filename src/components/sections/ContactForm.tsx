@@ -13,7 +13,7 @@ import { contactPage } from '@/data/contactPage'
 import { cn } from '@/lib/cn'
 
 /*
- * Contact form with the Webflow site's fields (Name, Email, Contact No, Message) plus a document
+ * Contact form with the Webflow site's fields (Name, Email, phone, Message) plus a document
  * attachment, used by the "Get in touch" section and the Contact us page.
  *
  * Submissions go to FormSubmit (formsubmit.co), which emails them — with the document attached — to

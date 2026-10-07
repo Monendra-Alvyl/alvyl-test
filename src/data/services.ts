@@ -9,6 +9,8 @@ import { asset } from '@/lib/asset'
 import type { HeadingSegment } from './home'
 
 export type ServiceBenefit = { title: string; body: string }
+export type ServiceStep = { title: string; body: string }
+export type ServiceFaq = { question: string; answer: string }
 
 export type Service = {
   slug: string
@@ -24,8 +26,30 @@ export type Service = {
   seoDescription: string
   capabilities: string[]
   benefits: ServiceBenefit[]
+  /** "How we work": four steps from first call to results. */
+  process: ServiceStep[]
+  /** Service questions; the shared ones (sharedFaqs) follow them. Also FAQPage JSON-LD (seo.ts). */
+  faqs: ServiceFaq[]
   testimonial?: { quote: string; name: string }
 }
+
+/*
+ * new — the process steps and FAQs on every service page, the shared FAQs below and the rewritten SRE
+ * and IoT intros and benefits are new copy (in the Agentic AI page's plain voice) to be confirmed.
+ * The location line comes from the site's +91 contact number; add the city once it's confirmed.
+ */
+export const sharedFaqs: ServiceFaq[] = [
+  {
+    question: 'Where is Alvyl based?',
+    answer:
+      'Alvyl is based in India. We work with startups and enterprises in India and around the world, remotely and across time zones.',
+  },
+  {
+    question: 'How does an engagement start?',
+    answer:
+      'With a discovery call. We learn your goals and constraints, then propose a scoped first phase with clear outcomes before any long-term commitment.',
+  },
+]
 
 export const servicePage = {
   heroCta: { label: 'Schedule a Call', href: '/contact-us' },
@@ -37,6 +61,16 @@ export const servicePage = {
   ] satisfies HeadingSegment[],
   benefitsEyebrow: 'Why Alvyl',
   benefitsHeading: [{ text: 'How we ' }, { text: 'help', accent: true }] satisfies HeadingSegment[],
+  processEyebrow: 'How we work',
+  processHeading: [
+    { text: 'From first call to ' },
+    { text: 'results', accent: true },
+  ] satisfies HeadingSegment[],
+  faqEyebrow: 'FAQ',
+  faqHeading: [
+    { text: 'Questions, ' },
+    { text: 'answered', accent: true },
+  ] satisfies HeadingSegment[],
   testimonialEyebrow: 'Client voice',
   otherEyebrow: 'Other services',
 }
@@ -95,6 +129,31 @@ export const services: Service[] = [
         body: 'Turn data into stories with our Data Visualization services. Our designs will transform your complex data sets into visually engaging narratives, fostering understanding and empowering decision-making.',
       },
     ],
+    process: [
+      {
+        title: 'Discover',
+        body: 'Research with your users and stakeholders to understand the problem, the market and what success looks like.',
+      },
+      {
+        title: 'Define',
+        body: 'User journeys, information architecture and a clear direction the whole team agrees on.',
+      },
+      {
+        title: 'Design',
+        body: 'Interfaces, prototypes and a design system, tested with real users and refined until they work.',
+      },
+      {
+        title: 'Deliver',
+        body: 'Developer-ready handoff, support while it’s built, and iteration once it’s in people’s hands.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Do you also build what you design?',
+        answer:
+          'Yes. Our engineers can build it with you, or we hand your team developer-ready designs and a design system.',
+      },
+    ],
     testimonial: {
       quote:
         'They treat your project with the commitment and care as if it’s their own masterpiece.',
@@ -106,13 +165,13 @@ export const services: Service[] = [
     number: '02',
     title: 'Site Reliability Engineering',
     titleLines: ['Site Reliability', 'Engineering'],
-    /* new, from the live page's "System Resilience" block */
+    /* new */
     intro:
-      'Service disruption is the antithesis of customer trust. Our expertly managed SRE services prioritize your uptime.',
+      'Fewer incidents, faster recovery and reliability you can measure. We set clear targets, catch problems early and fix their causes, with your team or for it.',
     image: asset('/assets/home/service-sre.png'),
     seoTitle: 'Site Reliability Engineering (SRE) Services | Alvyl',
     seoDescription:
-      'Managed Site Reliability Engineering: incident prevention, SLI/SLO management, observability, chaos engineering, disaster recovery and postmortem analysis.',
+      'Managed SRE from India for teams worldwide: SLOs and error budgets, observability, incident response, chaos engineering, disaster recovery and postmortems.',
     capabilities: [
       'Incident Prevention',
       'Performance Optimization',
@@ -129,28 +188,58 @@ export const services: Service[] = [
     ],
     benefits: [
       {
-        title: 'System Resilience',
-        body: 'In the digital ecosystem, service disruption is the antithesis of customer trust. Alvyl’s expertly managed Site Reliability Engineering (SRE) services prioritize your uptime, eliminating this risk.',
+        title: 'Clear Reliability Targets',
+        body: 'We agree SLIs and SLOs with you for the user journeys that matter, then use error budgets to balance shipping speed against stability.',
       },
       {
-        title: 'Proactive Incident Management',
-        body: 'Alvyl’s SRE team leverages machine learning for real-time, intelligent monitoring and predictive analytics. We preempt potential system failures, turning them into actionable insights.',
+        title: 'See Problems Early',
+        body: 'Metrics, logs and traces in one view, with alerts tuned to real user impact, so issues surface before customers notice, without the alert noise.',
       },
       {
-        title: 'Adaptable SRE Frameworks',
-        body: 'We offer tailored SRE frameworks that align with your specific system architecture, traffic patterns, and peak load times, delivering precision-engineered solutions.',
+        title: 'Calm, Fast Incident Response',
+        body: 'Clear on-call rotations, runbooks and escalation paths, so incidents are handled quickly and the right people are involved.',
       },
       {
-        title: 'Efficient Scalability',
-        body: 'Our SRE solutions ensure system reliability accommodates your business growth. Through continuous load testing, performance tuning, and capacity planning, we maintain optimal service performance.',
+        title: 'Fix the Cause, Not the Symptom',
+        body: 'Blameless postmortems after every major incident, with tracked follow-ups that stop the same failure from coming back.',
       },
       {
-        title: 'Enhanced Security Measures',
-        body: 'Alvyl’s SRE services integrate advanced security measures, including intrusion detection systems and vulnerability assessments, directly into your infrastructure.',
+        title: 'Automate the Toil',
+        body: 'Repetitive operational work, from deploys and scaling to recovery steps, becomes code, freeing your engineers for product work.',
       },
       {
-        title: 'Root Cause Analysis',
-        body: 'Our incident response protocols facilitate quick issue mitigation. Post-incident, we conduct rigorous postmortem analysis to isolate root causes and prevent recurrence.',
+        title: 'Ready for Peaks and Failures',
+        body: 'Load testing, capacity planning, chaos experiments and tested disaster recovery, so traffic spikes and outages hold no surprises.',
+      },
+    ],
+    process: [
+      {
+        title: 'Assess',
+        body: 'We review your architecture, recent incidents and monitoring, and rank the biggest reliability risks.',
+      },
+      {
+        title: 'Set targets',
+        body: 'Together we define SLOs for the services that matter most and agree how error budgets guide releases.',
+      },
+      {
+        title: 'Instrument & automate',
+        body: 'We close observability gaps, tune alerting, write runbooks and automate the riskiest manual steps.',
+      },
+      {
+        title: 'Run & improve',
+        body: 'We work alongside your team, review every major incident and keep improving against the targets.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Do you work with our existing team and tools?',
+        answer:
+          'Yes. We work inside your cloud, monitoring and incident tools, and can support your engineers or take reliability work off their hands.',
+      },
+      {
+        question: 'Which platforms do you cover?',
+        answer:
+          'Cloud and container platforms, CI/CD pipelines, databases and the observability stack around them. We’ll confirm the fit for your setup on the first call.',
       },
     ],
   },
@@ -163,9 +252,9 @@ export const services: Service[] = [
     intro:
       'AI agents that plan, use your tools and get real work done — from customer support to back-office workflows — with your people in control.',
     image: asset('/assets/home/service-agentic-ai.png'),
-    seoTitle: 'Agentic AI Development: AI Agents & Copilots | Alvyl',
+    seoTitle: 'Agentic AI Development Company in India | Alvyl',
     seoDescription:
-      'AI agents and copilots that plan, use your tools and finish workflows: multi-agent orchestration, API integration, knowledge assistants and guardrails.',
+      'AI agents and copilots built in India that plan, use your tools and finish workflows: multi-agent orchestration, API integration, RAG and guardrails.',
     capabilities: [
       'AI Agents & Copilots',
       'Multi-Agent Orchestration',
@@ -202,18 +291,49 @@ export const services: Service[] = [
         body: 'We begin with one high-value workflow, prove the result, then extend agents across your teams.',
       },
     ],
+    process: [
+      {
+        title: 'Pick the workflow',
+        body: 'We find one high-value, repeatable task and agree how success will be measured.',
+      },
+      {
+        title: 'Prototype',
+        body: 'A working agent connected to your tools and data, tested against real cases from your team.',
+      },
+      {
+        title: 'Guard & launch',
+        body: 'We add guardrails, approval steps and monitoring, then launch with the people who will use it.',
+      },
+      {
+        title: 'Measure & extend',
+        body: 'We track quality, cost and time saved, then extend agents to the next workflows.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is our data safe with AI agents?',
+        answer:
+          'Agents only get the access each task needs, sensitive actions wait for a human approval, and we can choose models and hosting that keep your data within your environment.',
+      },
+      {
+        question: 'Which models do you use?',
+        answer:
+          'Whichever fits the task, cost and data rules: leading hosted models or open models you run yourself. We test the options on your own cases before choosing.',
+      },
+    ],
   },
   {
     slug: 'iot-machine-learning',
     number: '04',
     title: 'IoT & Machine Learning',
     titleLines: ['IoT & Machine', 'Learning'],
+    /* new */
     intro:
-      'With Alvyl by your side, innovation becomes an exhilarating journey. Our cutting-edge AI technologies, coupled with our unwavering expertise, pave the way for breakthroughs and ignite the spark of imagination.',
+      'Connected devices and machine learning that turn sensor data into decisions, from the device and the edge to the cloud and the dashboard.',
     image: asset('/assets/home/service-iot-ml.png'),
     seoTitle: 'IoT & Machine Learning Development | Alvyl',
     seoDescription:
-      'Machine learning and IoT: computer vision, predictive analytics, anomaly detection, IoT device management, edge computing and cloud services.',
+      'IoT and machine learning from India: connected devices, edge computing, computer vision, predictive maintenance, anomaly detection and cloud dashboards.',
     capabilities: [
       'Computer Vision Solutions',
       'Neural Networks',
@@ -230,24 +350,58 @@ export const services: Service[] = [
     ],
     benefits: [
       {
-        title: 'Unlock Your Data',
-        body: 'Data isn’t just numbers; it’s a strategic tool. Our advanced analytics can unlock your data’s potential, helping you identify trends, drive innovation, and stay ahead.',
+        title: 'From Device to Decision',
+        body: 'We connect sensors, machines and gateways to the cloud, then turn their data into alerts, dashboards and actions your team can use.',
       },
       {
-        title: 'Flexible Growth',
-        body: 'Our Cloud services offer you the flexibility to grow at your pace. Secure, scalable infrastructure meets your needs, saving time and cost. You only pay for what you use.',
+        title: 'Predict, Don’t React',
+        body: 'Anomaly detection and predictive models flag failures and demand changes early, so maintenance and stock are planned, not rushed.',
       },
       {
-        title: 'Actionable Strategies',
-        body: 'Harness the full potential of your data with Alvyl’s AI-driven insights. Uncover the hidden intricacies of customer behavior, predict demand with uncanny accuracy, and optimize your supply chain with unparalleled precision.',
+        title: 'Vision on the Floor',
+        body: 'Computer vision for inspection, counting and safety, running where it’s needed: on the device, at the edge or in the cloud.',
       },
       {
-        title: 'Stay Ahead',
-        body: 'In a dynamic and fiercely competitive landscape, staying ahead is paramount. We equip you with the tools to surge forward, foreseeing trends, optimizing processes, and delivering unparalleled customer experiences.',
+        title: 'Edge When It Matters',
+        body: 'Models run on the device or gateway when speed, bandwidth or privacy demand it, and in the cloud when scale does.',
       },
       {
-        title: 'Security Comes First',
-        body: 'We prioritize your data’s safety. Our security measures protect your IoT devices and Cloud infrastructure. With Alvyl, focus on your core business; we’ve got your security covered.',
+        title: 'Fleets You Can Manage',
+        body: 'Provisioning, monitoring and over-the-air updates keep every device healthy, secure and up to date.',
+      },
+      {
+        title: 'Secure by Design',
+        body: 'Device identity, encrypted data and least-privilege access protect your devices, data and cloud from day one.',
+      },
+    ],
+    process: [
+      {
+        title: 'Discover',
+        body: 'We map your devices, your data and the decision you want to improve.',
+      },
+      {
+        title: 'Prove it',
+        body: 'A focused pilot on real data shows what the models and the hardware can deliver.',
+      },
+      {
+        title: 'Build & connect',
+        body: 'We build the device, edge and cloud pieces, plus the dashboards and alerts people use every day.',
+      },
+      {
+        title: 'Scale & run',
+        body: 'We roll out across sites, monitor devices and models, and retrain as conditions change.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can you work with our existing hardware?',
+        answer:
+          'Usually, yes. We start from the devices and data you already have, and recommend new sensors or gateways only where they’re needed.',
+      },
+      {
+        question: 'Do we need a lot of data to start?',
+        answer:
+          'Not always. A pilot shows how much data the problem really needs, and we can begin collecting the right data while the first models are built.',
       },
     ],
   },

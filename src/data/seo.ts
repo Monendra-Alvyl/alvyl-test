@@ -6,16 +6,25 @@
  */
 import { absoluteUrl, DEFAULT_SHARE_IMAGE } from '@/lib/siteUrl'
 import { blogPosts, type BlogPost } from './blog'
-import { servicePath, services } from './services'
+import { servicePath, services, sharedFaqs } from './services'
 import { footer } from './site'
 
-export type PageMeta = { path: string; title: string; description: string }
+export type PageMeta = { path: string; title: string; description: string; image?: string }
+
+/** The page's own 1200×630 share card (public/og/, drawn by scripts/og-images.mjs). */
+const shareCard = (path: string) =>
+  absoluteUrl(`/og/${path === '/' ? 'home' : path.slice(1).replaceAll('/', '-')}.jpg`)
 
 /* One entry per service page, keyed "service-<slug>". */
 const serviceMeta = Object.fromEntries(
   services.map((s) => [
     `service-${s.slug}`,
-    { path: servicePath(s.slug), title: s.seoTitle, description: s.seoDescription },
+    {
+      path: servicePath(s.slug),
+      title: s.seoTitle,
+      description: s.seoDescription,
+      image: shareCard(servicePath(s.slug)),
+    },
   ]),
 ) as Record<`service-${string}`, PageMeta>
 
@@ -25,24 +34,28 @@ export const pageMeta = {
     title: 'Alvyl | Product Design, Agentic AI, IoT & SRE Studio',
     description:
       'We create genuine experiences that meet real needs. From MVPs to enterprise solutions—Site Reliability, Agentic AI, IoT & Machine Learning.',
+    image: shareCard('/'),
   },
   about: {
     path: '/about',
     title: 'About Alvyl | A People-First Tech Studio Since 2018',
     description:
       'Founded in 2018 with 40+ employees, Alvyl builds product design, site reliability, agentic AI and IoT solutions for startups and enterprises.',
+    image: shareCard('/about'),
   },
   offerings: {
     path: '/offerings',
     title: 'Offerings | UX/UI Design, Development & Branding | Alvyl',
     description:
       'Clarity, empathy, and rhythm built into everything we touch. Explore our UX/UI design, development, brand identity, and ongoing support services.',
+    image: shareCard('/offerings'),
   },
   contact: {
     path: '/contact-us',
     title: 'Contact Alvyl | Start Your Project With Us',
     description:
       'Have a question, idea, or project? Contact Alvyl Consulting today. Reach us at hello@alvyl.com or +91 98278 28912 to discuss your unique success story.',
+    image: shareCard('/contact-us'),
   },
   ...serviceMeta,
 } satisfies Record<string, PageMeta>
@@ -77,6 +90,7 @@ export const blogMeta = {
   title: 'Alvyl Blog | Notes on Design, AI, IoT & Reliability',
   description:
     'Notes from the Alvyl team on product design, site reliability, agentic AI, IoT and machine learning.',
+  image: shareCard('/blog'),
 } satisfies PageMeta
 
 /** The post's cover as its Open Graph / Twitter image (absoluteUrl adds the base back). */
@@ -198,7 +212,8 @@ const blogPages: SeoPage[] = [
 
 /*
  * The Organization (name, logo, contact details) that every page's publisher and every post's author
- * point at by @id. Add "sameAs" (LinkedIn, etc.) and "address" here when the site lists them.
+ * point at by @id. Based in India (the +91 number); add the city to "address" and "sameAs" (LinkedIn,
+ * etc.) when the site lists them.
  */
 function organization() {
   const telephone = footer.phone.replace(/\s/g, '')
@@ -209,6 +224,8 @@ function organization() {
     email: footer.email,
     telephone,
     foundingDate: '2018',
+    address: { '@type': 'PostalAddress', addressCountry: 'IN' },
+    areaServed,
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'sales',
@@ -218,6 +235,9 @@ function organization() {
     },
   }
 }
+
+/* Where Alvyl works: home market first, then everywhere else. */
+const areaServed = [{ '@type': 'Country', name: 'India' }, 'Worldwide']
 
 const website = {
   '@type': 'WebSite',
@@ -283,8 +303,17 @@ const serviceJsonLd = (service: (typeof services)[number]) => {
       serviceType: service.title,
       description: service.seoDescription,
       provider: { '@id': organizationRef['@id'] },
-      areaServed: 'Worldwide',
+      areaServed,
       url: absoluteUrl(page.path),
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${absoluteUrl(page.path)}#faq`,
+      mainEntity: [...service.faqs, ...sharedFaqs].map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
     },
   ])
 }
@@ -299,6 +328,7 @@ export const sitePages: SeoPage[] = [
     path: servicePath(service.slug),
     title: service.seoTitle,
     description: service.seoDescription,
+    image: shareCard(servicePath(service.slug)),
     jsonLd: serviceJsonLd(service),
   })),
   ...blogPages,

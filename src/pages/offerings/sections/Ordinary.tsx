@@ -6,17 +6,16 @@ import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { Img } from '@/components/ui/Img'
 
 /**
- * "From ordinary to extraordinary". Desktop: centred statement with an Alchemy disc over the end of
- * the headline, two phone mockups in opposite corners. Where the headline crosses the disc its letters
- * turn black: a black copy of the headline sits on top, clipped to the disc's circle.
+ * "From ordinary to extraordinary". Desktop: centred statement with an Alchemy disc rising just above
+ * the headline's top-right corner, clear of the text (the user's choice over the PNG, where it covered
+ * the end of the headline), and two phone mockups in opposite corners.
  * Tablet/phone: statement, then a swipeable mockup carousel.
  */
 
-/* Disc size and position relative to the headline box (its top edge, near its right end). */
+/* Disc size and position relative to the headline box: above its top edge, at its right end. */
 const DISC = 180
-const discLeft = 'calc(100% - 50px)'
-const discTop = '-2px'
-const discClip = `circle(${DISC / 2}px at calc(${discLeft} + ${DISC / 2}px) calc(${discTop} + ${DISC / 2}px))`
+const discLeft = 'calc(100% - 20px)'
+const discTop = `-${DISC - 10}px`
 export function Ordinary() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>()
   const [topLeft, bottomRight] = ordinary.mockups
@@ -53,13 +52,6 @@ export function Ordinary() {
           >
             <RichHeading lines={ordinary.headline} />
           </h2>
-          <p
-            aria-hidden
-            className="font-display text-h1 text-pitch-black absolute inset-0 font-light max-lg:hidden"
-            style={{ clipPath: discClip }}
-          >
-            <RichHeading lines={ordinary.headline} />
-          </p>
         </div>
         <p className="text-body-lg text-text-ultra-light relative font-sans font-light">
           {ordinary.body}

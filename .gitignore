@@ -14,3 +14,7 @@ public/_img
 .cms/
 public/assets/cms/
 src/data/cms.generated.json
+# Local-only: end-to-end tests, their reports and graphify's knowledge graph (not pushed)
+tests/
+playwright.config.ts
+graphify-out/

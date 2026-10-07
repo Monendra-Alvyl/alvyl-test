@@ -16,11 +16,11 @@ export const contactPage = {
   fields: [
     { name: 'name', label: 'Name', type: 'text', autoComplete: 'name', required: true },
     { name: 'email', label: 'Email', type: 'email', autoComplete: 'email', required: true },
-    { name: 'contact', label: 'Contact No', type: 'tel', autoComplete: 'tel', required: true },
+    { name: 'contact', label: 'Phone number', type: 'tel', autoComplete: 'tel', required: true },
   ],
   attachment: {
     name: 'attachment',
-    label: 'Attach document',
+    label: 'Attach a brief (optional)',
     accept: '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt',
     /* FormSubmit rejects submissions whose files add up to more than 10 MB. */
     maxBytes: 10 * 1024 * 1024,
@@ -37,7 +37,7 @@ export const contactPage = {
     message: 'Please enter a message.',
     messageShort: 'Please tell us a little more (at least 10 characters).',
   },
-  submit: 'Submit',
+  submit: 'Send message',
   sending: 'Sending…',
   sent: 'Thanks! Your message has been sent. We’ll get back to you soon.',
 } as const

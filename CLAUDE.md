@@ -77,6 +77,15 @@ Rules that follow from these:
   "Get in touch" section (not the Figma Contact designs). On phones that section shows only its heading
   and a "Contact Us" button.
 - The Home case-studies carousel was removed (it isn't in the PNGs).
+- **Share images:** each page has its own 1200×630 card in `public/og/` (`npm run og`,
+  scripts/og-images.mjs; rerun after changing a page headline), set as `image` in `src/data/seo.ts`.
+  The build ends with scripts/compress-dist-images.mjs (shrinks > 400 KB originals in dist only).
+- **Location:** Alvyl is "based in India" (from the +91 number; no city confirmed). It's in the
+  service FAQs (`sharedFaqs`), service SEO descriptions and Organization/Service JSON-LD.
+- **Service pages** have "How we work" (4 steps) and an FAQ (FAQPage JSON-LD) after the benefits.
+  The SRE/IoT rewrites, steps and FAQs are new copy awaiting the user's confirmation.
+- **Offerings "From ordinary" disc** sits above the headline's top-right corner, clear of the text
+  (the user's choice over the PNG, where it covered the headline's end).
 - **"Our approach" (StartupSpeed) art** is a code-drawn SVG orbit (`OrbitArt`), not the cubes PNG (the
   user disliked the cube render): the live alvyl.com icon language (thin orbits, hollow nodes), a slow
   outer orbit (enterprise) and a fast orange node on a tight inner orbit (startup). Motion in
@@ -99,13 +108,18 @@ Rules that follow from these:
   - **Flock:** one body that **covers the card**, following one wandering course; organic outline from
     two-scale noise (knots and necks, never an ellipse); each bird strays on its own slow course.
     Scroll only eases the mood, loose (headline) → gathered (finale); both moods still span the card.
+    **Down only:** scrolling up leaves the flock exactly as it is; every scroll down (also after one
+    up) sends the current stage again (the user's rule; Hero.tsx compares with the last stage). The
+    text and progress bar still follow the scroll both ways.
   - **Orb:** **the mouse cursor only** — follows it exactly, fades in where the pointer is and out where
     it leaves, **never moves on its own** (an always-present idle-wandering orb was built and the user
     rejected it); no orb on touch. Restrained, "minimalism and mystery": orange/red only, faint far halo.
   - **Influence:** near the orb birds deepen toward red and stray less (fly in step). **No positional
     effect on the flock at all** — a drag, a local lean and a pull-and-orbit were all tried and turned
     down; only light + unison survived.
-  - **Pulse:** a tap sends a soft wave; birds lean toward its source together and ease back (~2 s);
+  - **Pulse:** a mouse button **down** (primary only) or a touch tap sends a soft wave; releasing the
+    mouse does nothing (the user's rule; `onPointerDown` in Hero.tsx, touch stays on click so swipes
+    don't pulse); birds lean toward its source together and ease back (~2 s);
     three waves can run at once. Never an outward scatter. No on-screen hint.
   - **Colour:** orange and red only; per-bird brightness capped so dense overlaps stay a rich red, never
     white; light near the orb deepens, never lightens.
@@ -161,5 +175,8 @@ Rules that follow from these:
 - Playwright `getByRole` still matches `inert` elements. The hero's hidden screens repeat the service
   names, so tests must target the numbered service cards (`/^\d+ Title$/`).
 - The shell is Windows; Python isn't installed. Use Node scripts or the edit tools, not `python`.
+- Another local app ("Signal") sometimes listens on port 4173, and Playwright's
+  `reuseExistingServer` will then test it. Check `curl localhost:4173` first, or run the suite with a
+  copy of the config on another port.
 - For headless WebGL screenshots, launch Chromium with `--use-angle=swiftshader
   --enable-unsafe-swiftshader`.

@@ -8,7 +8,7 @@ import { Img } from '@/components/ui/Img'
 import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { pageMeta } from '@/data/seo'
-import { servicePage, servicePath, services, type Service } from '@/data/services'
+import { servicePage, servicePath, services, sharedFaqs, type Service } from '@/data/services'
 import { asset } from '@/lib/asset'
 
 /*
@@ -105,6 +105,71 @@ function Benefits({ service }: { service: Service }) {
   )
 }
 
+function Process({ service }: { service: Service }) {
+  return (
+    <Panel
+      as="section"
+      aria-labelledby="process-heading"
+      className="p-section-inner flex flex-col gap-8 md:gap-12"
+    >
+      <Eyebrow>{servicePage.processEyebrow}</Eyebrow>
+      <h2 id="process-heading" className="font-display text-h2 text-text-dark font-light">
+        <RichHeading lines={[servicePage.processHeading]} accentWeight="italic" />
+      </h2>
+      <ol className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {service.process.map((step, i) => (
+          <li
+            key={step.title}
+            className="group bg-dark-grey hover-alchemy flex flex-col gap-8 rounded-[16px] p-6 md:p-8 lg:gap-12"
+          >
+            <Eyebrow tone="card">{String(i + 1).padStart(2, '0')}</Eyebrow>
+            <div className="flex flex-col gap-4">
+              <h3 className="font-display text-h3 text-text-white font-light">{step.title}</h3>
+              <p className="text-body-lg text-text-light font-sans font-normal transition-colors group-hover:text-white">
+                {step.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </Panel>
+  )
+}
+
+/* Native disclosure widgets: keyboard and screen-reader ready, and every answer is in the HTML. */
+function Faq({ service }: { service: Service }) {
+  return (
+    <Panel
+      as="section"
+      aria-labelledby="faq-heading"
+      className="p-section-inner flex flex-col gap-8 md:gap-12"
+    >
+      <Eyebrow>{servicePage.faqEyebrow}</Eyebrow>
+      <h2 id="faq-heading" className="font-display text-h2 text-text-dark font-light">
+        <RichHeading lines={[servicePage.faqHeading]} accentWeight="italic" />
+      </h2>
+      <div className="border-stroke-light flex flex-col border-t">
+        {[...service.faqs, ...sharedFaqs].map((faq) => (
+          <details key={faq.question} className="group border-stroke-light border-b">
+            <summary className="text-h3 text-text-white font-display flex cursor-pointer list-none items-center justify-between gap-6 py-6 font-light [&::-webkit-details-marker]:hidden">
+              {faq.question}
+              <span
+                aria-hidden
+                className="text-alchemy-1 shrink-0 font-sans text-[28px] leading-none font-light transition-transform duration-300 group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <p className="text-body-lg text-text-light max-w-[760px] pb-6 font-sans font-normal">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </Panel>
+  )
+}
+
 function Testimonial({ testimonial }: { testimonial: NonNullable<Service['testimonial']> }) {
   return (
     <Panel as="section" aria-label={servicePage.testimonialEyebrow} className="p-section-inner">
@@ -159,7 +224,9 @@ export function ServicePage({ service }: { service: Service }) {
       <ServiceHero service={service} />
       <Capabilities service={service} />
       <Benefits service={service} />
+      <Process service={service} />
       {service.testimonial && <Testimonial testimonial={service.testimonial} />}
+      <Faq service={service} />
       <OtherServices current={service} />
       <ContactSection />
     </>
