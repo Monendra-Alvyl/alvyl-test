@@ -52,6 +52,8 @@ export const careers = {
     { text: 'make a difference', accent: true },
     { text: ' together!' },
   ] satisfies HeadingSegment[],
-  image: asset('/assets/about/careers.jpg'),
-  imageAlt: 'Alvyl team members talking in the office lounge',
+  /* The team video from www.alvyl.com (portrait 404×720; the slot crops it to the pool table). */
+  video: asset('/assets/about/team-video.mp4'),
+  poster: asset('/assets/about/team-video-poster.jpg'),
+  videoLabel: 'The Alvyl team playing pool',
 }

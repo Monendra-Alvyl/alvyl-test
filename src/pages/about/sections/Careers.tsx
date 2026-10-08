@@ -2,9 +2,8 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Panel } from '@/components/ui/Panel'
 import { RichHeading } from '@/components/ui/RichHeading'
 import { careers } from '@/data/about'
-import { Img } from '@/components/ui/Img'
 
-/** Careers call-out — heading beside a photo (photo first below desktop). */
+/** Careers call-out — heading beside the team video (video first below desktop). */
 export function Careers() {
   return (
     <Panel
@@ -23,11 +22,23 @@ export function Careers() {
             <RichHeading lines={[careers.headline]} accentWeight="italic" />
           </h2>
         </div>
-        <Img
-          src={careers.image}
-          alt={careers.imageAlt}
-          className="aspect-[488/272] w-full shrink-0 rounded-[16px] object-cover md:w-[488px]"
-          sizes="(min-width: 450px) 488px, 100vw"
+        {/* Muted and looping like the live site; the poster shows until it plays. React sets
+            `muted` only as a property, so autoplay doesn't start on its own: play it here. */}
+        <video
+          ref={(video) => {
+            if (!video) return
+            video.muted = true
+            video.play().catch(() => {})
+          }}
+          src={careers.video}
+          poster={careers.poster}
+          aria-label={careers.videoLabel}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="aspect-[488/272] w-full shrink-0 rounded-[16px] object-cover object-[50%_45%] md:w-[488px]"
         />
       </div>
     </Panel>

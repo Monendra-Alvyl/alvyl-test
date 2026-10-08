@@ -59,6 +59,20 @@
    ]
   ]
  },
+ "/assets/about/team-video-poster.jpg": {
+  "width": 404,
+  "height": 720,
+  "variants": [
+   [
+    320,
+    "/_img/about/team-video-poster-7ad3e6e3-320.webp"
+   ],
+   [
+    404,
+    "/_img/about/team-video-poster-7ad3e6e3-404.webp"
+   ]
+  ]
+ },
  "/assets/about/why-we-started.jpg": {
   "width": 615,
   "height": 598,
@@ -132,6 +146,20 @@
    [
     416,
     "/_img/cms/team/abhiram-g-b206707e-416.webp"
+   ]
+  ]
+ },
+ "/assets/cms/team/ac003e45b7bc3771e585d4e931fc21534f7cf67b-1x_1.png": {
+  "width": 416,
+  "height": 600,
+  "variants": [
+   [
+    320,
+    "/_img/cms/team/ac003e45b7bc3771e585d4e931fc21534f7cf67b-1x_1-9b5c8fe7-320.webp"
+   ],
+   [
+    416,
+    "/_img/cms/team/ac003e45b7bc3771e585d4e931fc21534f7cf67b-1x_1-9b5c8fe7-416.webp"
    ]
   ]
  },

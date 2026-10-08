@@ -90,6 +90,9 @@ Rules that follow from these:
   user disliked the cube render): the live alvyl.com icon language (thin orbits, hollow nodes), a slow
   outer orbit (enterprise) and a fast orange node on a tight inner orbit (startup). Motion in
   motion.css, still under reduced motion. `cubes.png` is kept in public/ but unused.
+- **"Why we exist" media** is the team video from www.alvyl.com (`team-video.mp4` + poster, portrait
+  404×720, cropped to the pool table), not `team-1.png`. It plays from a ref (React's `muted` alone
+  doesn't autoplay).
 - **Section spacing:** an eyebrow sits 48px above its heading (`gap-12`) at every size; don't centre a
   text column against a taller neighbour (it pushes the heading down).
 
