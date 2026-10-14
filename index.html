@@ -44,6 +44,27 @@
           )
       } catch (e) {}
     </script>
+    <!--
+      Google Analytics 4: production builds only (Vite fills in %DEV%), never on /admin. Page views
+      on in-site navigation come from GA's enhanced measurement (browser history events).
+      Microsoft Clarity starts in src/main.tsx.
+    -->
+    <script>
+      ;(function () {
+        if (window.__alvylAdmin || '%DEV%' === 'true') return
+        var id = 'G-DHNZ9P5V8C'
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        window.gtag = function () {
+          dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+        gtag('config', id)
+      })()
+    </script>
     <!-- Fonts used above the fold: fetch in parallel with the CSS instead of after it. -->
     <link rel="preload" href="/fonts/IvyMode-Light.woff2" as="font" type="font/woff2" crossorigin />
     <link
