@@ -32,9 +32,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # persist-credentials: false, so the tokens aren't left in .git/config while npm scripts run.
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
           repository: ${{ vars.CMS_REPO || 'Monendra-Alvyl/alvyl-test-blog' }}
           # Only needed if the content repository is private.
           token: ${{ secrets.CMS_REPO_TOKEN || github.token }}

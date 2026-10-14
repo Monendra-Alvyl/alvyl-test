@@ -1,3 +1,4 @@
+import Clarity from '@microsoft/clarity'
 import { StrictMode } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { App } from './App'
@@ -15,6 +16,8 @@ const isAdmin = (window as { __alvylAdmin?: boolean }).__alvylAdmin
 
 /* Prerendered pages (npm run build) are hydrated; the dev server and 404 shell render from scratch. */
 if (!isAdmin) {
+  /* Microsoft Clarity: production builds only, so local dev sessions aren't recorded. */
+  if (import.meta.env.PROD) Clarity.init('yxep6o48c5')
   if (root.hasChildNodes()) hydrateRoot(root, app)
   else createRoot(root).render(app)
 }

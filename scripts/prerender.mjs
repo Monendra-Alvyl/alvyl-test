@@ -53,17 +53,24 @@ const verification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
 
 /* Title, description and the Open Graph basics, for every page including the 404. */
 function withMeta(html, { title, description }) {
-  return html
-    .replace(/<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`)
-    .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escape(description)}$2`)
-    .replace(
-      '</head>',
-      tag('property', 'og:title', title) +
-        tag('property', 'og:description', description) +
-        tag('property', 'og:locale', 'en_IN') +
-        (verification ? tag('name', 'google-site-verification', verification) : '') +
-        '  </head>',
-    )
+  return (
+    html
+      .replace(/<title>[^<]*<\/title>/, () => `<title>${escape(title)}</title>`)
+      .replace(
+        /(<meta\s+name="description"\s+content=")[^"]*(")/,
+        (_, open, close) => open + escape(description) + close,
+      )
+      /* Function replacements throughout: a "$&" or "$'" in page text must stay literal. */
+      .replace(
+        '</head>',
+        () =>
+          tag('property', 'og:title', title) +
+          tag('property', 'og:description', description) +
+          tag('property', 'og:locale', 'en_IN') +
+          (verification ? tag('name', 'google-site-verification', verification) : '') +
+          '  </head>',
+      )
+  )
 }
 
 /* An indexable page: the above plus robots, canonical, og:url, share image, article tags, JSON-LD. */
@@ -103,7 +110,7 @@ function withSeo(html, { path: pagePath, image, imageAlt, article, jsonLd: data,
       '<meta property="og:type" content="website" />',
       `<meta property="og:type" content="${article ? 'article' : 'website'}" />`,
     )
-    .replace('</head>', `${head}  </head>`)
+    .replace('</head>', () => `${head}  </head>`)
 }
 
 /** Writes dist/<path>/index.html, and dist/<path>.html so hosts serve /about without a redirect. */
@@ -120,7 +127,7 @@ for (const page of sitePages) {
   const body = await render(page.path)
   const out = write(
     page.path,
-    withSeo(template, page).replace('<div id="root"></div>', `<div id="root">${body}</div>`),
+    withSeo(template, page).replace('<div id="root"></div>', () => `<div id="root">${body}</div>`),
   )
   console.log(
     `[prerender] ${page.path} → ${path.relative(ROOT, out)} (${(body.length / 1024).toFixed(0)} KiB)`,
@@ -155,7 +162,7 @@ if (legacyRedirects.length) console.log(`[prerender] ${legacyRedirects.length} /
   const body = await render(notFound.path)
   const html = withMeta(template, notFound)
     .replace('</head>', '  <meta name="robots" content="noindex" />\n  </head>')
-    .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
+    .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`)
   fs.writeFileSync(path.join(DIST, '404.html'), html)
   console.log(`[prerender] 404 → dist/404.html (${(body.length / 1024).toFixed(0)} KiB)`)
 }

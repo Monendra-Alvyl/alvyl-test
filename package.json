@@ -22,6 +22,7 @@
     "og": "node scripts/og-images.mjs"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

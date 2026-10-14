@@ -91,6 +91,16 @@
    ]
   ]
  },
+ "/assets/cms/blog/Untitled design (4).png": {
+  "width": 240,
+  "height": 240,
+  "variants": [
+   [
+    240,
+    "/_img/cms/blog/Untitled design (4)-6f54eec0-240.webp"
+   ]
+  ]
+ },
  "/assets/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends.png": {
   "width": 2334,
   "height": 1384,
@@ -122,16 +132,6 @@
    [
     1920,
     "/_img/cms/blog/react-vs-angular-react-trumps-angular-in-google-trends-e3491a1e-1920.webp"
-   ]
-  ]
- },
- "/assets/cms/blog/Untitled design (4).png": {
-  "width": 240,
-  "height": 240,
-  "variants": [
-   [
-    240,
-    "/_img/cms/blog/Untitled design (4)-6f54eec0-240.webp"
    ]
   ]
  },

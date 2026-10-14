@@ -12,14 +12,16 @@ const dir = contentDir()
 if (dir) {
   const from = path.join(dir, 'images')
   const to = path.join(ROOT, 'public/assets/cms')
+  /* lstat: a symlink is not a file here, so it can't publish other files from the build machine. */
   const list = (base) =>
     fs.existsSync(base)
       ? fs.readdirSync(base, { recursive: true }).filter((rel) => {
-          return fs.statSync(path.join(base, rel)).isFile()
+          return fs.lstatSync(path.join(base, rel)).isFile()
         })
       : []
 
-  const wanted = new Set(list(from))
+  /* Images only: an SVG or HTML file could run script on the site's own address. */
+  const wanted = new Set(list(from).filter((rel) => /\.(jpe?g|png|webp|gif|avif)$/i.test(rel)))
   let copied = 0
   for (const rel of wanted) {
     const src = path.join(from, rel)

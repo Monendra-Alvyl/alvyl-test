@@ -9,6 +9,7 @@
  * publish date still in the future, are left out until a later build.
  *   npm run cms:content
  */
+import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -46,6 +47,9 @@ const text = (value) => (typeof value === 'string' && value.trim() ? value.trim(
 const withBase = (url) => (url.startsWith('/') && !url.startsWith('//') ? BASE + url.slice(1) : url)
 const escapeAttr = (value) =>
   String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
+/* Post links and images may only be web, mail or phone addresses or site paths (no javascript:). */
+const safeUrl = (url) =>
+  /^([a-z][a-z\d+.-]*:)/i.test(url) && !/^(https?|mailto|tel):/i.test(url) ? '#' : url
 
 /** Last commit date of a file, so JSON-LD dateModified follows real edits (falls back to null). */
 function lastModified(file) {
@@ -94,7 +98,7 @@ const images = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'u
 function figure({ href, title, text: alt }) {
   const entry = images[href]
   const attrs = [
-    `src="${escapeAttr(withBase(href))}"`,
+    `src="${escapeAttr(withBase(safeUrl(href)))}"`,
     `alt="${escapeAttr(alt ?? '')}"`,
     entry &&
       `srcset="${entry.variants.map(([w, url]) => `${encodeURI(withBase(url))} ${w}w`).join(', ')}"`,
@@ -141,14 +145,18 @@ const markdown = new Marked({
     link({ href, title, tokens }) {
       const external = /^https?:\/\//.test(href)
       const attrs = [
-        `href="${escapeAttr(withBase(href))}"`,
+        `href="${escapeAttr(withBase(safeUrl(href)))}"`,
         title && `title="${escapeAttr(title)}"`,
         external && 'target="_blank" rel="noreferrer noopener"',
       ]
       return `<a ${attrs.filter(Boolean).join(' ')}>${this.parser.parseInline(tokens)}</a>`
     },
+    /* Raw HTML in a post is shown as text: the body is inserted into the page as-is (PostBody). */
+    html: ({ text }) => escapeAttr(text).replace(/>/g, '&gt;'),
   },
 })
+assert.equal(markdown.parse('<script>x</script>'), '&lt;script&gt;x&lt;/script&gt;')
+assert.equal(markdown.parseInline('[a](javascript:alert(1))'), '<a href="#">a</a>')
 
 /** Visible text of rendered HTML, whitespace collapsed. */
 const plainText = (html) =>
