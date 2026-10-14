@@ -301,6 +301,11 @@
   animation: scroll-cue-draw 2s var(--ease-reveal) infinite;
 }
 
+/* Pause stops everything that moves on its own, the cue included. */
+.hero-card[data-paused] .scroll-cue-track::after {
+  animation-play-state: paused;
+}
+
 @keyframes scroll-cue-draw {
   60%,
   100% {

@@ -33,7 +33,7 @@ const SCREENS = STAGE_COUNT
 
 const pad = 'px-6 md:px-[clamp(24px,9vw,72px)]'
 const bigType =
-  'font-display text-text-white text-[28px] leading-8 font-light md:text-[clamp(40px,8.1vw,65px)]'
+  'font-display text-text-white text-[36px] leading-10 font-light md:text-[clamp(40px,8.1vw,65px)]'
 
 /* ------------------------------------------------------------ motion flags */
 
@@ -220,15 +220,18 @@ export function Hero() {
     if (!story) return
     let frame = 0
     let lastStage = -1
-    const update = () => {
-      frame = 0
+    /* The pinned range: from where the card first sticks to where it un-pins. */
+    const range = () => {
       const wrap = wrapRef.current!
       const card = cardRef.current!
-      /* The pinned range: from where the card first sticks to where it un-pins. */
       const top = parseFloat(getComputedStyle(card).top) || 0
       const wrapTop = wrap.getBoundingClientRect().top + window.scrollY
       const start = Math.max(0, wrapTop - top)
-      const end = wrapTop + wrap.offsetHeight - card.offsetHeight - top
+      return { start, end: wrapTop + wrap.offsetHeight - card.offsetHeight - top }
+    }
+    const update = () => {
+      frame = 0
+      const { start, end } = range()
       const q = end > start ? Math.min(1, Math.max(0, (window.scrollY - start) / (end - start))) : 0
       const m = mapScroll(q)
       setProgress(q)
@@ -252,13 +255,42 @@ export function Hero() {
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update)
     }
+    /* Page Down / Page Up / Space step exactly one screen while the story is pinned (a page-sized
+       jump would skip service names); past either end the browser scrolls as usual. Presses during
+       the glide count on from the screen already aimed at. Wheel and touch are untouched. */
+    let aim = -1
+    let aimAt = 0
+    const onKey = (event: KeyboardEvent) => {
+      const space = event.key === ' '
+      const down = event.key === 'PageDown' || (space && !event.shiftKey)
+      const up = event.key === 'PageUp' || (space && event.shiftKey)
+      if (!(down || up) || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey)
+        return
+      const target = event.target as Element
+      if (target.closest?.('input, textarea, select, [contenteditable]')) return
+      if (space && target.closest?.('button, [role="button"], summary')) return
+      const { start, end } = range()
+      if (end <= start || window.scrollY < start - 1 || window.scrollY > end + 1) return
+      const from =
+        performance.now() - aimAt < 800
+          ? aim
+          : Math.round(mapScroll((window.scrollY - start) / (end - start)).s)
+      const next = from + (down ? 1 : -1)
+      if (next < 0 || next > SCREENS - 1) return
+      event.preventDefault()
+      aim = next
+      aimAt = performance.now()
+      window.scrollTo({ top: start + ((end - start) * next) / (SCREENS - 1), behavior: 'smooth' })
+    }
     schedule()
     window.addEventListener('scroll', schedule, { passive: true })
     window.addEventListener('resize', schedule)
+    window.addEventListener('keydown', onKey)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
+      window.removeEventListener('keydown', onKey)
     }
   }, [story])
 
@@ -449,10 +481,25 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Progress through the story. */}
-        {/* (Positioned by a wrapper: the indicator itself is `relative`.) */}
-        <div className="hero-story-only absolute bottom-6 left-6 md:bottom-10 md:left-[clamp(24px,9vw,72px)]">
-          <ProgressIndicator progress={progress} />
+        {/* The story's own controls, bottom-left under the text: Skip intro, then progress through the
+            story. Skip is laid out from the start (invisible until the flock is up) so nothing shifts.
+            On desktop the bar waits for the second screen, leaving the "Scroll" cue as the first
+            screen's only prompt. (A wrapper positions them: the indicator itself is `relative`.) */}
+        <div className="hero-story-only absolute bottom-5 left-6 flex items-center gap-5 md:bottom-9 md:left-[clamp(24px,9vw,72px)]">
+          <button
+            type="button"
+            onClick={skipIntro}
+            className={cn(
+              'tap-target text-text-ultra-light font-sans text-[14px] transition-colors hover:text-white',
+              !ready && 'invisible',
+            )}
+          >
+            {hero.controls.skip}
+          </button>
+          <ProgressIndicator
+            progress={progress}
+            className={cn('transition-opacity duration-500', screen === 0 && 'lg:opacity-0')}
+          />
         </div>
 
         {/* "Scroll" cue — desktop, first screen, once the flock has started. */}
@@ -467,24 +514,16 @@ export function Hero() {
           <span className="scroll-cue-track" />
         </div>
 
-        {/* Skip intro (story only) + Pause/Play (story and calm), once the flock has started. */}
+        {/* Pause/Play (story and calm), once the flock has started: on its own, bottom-right, quiet
+            (no ring until hover) but always readable; tap-target keeps its hit area 44px. */}
         {ready && (
-          <div className="hero-motion-only absolute right-6 bottom-3 flex items-center gap-4 md:right-[clamp(24px,9vw,72px)] md:bottom-7 opacity-40 transition-opacity hover:opacity-100">
-            {story && (
-              <button
-                type="button"
-                onClick={skipIntro}
-                className="tap-target text-text-ultra-light font-sans text-[14px] transition-colors hover:text-white"
-              >
-                {hero.controls.skip}
-              </button>
-            )}
+          <div className="hero-motion-only absolute right-6 bottom-3 md:right-[clamp(24px,9vw,72px)] md:bottom-7">
             <button
               type="button"
               aria-pressed={paused}
               aria-label={paused ? hero.controls.play : hero.controls.pause}
               onClick={() => setPaused((value) => !value)}
-              className="border-stroke-dark flex size-11 items-center justify-center rounded-full border text-white transition-colors hover:border-white hover:bg-white/5"
+              className="tap-target flex size-9 items-center justify-center rounded-full border border-transparent text-white/70 transition-colors hover:border-white/60 hover:bg-white/5 hover:text-white"
             >
               <PauseIcon paused={paused} />
             </button>
