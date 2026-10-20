@@ -70,31 +70,35 @@
 /* ------------------------------------------------------------ screens */
 
 /*
- * Scrubbed by scroll (Hero.tsx textStyle writes --screen-o / --screen-scale every frame): each screen
- * zooms in from a little larger, holds at its true size, then zooms on a little smaller as it fades,
- * so the story moves continuously with the visitor, like the camera pushing through it. The short
- * transition only smooths mouse-wheel steps; it never adds a delay. The left edge is the zoom's
- * anchor, so text never drifts sideways. Before the script runs, the first screen is shown and the
- * others are hidden.
+ * One whole screen shows at a time (Hero.tsx sets data-state). When the scroll passes to the next, the
+ * handoff plays in two beats, like the camera pushing on through the story: the old screen zooms on
+ * a little smaller and fades (240ms), and only then does the new one settle in from a little larger.
+ * So the card is never empty at rest and two titles never sit on top of each other. Scrolling back
+ * plays it in reverse ('passed' screens wait smaller, upcoming ones larger). The left edge is the
+ * zoom's anchor, so text never drifts sideways. The prerendered page already marks the first screen
+ * active, so it shows before the script runs.
  */
 .hero-screen {
-  --screen-o: 0;
-  --screen-scale: 1;
-  opacity: var(--screen-o);
-  transform: scale(var(--screen-scale));
+  opacity: 0;
+  transform: scale(1.05);
   transform-origin: left center;
   pointer-events: none;
   transition:
-    opacity 0.18s linear,
-    transform 0.18s linear;
+    opacity 240ms cubic-bezier(0.4, 0, 1, 1),
+    transform 240ms cubic-bezier(0.4, 0, 1, 1);
 }
 
-.hero-screen[data-first] {
-  --screen-o: 1;
+.hero-screen[data-state='passed'] {
+  transform: scale(0.96);
 }
 
 .hero-screen[data-state='active'] {
+  opacity: 1;
+  transform: none;
   pointer-events: auto;
+  transition:
+    opacity 520ms var(--ease-reveal) 240ms,
+    transform 820ms var(--ease-reveal) 240ms;
 }
 
 /* ------------------------------------------------------------ entrance */

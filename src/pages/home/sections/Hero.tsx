@@ -15,15 +15,14 @@ import { hero, whatWeOffer } from '@/data/home'
 import { cn } from '@/lib/cn'
 import { createMurmuration, STAGE_COUNT, type Murmuration } from '@/lib/murmuration'
 import { Link } from '@/lib/router'
-import { animateSun, type SunAnimation } from '@/lib/sun'
 
 /*
  * Home hero — hero-section-design.md, hero-motion-patterns.md. A night-sky card where a murmuration
  * of starlings flies behind "We're a team of builders". In story mode (index.html sets [data-story]
  * when motion is allowed and WebGL exists) the section is 400% of the viewport tall and the card is
  * pinned inside it: 6 screens (headline, 4 services, finale), the one flock easing from loose to
- * gathered as they pass. The orb (lib/sun draws it) is the mouse cursor over the card; it only ever
- * lights the flock, never moves it. A mouse press or a tap sends a pulse through the flock. In calm mode
+ * gathered as they pass. The mouse over the card lights the birds near it (the orb itself is hidden
+ * for now), never moves them. A mouse press or a tap sends a pulse through the flock. In calm mode
  * ([data-calm]: reduced motion asked for)
  * the static card keeps the flock, flying slowly, with no orb, pulse or story. Without WebGL, or if
  * the flock fails, it is the static card alone.
@@ -59,10 +58,9 @@ const leaveMotion = () => {
 /* ------------------------------------------------------------ scroll → screen + flight style */
 
 /**
- * §9.2: q (0 … 1 through the pinned range) → s = q × 5. The story is continuous: the flock's flight
- * style follows s directly (it eases toward it per frame, so it never snaps), and each screen's text
- * is scrubbed by its distance from s (textStyle). The current screen (links, eyebrow, inert) is the
- * nearest one.
+ * §9.2: q (0 … 1 through the pinned range) → s = q × 5. The flock's flight style follows s directly
+ * (it eases toward it per frame, so it never snaps); the text shows one whole screen at a time, the
+ * nearest one (pickScreen).
  */
 function mapScroll(q: number) {
   const s = q * (SCREENS - 1)
@@ -70,30 +68,23 @@ function mapScroll(q: number) {
 }
 
 /*
- * A screen's text at distance d = s − i from the scroll position: fully shown while |d| ≤ 0.2, then
- * fading out. It zooms, not slides: a screen approaching (d < 0) starts a little larger and settles to
- * its true size as it arrives; once passed (d > 0) it keeps shrinking slightly as it fades, as if the
- * camera were pushing on through the story. The first screen is fully shown and at its true size at
- * the very top, and the last at the very end.
- *
- * Not every screen carries the same weight: the headline (arrival) and the invitation (return) are the
- * story's two emotional beats, so they get the full, slower zoom; the four service names in between
- * are information, not drama, so they resolve sooner and barely zoom at all — one bold gesture, held
- * at the ends, rather than the same flourish repeated six times.
+ * Which screen's text is showing. Scrolling never leaves the card empty or two titles on top of each
+ * other: one whole screen is always shown, and passing the midpoint to the next plays a short handoff
+ * (motion.css: the old one zooms on and fades, then the new one settles in from a little larger, as
+ * if the camera pushed on through the story). It changes a little past the midpoint (HYSTERESIS), so
+ * resting right on the midpoint can't flicker between the two.
  */
-const HOLD = 0.2
+const HYSTERESIS = 0.08
 
-function textStyle(d: number, first: boolean, last: boolean) {
-  const zoom = 0.06
-  const fade = 0.46
-  const edge = (first && d < 0) || (last && d > 0) ? 0 : Math.abs(d)
-  const t = Math.min(1, Math.max(0, (edge - HOLD) / (fade - HOLD)))
-  const eased = t * t * (3 - 2 * t)
-  return { opacity: 1 - eased, scale: 1 + (d < 0 ? zoom : -zoom) * eased }
+function pickScreen(s: number, current: number) {
+  return Math.abs(s - current) > 0.5 + HYSTERESIS ? Math.round(s) : current
 }
 
-/* Where the sun gives way to the normal cursor: text, links and buttons in the card. */
-const SUN_YIELDS_TO = 'a, button, h1, h2, p, [role="button"]'
+/*
+ * How quickly the progress bar catches up with the scroll position (ms, exponential), so each
+ * mouse-wheel step glides rather than jumps, at any frame rate.
+ */
+const FOLLOW_MS = 150
 
 const token = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim()
@@ -155,10 +146,7 @@ export function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLElement>(null)
   const hostRef = useRef<HTMLDivElement>(null)
-  const sunRef = useRef<HTMLDivElement>(null)
-  const sunArtRef = useRef<HTMLDivElement>(null)
   const flockRef = useRef<Murmuration | null>(null)
-  const sunAnimRef = useRef<SunAnimation | null>(null)
   const screenRef = useRef(0)
   const pausedRef = useRef(false)
   const mousePressRef = useRef(false) // the current press is a mouse (it pulsed on button down)
@@ -170,7 +158,7 @@ export function Hero() {
   const [screen, setScreen] = useState(0)
   const [progress, setProgress] = useState(0)
 
-  /* Start the flock (story or calm mode) and, in story mode, the orb. The flock adds its own canvas;
+  /* Start the flock (story or calm mode). The flock adds its own canvas;
      it stops while the hero is off screen, the tab is hidden or Pause is pressed. */
   useEffect(() => {
     if (!story && !calm) return
@@ -194,24 +182,17 @@ export function Hero() {
     const observer = new IntersectionObserver(([entry]) => flock.setActive(entry.isIntersecting))
     observer.observe(cardRef.current!)
 
-    const sun = story ? animateSun(sunArtRef.current!) : null
-    sunAnimRef.current = sun
-
     return () => {
       observer.disconnect()
       flock.destroy()
-      sun?.destroy()
       flockRef.current = null
-      sunAnimRef.current = null
     }
   }, [story, calm])
 
-  /* Pause freezes everything that moves on its own: the flock and the orb's breathing. */
+  /* Pause freezes everything that moves on its own. */
   useEffect(() => {
     pausedRef.current = paused
     flockRef.current?.setPaused(paused)
-    if (paused) sunAnimRef.current?.pause()
-    else if (sunRef.current?.hasAttribute('data-on')) sunAnimRef.current?.play()
     cardRef.current?.toggleAttribute('data-paused', paused)
   }, [paused])
 
@@ -220,6 +201,8 @@ export function Hero() {
     if (!story) return
     let frame = 0
     let lastStage = -1
+    let shown = -1 // the progress bar's story position (s), easing toward the scroll position
+    let lastTime = 0
     /* The pinned range: from where the card first sticks to where it un-pins. */
     const range = () => {
       const wrap = wrapRef.current!
@@ -229,28 +212,31 @@ export function Hero() {
       const start = Math.max(0, wrapTop - top)
       return { start, end: wrapTop + wrap.offsetHeight - card.offsetHeight - top }
     }
-    const update = () => {
+    const update = (now: number) => {
       frame = 0
       const { start, end } = range()
       const q = end > start ? Math.min(1, Math.max(0, (window.scrollY - start) / (end - start))) : 0
       const m = mapScroll(q)
-      setProgress(q)
-      /* Written straight to the elements (custom properties), so scrolling never re-renders React. */
-      const screens = screensRef.current?.children ?? []
-      for (let i = 0; i < screens.length; i++) {
-        const { opacity, scale } = textStyle(m.s - i, i === 0, i === screens.length - 1)
-        const el = screens[i] as HTMLElement
-        el.style.setProperty('--screen-o', opacity.toFixed(3))
-        el.style.setProperty('--screen-scale', scale.toFixed(3))
-      }
-      if (m.screen !== screenRef.current) {
-        screenRef.current = m.screen
-        setScreen(m.screen)
+      /* The very first frame lands exactly; after that the bar follows (a fresh start counts as one
+         frame, so it never jumps after a pause in scrolling). */
+      const dt = lastTime ? Math.min(100, now - lastTime) : 16.7
+      shown = shown < 0 ? m.s : shown + (m.s - shown) * (1 - Math.exp(-dt / FOLLOW_MS))
+      if (Math.abs(m.s - shown) < 0.0005) shown = m.s
+      setProgress(Math.round(shown * 1000) / ((SCREENS - 1) * 1000))
+      const next = pickScreen(m.s, screenRef.current)
+      if (next !== screenRef.current) {
+        screenRef.current = next
+        setScreen(next)
       }
       /* The flock answers scrolling down only: scrolling up leaves it exactly as it is (the user's
          rule), and the next scroll down picks up from wherever the story is then (the engine eases). */
       if (m.stage > lastStage) flockRef.current?.setProgress(m.stage)
       lastStage = m.stage
+      /* Keep going until the text has caught up with the scroll. */
+      if (shown !== m.s) {
+        lastTime = now
+        frame = requestAnimationFrame(update)
+      } else lastTime = 0
     }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update)
@@ -294,43 +280,17 @@ export function Hero() {
     }
   }, [story])
 
-  /* ---------------------------------------------------------- the orb and its pulse */
+  /* ---------------------------------------------------------- the pointer's light and the pulse */
 
-  /* The mouse has left the card: the orb fades where it was, and its light fades from the flock. */
-  const hideSun = () => {
-    sunRef.current?.removeAttribute('data-on')
-    sunRef.current?.removeAttribute('data-over')
-    cardRef.current?.removeAttribute('data-sun')
-    cardRef.current?.removeAttribute('data-over')
-    sunAnimRef.current?.pause()
-    flockRef.current?.clearPointer()
-  }
-
-  /*
-   * The orb is the cursor: over the card it follows the mouse exactly and never moves on its own (touch
-   * and pen get no orb). It fades in where the pointer is, so it never jumps in from elsewhere. Over
-   * text, links and buttons it shrinks into the pointer and the normal cursor takes over (a hand on
-   * links, the text cursor on copy), so everything there reads and clicks as usual.
-   */
+  /* The mouse over the card lights the birds near it (no orb is drawn for now); touch and pen don't. */
   const onPointerMove = (event: PointerEvent<HTMLElement>) => {
     if (!story || event.pointerType !== 'mouse') return
-    const card = cardRef.current!
-    const rect = card.getBoundingClientRect()
-    const sun = sunRef.current!
+    const rect = cardRef.current!.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    /* `translate`, not `transform`: CSS scales after `transform`, so the hover shrink would pull it off the pointer. */
-    sun.style.translate = `${x}px ${y}px`
-    const over = !!(event.target as Element).closest(SUN_YIELDS_TO)
-    sun.toggleAttribute('data-over', over)
-    card.toggleAttribute('data-over', over)
-    if (!sun.hasAttribute('data-on')) {
-      sun.setAttribute('data-on', '')
-      card.setAttribute('data-sun', '')
-      if (!pausedRef.current) sunAnimRef.current?.play()
-    }
     flockRef.current?.setPointer((x / rect.width) * 2 - 1, 1 - (y / rect.height) * 2)
   }
+  const onPointerLeave = () => flockRef.current?.clearPointer()
 
   /* A press on the sky (not a link or button) sends a pulse through the flock; nothing while paused.
      No hint is offered for this — it's there to be found, not announced. A mouse pulses on button
@@ -364,8 +324,10 @@ export function Hero() {
 
   /* ---------------------------------------------------------- screens */
 
+  /* The current screen is 'active'; the others wait on the side they'll come from ('passed' ones
+     have zoomed on, the rest are still a little larger), so a handoff always zooms the same way. */
   const screenProps = (i: number) => ({
-    'data-state': i === screen ? 'active' : undefined,
+    'data-state': i === screen ? 'active' : i < screen ? 'passed' : undefined,
     inert: i !== screen,
     className: 'hero-screen flex flex-col items-start gap-6 [grid-area:1/1] md:gap-7',
   })
@@ -377,7 +339,7 @@ export function Hero() {
         ref={cardRef}
         aria-label="Introduction"
         onPointerMove={onPointerMove}
-        onPointerLeave={hideSun}
+        onPointerLeave={onPointerLeave}
         onPointerDown={onPointerDown}
         onClick={onClick}
         className="hero-card from-sky-top to-sky-bottom border-stroke-light relative h-[634px] overflow-clip rounded-[24px] border bg-linear-to-b md:h-[772px]"
@@ -392,14 +354,6 @@ export function Hero() {
             screen === 0 || screen === SCREENS - 1 ? 'opacity-100' : 'opacity-60',
           )}
         />
-
-        {/* The orb: the mouse cursor over the card. It sits behind the flock, like a low sun the
-            birds fly across; it ignores the pointer itself. The halo reaches far and very faintly;
-            lib/sun draws the core into .sun/.sun-art. */}
-        <div ref={sunRef} aria-hidden className="hero-sun hero-story-only">
-          <div className="sun-halo" />
-          <div ref={sunArtRef} className="sun" />
-        </div>
 
         {/* The flock (its canvas is added on the client), fading in once its first frame is drawn. */}
         <div
