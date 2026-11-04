@@ -58,14 +58,20 @@ const leaveMotion = () => {
 /* ------------------------------------------------------------ scroll → screen + flight style */
 
 /**
- * §9.2: q (0 … 1 through the pinned range) → s = q × 5. The flock's flight style follows s directly
- * (it eases toward it per frame, so it never snaps); the text shows one whole screen at a time, the
- * nearest one (pickScreen).
+ * §9.2: q (0 … 1 through the pinned range) → s (0 … 5). Every screen gets an equal slice of the
+ * scroll, the first and last included, so the last one holds as long as the rest: s sits at 0 for
+ * the first half-slice, at 5 for the last half-slice (the story's still ending, before the card
+ * un-pins) and runs evenly between. The flock's flight style follows s directly (it eases toward it
+ * per frame, so it never snaps); the text shows one whole screen at a time, the nearest one
+ * (pickScreen).
  */
 function mapScroll(q: number) {
-  const s = q * (SCREENS - 1)
+  const s = Math.min(SCREENS - 1, Math.max(0, q * SCREENS - 0.5))
   return { s, screen: Math.round(s), stage: s }
 }
+
+/** The scroll fraction where screen `i` is exactly centred (s = i): the inverse of mapScroll. */
+const screenAt = (i: number) => (i + 0.5) / SCREENS
 
 /*
  * Which screen's text is showing. Scrolling never leaves the card empty or two titles on top of each
@@ -266,7 +272,7 @@ export function Hero() {
       event.preventDefault()
       aim = next
       aimAt = performance.now()
-      window.scrollTo({ top: start + ((end - start) * next) / (SCREENS - 1), behavior: 'smooth' })
+      window.scrollTo({ top: start + (end - start) * screenAt(next), behavior: 'smooth' })
     }
     schedule()
     window.addEventListener('scroll', schedule, { passive: true })

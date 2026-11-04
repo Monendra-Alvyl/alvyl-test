@@ -8,7 +8,7 @@
 /* ------------------------------------------------------------ story layout */
 
 /*
- * 6 screens over 400% of the viewport height; the card is pinned for (section − card). It pins just
+ * 6 screens over 480% of the viewport height (an equal slice each); the card is pinned for (section − card). It pins just
  * below the sticky header (12px + 74.5px tall) with the same 32px gap as content on every page, so the
  * two never overlap, and it fills the rest of the screen down to the side padding — up to the design's
  * 772px card height, so on taller screens it stays that fixed size instead of stretching. The gap to
@@ -18,8 +18,8 @@
 [data-story] {
   --hero-top: 118px; /* header bottom (86px phone, 86.56px from tablet up) + 32px */
   --hero-card-h: clamp(520px, calc(100svh - var(--hero-top) - var(--space-side)), 772px);
-  /* How far the story scrolls while the card is pinned. */
-  --hero-range: calc(max(400svh, calc(var(--hero-card-h) + 300px)) - var(--hero-card-h));
+  /* How far the story scrolls while the card is pinned: 6 equal slices, one per screen (Hero.tsx). */
+  --hero-range: calc(max(480svh, calc(var(--hero-card-h) + 300px)) - var(--hero-card-h));
 }
 
 @media (min-width: 450px) {

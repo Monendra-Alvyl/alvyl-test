@@ -12,7 +12,10 @@ import { Img } from '@/components/ui/Img'
 /* On phones the card is narrowed to leave a peek of the next one (and keep the LinkedIn icon on screen). */
 const cardSize =
   'h-[480px] w-[min(334px,calc(100vw-80px))] shrink-0 snap-start lg:h-[600px] lg:w-[416px]'
-const face = 'absolute inset-0 flex flex-col overflow-clip rounded-[16px] backface-hidden'
+/* Safari ignores backface-hidden on children with their own layer (the LinkedIn link), so the face
+   turned away is also made invisible, switching at the flip's edge-on midpoint (half of 700ms). */
+const face =
+  'absolute inset-0 flex flex-col overflow-clip rounded-[16px] backface-hidden transition-[visibility] duration-0 delay-350 motion-reduce:delay-0'
 
 function Caption({ person }: { person: TeamMember }) {
   return (
@@ -49,7 +52,11 @@ function Face({
   children: ReactNode
 }) {
   return (
-    <div className={cn(face, className)} inert={hidden} aria-hidden={hidden || undefined}>
+    <div
+      className={cn(face, hidden && 'invisible', className)}
+      inert={hidden}
+      aria-hidden={hidden || undefined}
+    >
       {children}
     </div>
   )
