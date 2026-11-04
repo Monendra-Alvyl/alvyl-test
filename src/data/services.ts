@@ -77,88 +77,83 @@ export const servicePage = {
 
 export const services: Service[] = [
   {
-    slug: 'product-design',
+    slug: 'agentic-ai',
     number: '01',
-    title: 'End-to-End Product Design',
-    titleLines: ['End-to-End', 'Product Design'],
-    /* new */
+    title: 'Agentic AI',
+    titleLines: ['Agentic AI'],
+    /* new — the live site has no Agentic AI page; all copy for this service is new and should be confirmed */
     intro:
-      'Clarity, empathy, and rhythm — from brand and UX research to UI, motion and the design systems that keep it all consistent.',
-    image: asset('/assets/home/service-product-design.png'),
-    seoTitle: 'Product Design Services: UX, UI & Branding | Alvyl',
+      'AI agents that plan, use your tools and get real work done — from customer support to back-office workflows — with your people in control.',
+    image: asset('/assets/home/service-agentic-ai.png'),
+    seoTitle: 'Agentic AI Development Company in India | Alvyl',
     seoDescription:
-      'Strategic, human-centered product design: UX and UI design, brand identity, mobile apps, design systems, motion and e-commerce design.',
+      'AI agents and copilots built in India that plan, use your tools and finish workflows: multi-agent orchestration, API integration, RAG and guardrails.',
     capabilities: [
-      'Brand Designs',
-      'User Experience (UX) Design',
-      'User Interface (UI) Design',
-      'Brand Identity Design',
-      'Mobile Application Design',
-      'System Design',
-      'Brand Strategy and Positioning',
-      'Augmented Reality Design',
-      'Virtual Reality Design',
-      'Motion Graphics Design',
-      'Media Graphics Design',
-      'SEO Design',
-      'E-commerce Design',
+      'AI Agents & Copilots',
+      'Multi-Agent Orchestration',
+      'Tool & API Integration',
+      'Workflow Automation',
+      'Knowledge Assistants (RAG)',
+      'Guardrails & Human-in-the-Loop',
+      'Agent Evaluation & Monitoring',
+      'Model Selection & Fine-Tuning',
     ],
     benefits: [
       {
-        title: 'Strategic Design Thinking',
-        body: 'Our design isn’t just about aesthetics; it’s about crafting meaningful experiences. Our creative team works diligently to grasp your brand, audience, and market, merging art with insights to create designs that align with your goals, giving you the edge you need.',
+        title: 'Work, Not Just Answers',
+        body: 'Our agents take action. They plan the steps, call your systems and finish the task, instead of stopping at a chat reply.',
       },
       {
-        title: 'Human-Centered Design',
-        body: 'Experience empathy in design with our Human-Centered Design services. We focus on creating experiences that put your users at the heart, designing with compassion, inclusivity, and a deep understanding of your audience’s needs and experiences.',
+        title: 'Built Into Your Systems',
+        body: 'We connect agents to the tools you already use — CRMs, ticketing, databases and internal APIs — through secure, permissioned integrations.',
       },
       {
-        title: 'AI-Driven Design',
-        body: 'Harness the transformative power of Artificial Intelligence with our AI-Driven Design services. Watch as your ideas take shape dynamically, evolving through a process that seamlessly integrates your vision with intelligent design automation and predictive algorithms.',
+        title: 'Grounded in Your Knowledge',
+        body: 'Agents answer from your own documents and data, and show their sources, so responses stay accurate and on-brand.',
       },
       {
-        title: 'Virtual User Testing',
-        body: 'Venture into the digital landscape with our Virtual User Testing services. We empower you with actionable insights and feedback, crafting a virtual crucible where your designs are tested, honed, and perfected before they even touch the real world.',
+        title: 'People Stay in Control',
+        body: 'Approval steps, guardrails and clear limits on what each agent may do, so sensitive actions always get a human check.',
       },
       {
-        title: 'Voice User Interface (VUI) Design',
-        body: 'Speak the language of the future with our Voice User Interface (VUI) Design services. As we design intuitive voice interactions for your brand, your users will experience a new dimension of convenience, engagement, and brand interaction.',
+        title: 'Measured and Monitored',
+        body: 'We test agents against real scenarios before launch, then track quality, cost and failures in production and keep improving them.',
       },
       {
-        title: 'Decode Complexity',
-        body: 'Turn data into stories with our Data Visualization services. Our designs will transform your complex data sets into visually engaging narratives, fostering understanding and empowering decision-making.',
+        title: 'Start Small, Scale Fast',
+        body: 'We begin with one high-value workflow, prove the result, then extend agents across your teams.',
       },
     ],
     process: [
       {
-        title: 'Discover',
-        body: 'Research with your users and stakeholders to understand the problem, the market and what success looks like.',
+        title: 'Pick the workflow',
+        body: 'We find one high-value, repeatable task and agree how success will be measured.',
       },
       {
-        title: 'Define',
-        body: 'User journeys, information architecture and a clear direction the whole team agrees on.',
+        title: 'Prototype',
+        body: 'A working agent connected to your tools and data, tested against real cases from your team.',
       },
       {
-        title: 'Design',
-        body: 'Interfaces, prototypes and a design system, tested with real users and refined until they work.',
+        title: 'Guard & launch',
+        body: 'We add guardrails, approval steps and monitoring, then launch with the people who will use it.',
       },
       {
-        title: 'Deliver',
-        body: 'Developer-ready handoff, support while it’s built, and iteration once it’s in people’s hands.',
+        title: 'Measure & extend',
+        body: 'We track quality, cost and time saved, then extend agents to the next workflows.',
       },
     ],
     faqs: [
       {
-        question: 'Do you also build what you design?',
+        question: 'Is our data safe with AI agents?',
         answer:
-          'Yes. Our engineers can build it with you, or we hand your team developer-ready designs and a design system.',
+          'Agents only get the access each task needs, sensitive actions wait for a human approval, and we can choose models and hosting that keep your data within your environment.',
+      },
+      {
+        question: 'Which models do you use?',
+        answer:
+          'Whichever fits the task, cost and data rules: leading hosted models or open models you run yourself. We test the options on your own cases before choosing.',
       },
     ],
-    testimonial: {
-      quote:
-        'They treat your project with the commitment and care as if it’s their own masterpiece.',
-      name: 'Ratna Garba',
-    },
   },
   {
     slug: 'site-reliability-engineering',
@@ -244,87 +239,8 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: 'agentic-ai',
-    number: '03',
-    title: 'Agentic AI',
-    titleLines: ['Agentic AI'],
-    /* new — the live site has no Agentic AI page; all copy for this service is new and should be confirmed */
-    intro:
-      'AI agents that plan, use your tools and get real work done — from customer support to back-office workflows — with your people in control.',
-    image: asset('/assets/home/service-agentic-ai.png'),
-    seoTitle: 'Agentic AI Development Company in India | Alvyl',
-    seoDescription:
-      'AI agents and copilots built in India that plan, use your tools and finish workflows: multi-agent orchestration, API integration, RAG and guardrails.',
-    capabilities: [
-      'AI Agents & Copilots',
-      'Multi-Agent Orchestration',
-      'Tool & API Integration',
-      'Workflow Automation',
-      'Knowledge Assistants (RAG)',
-      'Guardrails & Human-in-the-Loop',
-      'Agent Evaluation & Monitoring',
-      'Model Selection & Fine-Tuning',
-    ],
-    benefits: [
-      {
-        title: 'Work, Not Just Answers',
-        body: 'Our agents take action. They plan the steps, call your systems and finish the task, instead of stopping at a chat reply.',
-      },
-      {
-        title: 'Built Into Your Systems',
-        body: 'We connect agents to the tools you already use — CRMs, ticketing, databases and internal APIs — through secure, permissioned integrations.',
-      },
-      {
-        title: 'Grounded in Your Knowledge',
-        body: 'Agents answer from your own documents and data, and show their sources, so responses stay accurate and on-brand.',
-      },
-      {
-        title: 'People Stay in Control',
-        body: 'Approval steps, guardrails and clear limits on what each agent may do, so sensitive actions always get a human check.',
-      },
-      {
-        title: 'Measured and Monitored',
-        body: 'We test agents against real scenarios before launch, then track quality, cost and failures in production and keep improving them.',
-      },
-      {
-        title: 'Start Small, Scale Fast',
-        body: 'We begin with one high-value workflow, prove the result, then extend agents across your teams.',
-      },
-    ],
-    process: [
-      {
-        title: 'Pick the workflow',
-        body: 'We find one high-value, repeatable task and agree how success will be measured.',
-      },
-      {
-        title: 'Prototype',
-        body: 'A working agent connected to your tools and data, tested against real cases from your team.',
-      },
-      {
-        title: 'Guard & launch',
-        body: 'We add guardrails, approval steps and monitoring, then launch with the people who will use it.',
-      },
-      {
-        title: 'Measure & extend',
-        body: 'We track quality, cost and time saved, then extend agents to the next workflows.',
-      },
-    ],
-    faqs: [
-      {
-        question: 'Is our data safe with AI agents?',
-        answer:
-          'Agents only get the access each task needs, sensitive actions wait for a human approval, and we can choose models and hosting that keep your data within your environment.',
-      },
-      {
-        question: 'Which models do you use?',
-        answer:
-          'Whichever fits the task, cost and data rules: leading hosted models or open models you run yourself. We test the options on your own cases before choosing.',
-      },
-    ],
-  },
-  {
     slug: 'iot-machine-learning',
-    number: '04',
+    number: '03',
     title: 'IoT & Machine Learning',
     titleLines: ['IoT & Machine', 'Learning'],
     /* new */
@@ -404,6 +320,90 @@ export const services: Service[] = [
           'Not always. A pilot shows how much data the problem really needs, and we can begin collecting the right data while the first models are built.',
       },
     ],
+  },
+  {
+    slug: 'product-design',
+    number: '04',
+    title: 'End-to-End Product Design',
+    titleLines: ['End-to-End', 'Product Design'],
+    /* new */
+    intro:
+      'Clarity, empathy, and rhythm — from brand and UX research to UI, motion and the design systems that keep it all consistent.',
+    image: asset('/assets/home/service-product-design.png'),
+    seoTitle: 'Product Design Services: UX, UI & Branding | Alvyl',
+    seoDescription:
+      'Strategic, human-centered product design: UX and UI design, brand identity, mobile apps, design systems, motion and e-commerce design.',
+    capabilities: [
+      'Brand Designs',
+      'User Experience (UX) Design',
+      'User Interface (UI) Design',
+      'Brand Identity Design',
+      'Mobile Application Design',
+      'System Design',
+      'Brand Strategy and Positioning',
+      'Augmented Reality Design',
+      'Virtual Reality Design',
+      'Motion Graphics Design',
+      'Media Graphics Design',
+      'SEO Design',
+      'E-commerce Design',
+    ],
+    benefits: [
+      {
+        title: 'Strategic Design Thinking',
+        body: 'Our design isn’t just about aesthetics; it’s about crafting meaningful experiences. Our creative team works diligently to grasp your brand, audience, and market, merging art with insights to create designs that align with your goals, giving you the edge you need.',
+      },
+      {
+        title: 'Human-Centered Design',
+        body: 'Experience empathy in design with our Human-Centered Design services. We focus on creating experiences that put your users at the heart, designing with compassion, inclusivity, and a deep understanding of your audience’s needs and experiences.',
+      },
+      {
+        title: 'AI-Driven Design',
+        body: 'Harness the transformative power of Artificial Intelligence with our AI-Driven Design services. Watch as your ideas take shape dynamically, evolving through a process that seamlessly integrates your vision with intelligent design automation and predictive algorithms.',
+      },
+      {
+        title: 'Virtual User Testing',
+        body: 'Venture into the digital landscape with our Virtual User Testing services. We empower you with actionable insights and feedback, crafting a virtual crucible where your designs are tested, honed, and perfected before they even touch the real world.',
+      },
+      {
+        title: 'Voice User Interface (VUI) Design',
+        body: 'Speak the language of the future with our Voice User Interface (VUI) Design services. As we design intuitive voice interactions for your brand, your users will experience a new dimension of convenience, engagement, and brand interaction.',
+      },
+      {
+        title: 'Decode Complexity',
+        body: 'Turn data into stories with our Data Visualization services. Our designs will transform your complex data sets into visually engaging narratives, fostering understanding and empowering decision-making.',
+      },
+    ],
+    process: [
+      {
+        title: 'Discover',
+        body: 'Research with your users and stakeholders to understand the problem, the market and what success looks like.',
+      },
+      {
+        title: 'Define',
+        body: 'User journeys, information architecture and a clear direction the whole team agrees on.',
+      },
+      {
+        title: 'Design',
+        body: 'Interfaces, prototypes and a design system, tested with real users and refined until they work.',
+      },
+      {
+        title: 'Deliver',
+        body: 'Developer-ready handoff, support while it’s built, and iteration once it’s in people’s hands.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Do you also build what you design?',
+        answer:
+          'Yes. Our engineers can build it with you, or we hand your team developer-ready designs and a design system.',
+      },
+    ],
+    testimonial: {
+      quote:
+        'They treat your project with the commitment and care as if it’s their own masterpiece.',
+      name: 'Ratna Garba',
+    },
   },
 ]
 
