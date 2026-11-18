@@ -1,0 +1,100 @@
+# Builds the site and uploads it to a Google Cloud Storage bucket: on every push to main, on a CMS save
+# (a "cms-content" repository_dispatch from the content repo), daily (posts with a future date), or by hand.
+#
+# No keys are stored anywhere: GitHub logs in to Google Cloud with Workload Identity Federation.
+# One-time GCP setup (a GCP admin runs these; replace the three values first):
+#
+#   PROJECT_ID=your-project-id
+#   REPO=alvyl/alvyl-website-2026-11-16-project
+#   BUCKET=alvyl-website
+#   PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+#   SA=website-deployer@$PROJECT_ID.iam.gserviceaccount.com
+#
+#   gcloud iam service-accounts create website-deployer --project=$PROJECT_ID
+#   gcloud storage buckets add-iam-policy-binding gs://$BUCKET \
+#     --member=serviceAccount:$SA --role=roles/storage.objectAdmin
+#   gcloud iam workload-identity-pools create github --project=$PROJECT_ID --location=global
+#   gcloud iam workload-identity-pools providers create-oidc github --project=$PROJECT_ID \
+#     --location=global --workload-identity-pool=github \
+#     --issuer-uri=https://token.actions.githubusercontent.com \
+#     --attribute-mapping=google.subject=assertion.sub,attribute.repository=assertion.repository \
+#     --attribute-condition="assertion.repository=='$REPO'"
+#   gcloud iam service-accounts add-iam-policy-binding $SA --project=$PROJECT_ID \
+#     --role=roles/iam.workloadIdentityUser \
+#     --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github/attribute.repository/$REPO"
+#
+# Then in the GitHub repo: Settings → Secrets and variables → Actions → Variables, add:
+#   GCP_WORKLOAD_IDENTITY_PROVIDER  projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/github/providers/github
+#   GCP_SERVICE_ACCOUNT             website-deployer@<PROJECT_ID>.iam.gserviceaccount.com
+#   GCS_BUCKET                      alvyl-website
+#   GCS_SITE_URL                    https://your-domain.com (the address this site is served at)
+#   CMS_REPO (optional)             defaults to Monendra-Alvyl/alvyl-test-blog
+name: Deploy to Cloud Storage
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [cms-content]
+  schedule:
+    - cron: '30 0 * * *'
+
+permissions:
+  contents: read
+  id-token: write # lets GitHub prove its identity to Google Cloud
+
+concurrency:
+  group: deploy-gcs
+  cancel-in-progress: false # never stop an upload halfway
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      BUCKET: gs://${{ vars.GCS_BUCKET }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          repository: ${{ vars.CMS_REPO || 'Monendra-Alvyl/alvyl-test-blog' }}
+          token: ${{ secrets.CMS_REPO_TOKEN || github.token }}
+          path: .cms
+          fetch-depth: 0 # each post's dateModified is its last commit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          BASE_PATH: /
+          VITE_SITE_URL: ${{ vars.GCS_SITE_URL }}
+          CMS_CONTENT_DIR: .cms
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+
+      # Upload order keeps the live site whole: new hashed files first, then the pages that use them,
+      # and only then remove the old hashed files.
+      - name: Upload hashed files (cached for a year)
+        run: |
+          gcloud storage rsync dist/assets "$BUCKET/assets" --recursive \
+            --cache-control="public, max-age=31536000, immutable"
+          gcloud storage rsync dist/_img "$BUCKET/_img" --recursive \
+            --cache-control="public, max-age=31536000, immutable"
+      - name: Upload pages and other files (always rechecked)
+        run: |
+          gcloud storage rsync dist "$BUCKET" --recursive --delete-unmatched-destination-objects \
+            --exclude='^(assets|_img)/' --cache-control="no-cache"
+      - name: Remove old hashed files
+        run: |
+          gcloud storage rsync dist/assets "$BUCKET/assets" --recursive --delete-unmatched-destination-objects
+          gcloud storage rsync dist/_img "$BUCKET/_img" --recursive --delete-unmatched-destination-objects

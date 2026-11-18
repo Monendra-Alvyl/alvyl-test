@@ -1,4 +1,3 @@
-import teamMembers from './team.generated.json'
 import cmsContent from './cms.generated.json'
 import { asset } from '@/lib/asset'
 import { servicePath, services } from './services'
@@ -99,8 +98,7 @@ export const techIntent = {
 /*
  * Team members are JSON files in the CMS content repo (team/), edited in Sveltia CMS (/admin/hr) and
  * read at build time by scripts/cms-content.mjs, in their sort order. People switched off with "Show
- * in the carousel" are left out here (they can still be blog authors). If there are none, the
- * Webflow "Teams" snapshot (scripts/webflow-team.mjs) is used. Roles show when the CMS has one.
+ * in the carousel" are left out here (they can still be blog authors). Roles show when the CMS has one.
  */
 /*
  * The CMS has no quote field and the design only has Raghava's quote, so it stands in on the back of
@@ -149,22 +147,17 @@ type CmsTeamMember = {
 
 const cmsTeam = cmsContent.team as unknown as CmsTeamMember[]
 
-export const team: TeamMember[] = cmsTeam.length
-  ? cmsTeam
-      .filter((member) => member.showOnWebsite)
-      .map((member) => ({
-        id: member.id,
-        name: member.name,
-        role: member.role,
-        image: member.photo ? asset(member.photo) : null,
-        imageAlt: member.photoAlt || member.name,
-        linkedin: member.linkedin,
-        quote: member.quote || teamQuotes[member.name] || null,
-      }))
-  : teamMembers.map((member) => ({
-      ...member,
-      quote: teamQuotes[member.name] ?? null,
-    }))
+export const team: TeamMember[] = cmsTeam
+  .filter((member) => member.showOnWebsite)
+  .map((member) => ({
+    id: member.id,
+    name: member.name,
+    role: member.role,
+    image: member.photo ? asset(member.photo) : null,
+    imageAlt: member.photoAlt || member.name,
+    linkedin: member.linkedin,
+    quote: member.quote || teamQuotes[member.name] || null,
+  }))
 
 /*
  * "How we work" (Home). Copy from the original site (www.alvyl.com): its "Great products need great
@@ -195,43 +188,6 @@ export const contact = {
   /* Phones show this button instead of the form. */
   mobileCta: { label: 'Contact Us', href: '/contact-us' },
 }
-
-/* Case-study carousel content — not shown on Home (absent from the current PNG design). */
-export type CaseStudySlide =
-  | {
-      kind: 'case-study'
-      category: string
-      title: string
-      focus: string
-      summary: string
-      image: string
-      /** "View Case Study" button; left out until the case study page exists (no dead links). */
-      cta?: { label: string; href: string }
-    }
-  | { kind: 'image'; image: string; alt: string }
-
-export const caseStudies: CaseStudySlide[] = [
-  {
-    kind: 'case-study',
-    category: 'Machine learning & iot',
-    title: 'Silk Worm',
-    focus: 'Machine Learning & IoT',
-    summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
-    image: asset('/assets/home/case-silkworm.png'),
-    /* cta: { label: 'View Case Study', href: '/case-studies/silk-worm' } once that page exists. */
-  },
-  {
-    kind: 'case-study',
-    category: 'Machine learning & iot',
-    title: 'Pepsi Co.',
-    focus: 'Agentic AI',
-    /* Duplicated from Silk Worm in the design — see README open questions. */
-    summary: 'Real-time monitoring and predictive maintenance of IoT printers.',
-    image: asset('/assets/home/case-pepsico.png'),
-    /* cta: { label: 'View Case Study', href: '/case-studies/pepsico' } once that page exists. */
-  },
-  { kind: 'image', image: asset('/assets/home/team-1.png'), alt: 'The Alvyl team' },
-]
 
 /** width/height: the cropped file's pixel size (printed by npm run logos); only the ratio is used. */
 export type CustomerLogo = { name: string; src: string; width: number; height: number }

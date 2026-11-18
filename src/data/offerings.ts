@@ -88,13 +88,3 @@ export const goals = {
     },
   ],
 } as const
-
-export const selectedWork = {
-  eyebrow: 'Selected work',
-  headline: [
-    [{ text: 'Proven ' }, { text: 'results', accent: true }, { text: ',' }],
-    [{ text: 'stunning designs' }],
-  ] satisfies HeadingSegment[][],
-  body: 'From Silk Worm, an IoT sensor product for print machines, to machine learning and IoT for PepsiCo — a look at what we’ve built with our clients.',
-  image: asset('/assets/offerings/selected-work.png'),
-}

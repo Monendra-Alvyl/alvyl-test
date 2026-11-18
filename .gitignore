@@ -18,3 +18,9 @@ src/data/cms.generated.json
 tests/
 playwright.config.ts
 graphify-out/
+# Design sources and working notes: kept on this machine, never pushed (not needed to build the site)
+pg/
+hero-design/
+fonts/
+# Every Markdown file (README, CLAUDE.md, notes, specs) stays on this machine, never pushed
+*.md

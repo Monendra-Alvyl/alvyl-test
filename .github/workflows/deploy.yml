@@ -1,12 +1,10 @@
 # Builds the site with the /alvyl-test/ base path and deploys it to GitHub Pages.
 # Repo settings → Pages → Source must be "GitHub Actions".
-# Optional secret WEBFLOW_API_TOKEN refreshes the team from Webflow; without it the committed
-# src/data/team.generated.json is used (only when the CMS content repo has no team files).
 # Blog posts and team cards live in the content-only repository (vars.CMS_REPO, default
 # Monendra-Alvyl/alvyl-test-blog), edited in Sveltia CMS (public/admin: /admin, or hosted on its own);
 # each build checks it out. A save in the CMS is a commit there, not here: it reaches the site on the
 # daily run, a manual run, or a "cms-content" repository_dispatch sent from the content repo
-# (public/admin/notify-website.yml).
+# (cms-setup/notify-website.yml).
 name: Deploy to GitHub Pages
 
 on:
@@ -63,7 +61,6 @@ jobs:
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_SITE_URL: ${{ steps.site.outputs.url }}
-          WEBFLOW_API_TOKEN: ${{ secrets.WEBFLOW_API_TOKEN }}
           CMS_CONTENT_DIR: .cms
           # Google Search Console "HTML tag" verification: the content="…" value, as an Actions variable.
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}

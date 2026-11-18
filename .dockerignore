@@ -1,0 +1,21 @@
+# Allow-list: Docker ignores everything, then lets in only what the build needs. A new file or folder
+# stays out of the image until it is added here.
+*
+
+!index.html
+!nginx.conf
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.app.json
+!tsconfig.node.json
+!vite.config.ts
+!public
+!scripts
+!src
+
+# Never: generated files (the image makes its own) and macOS clutter inside the allowed folders
+src/data/cms.generated.json
+public/_img
+public/assets/cms
+**/.DS_Store

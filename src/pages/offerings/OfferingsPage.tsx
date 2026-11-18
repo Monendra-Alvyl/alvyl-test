@@ -21,7 +21,6 @@ export function OfferingsPage() {
       <OfferNumbers />
       <Ordinary />
       <Goals />
-      {/* "Selected work" (./sections/SelectedWork) is hidden until the case studies are ready. */}
       <CustomersStrip />
       <div className="flex flex-col gap-4">
         <TechIntent />
