@@ -54,7 +54,9 @@ export function Header() {
       <header
         className={cn(
           'border-stroke-light relative z-10 flex items-center justify-between overflow-clip rounded-[24px] border px-6 py-4 backdrop-blur-[12px]',
-          open ? 'bg-pitch-black' : 'bg-btn-secondary',
+          /* 80% black, not the 20% glass of secondary buttons: over the black page it looks the same,
+             but over light content (blog screenshots) the white logo and links stay readable. */
+          open ? 'bg-pitch-black' : 'bg-black/80',
         )}
       >
         <Link to="/" aria-label="Alvyl home" className="tap-target shrink-0" onClick={close}>
