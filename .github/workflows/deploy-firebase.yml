@@ -1,0 +1,63 @@
+# Builds the site and deploys it to Firebase Hosting (project alvyl-test, https://alvyl-test.web.app):
+# on every push to main, on a CMS save (a "cms-content" repository_dispatch from the content repo),
+# daily (posts with a future date), or by hand from the Actions tab.
+#
+# No keys are stored anywhere: GitHub logs in to Google Cloud with Workload Identity Federation, as
+# the github-deployer service account (roles: Firebase Hosting Admin, Service Usage Consumer). Only
+# this repository is trusted. Repository variables (Settings → Secrets and variables → Actions):
+#   GCP_WORKLOAD_IDENTITY_PROVIDER  projects/356610326035/locations/global/workloadIdentityPools/github/providers/github
+#   GCP_SERVICE_ACCOUNT             github-deployer@alvyl-test.iam.gserviceaccount.com
+#   FIREBASE_PROJECT_ID             alvyl-test
+#   FIREBASE_SITE_URL               https://alvyl-test.web.app (change to the real domain when it's connected)
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [cms-content]
+  schedule:
+    - cron: '30 0 * * *'
+
+permissions:
+  contents: read
+  id-token: write # lets GitHub prove its identity to Google Cloud
+
+concurrency:
+  group: deploy-firebase
+  cancel-in-progress: false # never stop a deploy halfway
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          repository: ${{ vars.CMS_REPO || 'Monendra-Alvyl/alvyl-test-blog' }}
+          token: ${{ secrets.CMS_REPO_TOKEN || github.token }}
+          path: .cms
+          fetch-depth: 0 # each post's dateModified is its last commit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          BASE_PATH: /
+          VITE_SITE_URL: ${{ vars.FIREBASE_SITE_URL }}
+          CMS_CONTENT_DIR: .cms
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      # firebase.json serves dist/ with clean URLs, the 404 page and the cache headers.
+      - name: Deploy to Firebase Hosting
+        run: npx --yes firebase-tools@15 deploy --only hosting --project "${{ vars.FIREBASE_PROJECT_ID }}" --non-interactive

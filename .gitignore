@@ -24,3 +24,5 @@ hero-design/
 fonts/
 # Every Markdown file (README, CLAUDE.md, notes, specs) stays on this machine, never pushed
 *.md
+# Firebase CLI cache
+.firebase/
